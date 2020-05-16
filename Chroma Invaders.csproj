@@ -11,4 +11,19 @@
     <PackageReference Include="ChromaSynth" Version="1.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="roms\invaders.e">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="roms\invaders.f">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="roms\invaders.g">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="roms\invaders.h">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

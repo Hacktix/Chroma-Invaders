@@ -47,6 +47,41 @@ namespace Chroma_Invaders
             }
         }
 
+        public void WriteRegister16(OperationTarget16 regpair, ushort value)
+        {
+            switch(regpair)
+            {
+                case OperationTarget16.B:
+                    Registers[Register.B] = (byte)((value & 0xFF00) >> 8);
+                    Registers[Register.C] = (byte)(value & 0xFF);
+                    break;
+                case OperationTarget16.D:
+                    Registers[Register.D] = (byte)((value & 0xFF00) >> 8);
+                    Registers[Register.E] = (byte)(value & 0xFF);
+                    break;
+                case OperationTarget16.H:
+                    Registers[Register.H] = (byte)((value & 0xFF00) >> 8);
+                    Registers[Register.L] = (byte)(value & 0xFF);
+                    break;
+                case OperationTarget16.PSW:
+                    Registers[Register.A] = (byte)((value & 0xFF00) >> 8);
+                    Registers[Register.F] = (byte)(value & 0xFF);
+                    break;
+            }
+        }
+
+        public ushort ReadRegister16(OperationTarget16 regpair)
+        {
+            switch(regpair)
+            {
+                case OperationTarget16.B: return (ushort)((Registers[Register.B] << 8) + Registers[Register.C]);
+                case OperationTarget16.D: return (ushort)((Registers[Register.D] << 8) + Registers[Register.E]);
+                case OperationTarget16.H: return (ushort)((Registers[Register.H] << 8) + Registers[Register.L]);
+                case OperationTarget16.PSW: return (ushort)((Registers[Register.A] << 8) + Registers[Register.F]);
+            }
+            return 0;
+        }
+
         public void SetFlag(Flag flag, bool set)
         {
             if (set)

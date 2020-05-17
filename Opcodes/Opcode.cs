@@ -5,7 +5,7 @@ using System.Text;
 namespace Chroma_Invaders.Opcodes
 {
     public enum OperationTarget8 { A, F, B, C, D, E, H, L, M }
-    public enum OperationTarget16 { PSW, B, D, H, L, M, SP, PC }
+    public enum OperationTarget16 { PSW, B, D, H, M, SP, PC }
 
     public abstract class Opcode
     {

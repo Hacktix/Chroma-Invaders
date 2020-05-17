@@ -28,7 +28,7 @@ namespace Chroma_Invaders
             Machine.ExecuteCycles(CYCLES_PER_UPDATE);
 
             // Performance Calculation
-            double percent = (int)((CYCLES_PER_UPDATE * (1000.0 / 2000000.0) / (Machine.EndTime - Machine.StartTime)) * 10000) / 100.0;
+            double percent = (int)((CYCLES_PER_UPDATE * 0.5 / (Machine.EndTime - Machine.StartTime)) * 10000) / 100.0;
             Window.Properties.Title = "Chroma Invaders (" + Window.FPS + " FPS) [" + percent + "%]";
         }
     }

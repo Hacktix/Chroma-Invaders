@@ -4,11 +4,11 @@ using System.Text;
 
 namespace Chroma_Invaders.Opcodes
 {
-    public class IncrementOperation : Opcode
+    public class DecrementOperation : Opcode
     {
         private OperationTarget8 target;
 
-        public IncrementOperation(Machine parent, byte opcode) : base(parent) {
+        public DecrementOperation(Machine parent, byte opcode) : base(parent) {
             switch((opcode & 0b111000) >> 3)
             {
                 case 0b000: target = OperationTarget8.B; break;
@@ -26,9 +26,9 @@ namespace Chroma_Invaders.Opcodes
         public override void Execute()
         {
             if (target == OperationTarget8.M)
-                parent.Memory[(parent.Registers[Register.H] << 8) | (parent.Registers[Register.L])]++;
+                parent.Memory[(parent.Registers[Register.H] << 8) | (parent.Registers[Register.L])]--;
             else
-                parent.Registers[(Register)target]++;
+                parent.Registers[(Register)target]--;
         }
     }
 }

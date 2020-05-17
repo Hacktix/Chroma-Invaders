@@ -4,19 +4,20 @@ using System.Text;
 
 namespace Chroma_Invaders.Opcodes
 {
+    public enum OperationTarget8 { A, F, B, C, D, E, H, L, M }
+    public enum OperationTarget16 { PSW, B, D, H, L, M, SP, PC }
+
     public abstract class Opcode
     {
         public byte Code;
-        public byte Length = 1;
-        public byte Cycles = 4;
+        public int Length = 1;
+        public int Cycles = 4;
 
-        protected byte[] Parameters;
+        protected Machine parent;
 
-        public void LoadParameters(byte[] parameters)
+        public Opcode(Machine parent)
         {
-            Parameters = new byte[parameters.Length];
-            for (int i = 0; i < parameters.Length; i++)
-                Parameters[i] = parameters[i];
+            this.parent = parent;
         } 
 
         public abstract void Execute();

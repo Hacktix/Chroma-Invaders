@@ -6,11 +6,11 @@ namespace Chroma_Invaders.Opcodes
 {
     public class Decoder
     {
-        public static Opcode DecodeOpcode(Machine parent)
+        public static Opcode DecodeOpcode(Machine parent, byte code)
         {
-            Opcode op = null;
+            if ((code & 0b11000111) == 0b00000100) return new IncrementOperation(parent, code);
 
-            return op;
+            throw new NotImplementedException();
         }
     }
 }

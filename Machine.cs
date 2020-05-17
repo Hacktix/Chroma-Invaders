@@ -1,6 +1,5 @@
-﻿using System;
+﻿using Chroma_Invaders.Opcodes;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Chroma_Invaders
 {
@@ -19,12 +18,32 @@ namespace Chroma_Invaders
         public ushort PC = 0;
         public ushort SP = 0;
 
+        private int CycleCooldown = 0;
+
         public Machine(byte[][] roms)
         {
             ushort loadPointer = 0;
             for (int i = 0; i < roms.Length; i++)
                 for (int j = 0; j < roms[i].Length; j++, loadPointer++)
                     Memory[loadPointer] = roms[i][j];
+        }
+
+        public void ExecuteCycles(int cycleLimit)
+        {
+            int cycleCounter = cycleLimit;
+            while(cycleCounter-- > 0)
+            {
+                if(CycleCooldown > 0)
+                {
+                    CycleCooldown--;
+                    continue;
+                }
+                Opcode opcode = Decoder.DecodeOpcode(this, Memory[PC]);
+                PC += (ushort)opcode.Length;
+                opcode.Execute();
+
+                CycleCooldown = opcode.Cycles - 1;
+            }
         }
     }
 }

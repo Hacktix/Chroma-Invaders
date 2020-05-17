@@ -9,8 +9,7 @@ namespace Chroma_Invaders.Opcodes
         public static Opcode DecodeOpcode(Machine parent, byte code)
         {
             if ((code & 0b11000111) == 0b00000100) return new IncrementOperation(parent, code);
-
-            throw new NotImplementedException();
+            else return new NoOperation(parent, code);
         }
     }
 }

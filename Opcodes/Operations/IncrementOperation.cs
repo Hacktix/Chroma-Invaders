@@ -25,6 +25,7 @@ namespace Chroma_Invaders.Opcodes
 
         public override void Execute()
         {
+            Console.WriteLine("Executing Increment on " + target);
             if (target == OperationTarget8.M)
                 parent.Memory[(parent.Registers[Register.H] << 8) | (parent.Registers[Register.L])]++;
             else

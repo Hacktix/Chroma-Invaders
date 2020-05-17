@@ -21,10 +21,17 @@
 
         public override void Execute()
         {
+            byte iv = (target == OperationTarget8.M) ? parent.Memory[(parent.Registers[Register.H] << 8) | (parent.Registers[Register.L])] : parent.Registers[(Register)target];
             if (target == OperationTarget8.M)
                 parent.Memory[(parent.Registers[Register.H] << 8) | (parent.Registers[Register.L])]--;
             else
                 parent.Registers[(Register)target]--;
+
+            // Set Flags
+            parent.SetFlag(Flag.AuxiliaryCarry, ((iv & 0xF) - 1) < 0);
+            parent.SetFlag(Flag.Parity, ((byte)(iv - 1)) % 2 == 0);
+            parent.SetFlag(Flag.Zero, ((byte)(iv - 1)) == 0);
+            parent.SetFlag(Flag.Sign, (((byte)(iv - 1)) & 128) > 0);
         }
     }
 }

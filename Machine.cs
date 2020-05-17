@@ -4,6 +4,7 @@ using System.Collections.Generic;
 namespace Chroma_Invaders
 {
     public enum Register { A, F, B, C, D, E, H, L }
+    public enum Flag { Carry = 1, Parity = 4, AuxiliaryCarry = 16, Zero = 64, Sign = 128 }
 
     public class Machine
     {
@@ -44,6 +45,14 @@ namespace Chroma_Invaders
 
                 CycleCooldown = opcode.Cycles - 1;
             }
+        }
+
+        public void SetFlag(Flag flag, bool set)
+        {
+            if (set)
+                Registers[Register.F] |= (byte)flag;
+            else
+                Registers[Register.F] &= (byte)~flag;
         }
     }
 }

@@ -28,7 +28,7 @@
 
         public override void Execute()
         {
-            byte srcVal = (target == OperationTarget8.M) ? parent.Memory[(parent.Registers[Register.H] << 8) | (parent.Registers[Register.L])] : parent.Registers[(Register)source];
+            byte srcVal = (source == OperationTarget8.M) ? parent.Memory[(parent.Registers[Register.H] << 8) | (parent.Registers[Register.L])] : parent.Registers[(Register)source];
             if (target == OperationTarget8.M)
                 parent.Memory[(parent.Registers[Register.H] << 8) | (parent.Registers[Register.L])] = srcVal;
             else

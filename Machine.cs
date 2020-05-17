@@ -1,4 +1,5 @@
 ﻿using Chroma_Invaders.Opcodes;
+using System;
 using System.Collections.Generic;
 
 namespace Chroma_Invaders
@@ -8,6 +9,9 @@ namespace Chroma_Invaders
 
     public class Machine
     {
+        public long StartTime = 0;
+        public long EndTime = 0;
+
         public byte[] Memory = new byte[0x4000];
 
         public Dictionary<Register, byte> Registers = new Dictionary<Register, byte>()
@@ -31,6 +35,7 @@ namespace Chroma_Invaders
 
         public void ExecuteCycles(int cycleLimit)
         {
+            StartTime = DateTime.Now.Ticks;
             int cycleCounter = cycleLimit;
             while(cycleCounter-- > 0)
             {
@@ -45,6 +50,7 @@ namespace Chroma_Invaders
 
                 CycleCooldown = opcode.Cycles - 1;
             }
+            EndTime = DateTime.Now.Ticks;
         }
 
         public void WriteRegister16(OperationTarget16 regpair, ushort value)

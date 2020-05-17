@@ -10,14 +10,14 @@ namespace Chroma_Invaders
     {
         public byte[] Memory = new byte[0x4000];
 
-        private Dictionary<Register, byte> Registers = new Dictionary<Register, byte>()
+        public Dictionary<Register, byte> Registers = new Dictionary<Register, byte>()
         { { Register.A, 0 }, { Register.F, 2 }, { Register.B, 0 }, { Register.C, 0 }, { Register.D, 0 }, { Register.E, 0 }, { Register.H, 0 }, { Register.L, 0 }, };
 
-        private bool InterruptsDisabled = false;
-        private bool Halted = false;
+        public bool InterruptsDisabled = false;
+        public bool Halted = false;
 
-        private ushort PC = 0;
-        private ushort SP = 0;
+        public ushort PC = 0;
+        public ushort SP = 0;
 
         public Machine(byte[][] roms)
         {

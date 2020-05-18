@@ -138,6 +138,23 @@ namespace Chroma_Invaders.Testing
             else LogResult("Move : Memory-Register", true);
             #endregion
 
+            #region "Accumulator Load/Store"
+            testMachine.Registers[Register.B] = 1;
+            testMachine.Registers[Register.D] = 1;
+            testMachine.Registers[Register.A] = 50;
+            new AccMoveOperation(testMachine, 0x02).Execute();
+            if (testMachine.Memory[0x101] != 50) LogResult("STAX", false);
+            else LogResult("Store Accumulator (STAX)", true);
+
+            testMachine.Registers[Register.B] = 1;
+            testMachine.Registers[Register.D] = 1;
+            testMachine.Memory[0x101] = 50;
+            testMachine.Registers[Register.A] = 0;
+            new AccMoveOperation(testMachine, 0x0A).Execute();
+            if (testMachine.Registers[Register.A] != 50) LogResult("LDAX", false);
+            else LogResult("Load Accumulator (LDAX)", true);
+            #endregion
+
             LogTotal();
         }
 

@@ -25,6 +25,8 @@ namespace Chroma_Invaders
 
         private int CycleCooldown = 0;
 
+        public Machine() { }
+
         public Machine(byte[][] roms)
         {
             ushort loadPointer = 0;

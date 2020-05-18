@@ -5,6 +5,7 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <RootNamespace>Chroma_Invaders</RootNamespace>
     <ApplicationIcon>favicon.ico</ApplicationIcon>
+    <StartupObject>Chroma_Invaders.Testing.Optest</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>

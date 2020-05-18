@@ -12,6 +12,7 @@
             // TODO: Add HALT Operation
             else if ((code & 0b11000000) == 0b01000000) return new MoveOperation(parent, code);
             else if ((code & 0b11100111) == 0b00000010) return new AccMoveOperation(parent, code);
+            else if ((code & 0b11110000) == 0b10000000) return new AddOperation(parent, code);
             else                                        return new NoOperation(parent, code);
         }
     }

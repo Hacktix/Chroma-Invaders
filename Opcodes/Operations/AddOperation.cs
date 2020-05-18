@@ -8,7 +8,7 @@
         public AddOperation(Machine parent, byte opcode) : base(parent) {
             source = BitsToRegister(opcode & 0b111);
             addCarry = (opcode & 0b1000) > 0;
-            Cycles = source == OperationTarget8.M ? 10 : 5;
+            Cycles = source == OperationTarget8.M ? 7 : 4;
         }
 
         private OperationTarget8 BitsToRegister(int bits)

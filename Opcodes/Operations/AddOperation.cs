@@ -36,7 +36,7 @@
 
             // Set Flags
             parent.SetFlag(Flag.Carry, iv + addv > 0xFF);
-            parent.SetFlag(Flag.AuxiliaryCarry, ((iv & 0xF) + addv) > 0xF);
+            parent.SetFlag(Flag.AuxiliaryCarry, ((iv & 0xF) + (addv & 0xF)) > 0xF);
             parent.SetFlag(Flag.Parity, ((byte)(iv + addv)) % 2 == 0);
             parent.SetFlag(Flag.Zero, ((byte)(iv + addv)) == 0);
             parent.SetFlag(Flag.Sign, (((byte)(iv + addv)) & 128) > 0);

@@ -185,6 +185,74 @@ namespace Chroma_Invaders.Testing
             else LogResult("Decimal Adjust 0x9B", true);
             #endregion
 
+            #region "Add Operations"
+            testMachine.Registers[Register.F] = 2;
+            testMachine.Registers[Register.A] = 0;
+            testMachine.Registers[Register.B] = 10;
+            new AddOperation(testMachine, 0x80).Execute();
+            if (testMachine.Registers[Register.A] != 10) LogResult("Addition - Any", false);
+            else if (testMachine.Registers[Register.F] != 0b00000110) LogResult("Addition - Any", false, "Incorrect flags set. [" + Convert.ToString(testMachine.Registers[Register.F], 2) + "]");
+            else LogResult("Addition - Any", true);
+
+            testMachine.Registers[Register.F] = 2;
+            testMachine.Registers[Register.A] = 0b1111;
+            testMachine.Registers[Register.B] = 1;
+            new AddOperation(testMachine, 0x80).Execute();
+            if (testMachine.Registers[Register.A] != 16) LogResult("Addition - Auxiliary Carry", false);
+            else if (testMachine.Registers[Register.F] != 0b00010110) LogResult("Addition - Auxiliary Carry", false, "Incorrect flags set. [" + Convert.ToString(testMachine.Registers[Register.F], 2) + "]");
+            else LogResult("Addition - Auxiliary Carry", true);
+
+            testMachine.Registers[Register.F] = 2;
+            testMachine.Registers[Register.A] = 128;
+            testMachine.Registers[Register.B] = 10;
+            new AddOperation(testMachine, 0x80).Execute();
+            if (testMachine.Registers[Register.A] != 138) LogResult("Addition - Sign", false);
+            else if (testMachine.Registers[Register.F] != 0b10000110) LogResult("Addition - Sign", false, "Incorrect flags set. [" + Convert.ToString(testMachine.Registers[Register.F], 2) + "]");
+            else LogResult("Addition - Sign", true);
+
+            testMachine.Registers[Register.F] = 2;
+            testMachine.Registers[Register.A] = 254;
+            testMachine.Registers[Register.B] = 2;
+            new AddOperation(testMachine, 0x80).Execute();
+            if (testMachine.Registers[Register.A] != 0) LogResult("Addition - Zero + Carry", false);
+            else if (testMachine.Registers[Register.F] != 0b01010111) LogResult("Addition - Zero + Carry", false, "Incorrect flags set. [" + Convert.ToString(testMachine.Registers[Register.F], 2) + "]");
+            else LogResult("Addition - Zero + Carry", true);
+            #endregion
+
+            #region "Add Operations (with Carry)"
+            testMachine.Registers[Register.F] = 3;
+            testMachine.Registers[Register.A] = 0;
+            testMachine.Registers[Register.B] = 9;
+            new AddOperation(testMachine, 0x88).Execute();
+            if (testMachine.Registers[Register.A] != 10) LogResult("Addition (with Carry) - Any", false);
+            else if (testMachine.Registers[Register.F] != 0b00000110) LogResult("Addition (with Carry) - Any", false, "Incorrect flags set. [" + Convert.ToString(testMachine.Registers[Register.F], 2) + "]");
+            else LogResult("Addition (with Carry) - Any", true);
+
+            testMachine.Registers[Register.F] = 3;
+            testMachine.Registers[Register.A] = 0b1111;
+            testMachine.Registers[Register.B] = 0;
+            new AddOperation(testMachine, 0x88).Execute();
+            if (testMachine.Registers[Register.A] != 16) LogResult("Addition (with Carry) - Auxiliary Carry", false);
+            else if (testMachine.Registers[Register.F] != 0b00010110) LogResult("Addition (with Carry) - Auxiliary Carry", false, "Incorrect flags set. [" + Convert.ToString(testMachine.Registers[Register.F], 2) + "]");
+            else LogResult("Addition (with Carry) - Auxiliary Carry", true);
+
+            testMachine.Registers[Register.F] = 3;
+            testMachine.Registers[Register.A] = 128;
+            testMachine.Registers[Register.B] = 9;
+            new AddOperation(testMachine, 0x88).Execute();
+            if (testMachine.Registers[Register.A] != 138) LogResult("Addition (with Carry) - Sign", false);
+            else if (testMachine.Registers[Register.F] != 0b10000110) LogResult("Addition (with Carry) - Sign", false, "Incorrect flags set. [" + Convert.ToString(testMachine.Registers[Register.F], 2) + "]");
+            else LogResult("Addition (with Carry) - Sign", true);
+
+            testMachine.Registers[Register.F] = 3;
+            testMachine.Registers[Register.A] = 254;
+            testMachine.Registers[Register.B] = 1;
+            new AddOperation(testMachine, 0x88).Execute();
+            if (testMachine.Registers[Register.A] != 0) LogResult("Addition (with Carry) - Zero + Carry", false);
+            else if (testMachine.Registers[Register.F] != 0b01010111) LogResult("Addition (with Carry) - Zero + Carry", false, "Incorrect flags set. [" + Convert.ToString(testMachine.Registers[Register.F], 2) + "]");
+            else LogResult("Addition (with Carry) - Zero + Carry", true);
+            #endregion
+
             LogTotal();
         }
 

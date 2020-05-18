@@ -118,6 +118,26 @@ namespace Chroma_Invaders.Testing
             else LogResult("Decrement Memory - Zero", true);
             #endregion
 
+            #region "Register-based Data Transfer"
+            testMachine.Registers[Register.B] = 1;
+            testMachine.Registers[Register.C] = 2;
+            new MoveOperation(testMachine, 0x41).Execute();
+            if (testMachine.Registers[Register.B] != 2) LogResult("Move : Register-Register", false);
+            else LogResult("Move : Register-Register", true);
+
+            testMachine.Memory[0] = 1;
+            testMachine.Registers[Register.C] = 2;
+            new MoveOperation(testMachine, 0x71).Execute();
+            if (testMachine.Memory[0] != 2) LogResult("Move : Register-Memory", false);
+            else LogResult("Move : Register-Memory", true);
+
+            testMachine.Memory[0] = 1;
+            testMachine.Registers[Register.C] = 2;
+            new MoveOperation(testMachine, 0x4E).Execute();
+            if (testMachine.Registers[Register.C] != 1) LogResult("Move : Memory-Register", false);
+            else LogResult("Move : Memory-Register", true);
+            #endregion
+
             LogTotal();
         }
 

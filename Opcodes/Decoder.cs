@@ -17,6 +17,7 @@
             else if ((code & 0b11111000) == 0b10100000) return new AndOperation(parent, code);
             else if ((code & 0b11111000) == 0b10101000) return new XorOperation(parent, code);
             else if ((code & 0b11111000) == 0b10110000) return new OrOperation(parent, code);
+            else if ((code & 0b11111000) == 0b10111000) return new CompareOperation(parent, code);
             else                                        return new NoOperation(parent, code);
         }
     }

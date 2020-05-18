@@ -14,6 +14,7 @@
             else if ((code & 0b11100111) == 0b00000010) return new AccMoveOperation(parent, code);
             else if ((code & 0b11110000) == 0b10000000) return new AddOperation(parent, code);
             else if ((code & 0b11110000) == 0b10010000) return new SubOperation(parent, code);
+            else if ((code & 0b11110000) == 0b10100000) return new AndOperation(parent, code);
             else                                        return new NoOperation(parent, code);
         }
     }

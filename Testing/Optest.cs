@@ -35,9 +35,9 @@ namespace Chroma_Invaders.Testing
 
             testMachine.Registers[Register.B] = 0b11111111;
             new IncrementOperation(testMachine, 0x04).Execute();
-            if (testMachine.Registers[Register.B] != 0) LogResult("Increment Register - Zero + Carry", false, "Register did not increment.");
-            else if (testMachine.Registers[Register.F] != 0b01010111) LogResult("Increment Register - Zero + Carry", false, "Incorrect flags set. [" + Convert.ToString(testMachine.Registers[Register.F], 2) + "]");
-            else LogResult("Increment Register - Zero + Carry", true);
+            if (testMachine.Registers[Register.B] != 0) LogResult("Increment Register - Zero", false, "Register did not increment.");
+            else if (testMachine.Registers[Register.F] != 0b01010110) LogResult("Increment Register - Zero", false, "Incorrect flags set. [" + Convert.ToString(testMachine.Registers[Register.F], 2) + "]");
+            else LogResult("Increment Register - Zero", true);
             #endregion
 
             #region "Increment Memory"
@@ -61,9 +61,9 @@ namespace Chroma_Invaders.Testing
 
             testMachine.Memory[0] = 0b11111111;
             new IncrementOperation(testMachine, 0x34).Execute();
-            if (testMachine.Memory[0] != 0) LogResult("Increment Memory - Zero + Carry", false, "Register did not increment.");
-            else if (testMachine.Registers[Register.F] != 0b01010111) LogResult("Increment Memory - Zero + Carry", false, "Incorrect flags set. [" + Convert.ToString(testMachine.Registers[Register.F], 2) + "]");
-            else LogResult("Increment Memory - Zero + Carry", true);
+            if (testMachine.Memory[0] != 0) LogResult("Increment Memory - Zero", false, "Register did not increment.");
+            else if (testMachine.Registers[Register.F] != 0b01010110) LogResult("Increment Memory - Zero", false, "Incorrect flags set. [" + Convert.ToString(testMachine.Registers[Register.F], 2) + "]");
+            else LogResult("Increment Memory - Zero", true);
             #endregion
 
             #region "Decrement Register"
@@ -81,9 +81,9 @@ namespace Chroma_Invaders.Testing
 
             testMachine.Registers[Register.B] = 0;
             new DecrementOperation(testMachine, 0x05).Execute();
-            if (testMachine.Registers[Register.B] != 0b11111111) LogResult("Decrement Register - Sign + Borrow", false, "Register did not decrement.");
-            else if (testMachine.Registers[Register.F] != 0b10010011) LogResult("Decrement Register - Sign + Borrow", false, "Incorrect flags set. [" + Convert.ToString(testMachine.Registers[Register.F], 2) + "]");
-            else LogResult("Decrement Register - Sign + Borrow", true);
+            if (testMachine.Registers[Register.B] != 0b11111111) LogResult("Decrement Register - Sign", false, "Register did not decrement.");
+            else if (testMachine.Registers[Register.F] != 0b10010010) LogResult("Decrement Register - Sign", false, "Incorrect flags set. [" + Convert.ToString(testMachine.Registers[Register.F], 2) + "]");
+            else LogResult("Decrement Register - Sign", true);
 
             testMachine.Registers[Register.B] = 1;
             new DecrementOperation(testMachine, 0x05).Execute();
@@ -107,9 +107,9 @@ namespace Chroma_Invaders.Testing
 
             testMachine.Memory[0] = 0;
             new DecrementOperation(testMachine, 0x35).Execute();
-            if (testMachine.Memory[0] != 0b11111111) LogResult("Decrement Memory - Sign + Borrow", false, "Register did not decrement.");
-            else if (testMachine.Registers[Register.F] != 0b10010011) LogResult("Decrement Memory - Sign + Borrow", false, "Incorrect flags set. [" + Convert.ToString(testMachine.Registers[Register.F], 2) + "]");
-            else LogResult("Decrement Memory - Sign + Borrow", true);
+            if (testMachine.Memory[0] != 0b11111111) LogResult("Decrement Memory - Sign", false, "Register did not decrement.");
+            else if (testMachine.Registers[Register.F] != 0b10010010) LogResult("Decrement Memory - Sign", false, "Incorrect flags set. [" + Convert.ToString(testMachine.Registers[Register.F], 2) + "]");
+            else LogResult("Decrement Memory - Sign", true);
 
             testMachine.Memory[0] = 1;
             new DecrementOperation(testMachine, 0x35).Execute();

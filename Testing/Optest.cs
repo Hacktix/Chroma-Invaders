@@ -359,6 +359,29 @@ namespace Chroma_Invaders.Testing
             else LogResult("Bitwise OR - Any", true);
             #endregion
 
+            #region "CMP Operations"
+            testMachine.Registers[Register.F] = 2;
+            testMachine.Registers[Register.A] = 1;
+            testMachine.Registers[Register.B] = 1;
+            new CompareOperation(testMachine, 0xB8).Execute();
+            if (testMachine.Registers[Register.F] != 0b01000110) LogResult("Compare - Equal", false, "Incorrect flags set. [" + Convert.ToString(testMachine.Registers[Register.F], 2) + "]");
+            else LogResult("Compare - Equal", true);
+
+            testMachine.Registers[Register.F] = 2;
+            testMachine.Registers[Register.A] = 1;
+            testMachine.Registers[Register.B] = 3;
+            new CompareOperation(testMachine, 0xB8).Execute();
+            if (testMachine.Registers[Register.F] != 0b10010111) LogResult("Compare - Greater", false, "Incorrect flags set. [" + Convert.ToString(testMachine.Registers[Register.F], 2) + "]");
+            else LogResult("Compare - Greater", true);
+
+            testMachine.Registers[Register.F] = 2;
+            testMachine.Registers[Register.A] = 1;
+            testMachine.Registers[Register.B] = 0;
+            new CompareOperation(testMachine, 0xB8).Execute();
+            if (testMachine.Registers[Register.F] != 0b00000010) LogResult("Compare - Lower", false, "Incorrect flags set. [" + Convert.ToString(testMachine.Registers[Register.F], 2) + "]");
+            else LogResult("Compare - Lower", true);
+            #endregion
+
             LogTotal();
         }
 

@@ -382,6 +382,64 @@ namespace Chroma_Invaders.Testing
             else LogResult("Compare - Lower", true);
             #endregion
 
+            #region "Rotate Operations"
+            testMachine.Registers[Register.F] = 2;
+            testMachine.Registers[Register.A] = 0b1111;
+            new RotateOperation(testMachine, 0x0F).Execute();
+            if (testMachine.Registers[Register.A] != 0b111) LogResult("Rotate Right", false);
+            else if (testMachine.Registers[Register.F] != 0b00000011) LogResult("Rotate Right", false, "Incorrect flags set. [" + Convert.ToString(testMachine.Registers[Register.F], 2) + "]");
+            else LogResult("Rotate Right", true);
+
+            testMachine.Registers[Register.F] = 2;
+            testMachine.Registers[Register.A] = 0b1110;
+            new RotateOperation(testMachine, 0x0F).Execute();
+            if (testMachine.Registers[Register.A] != 0b111) LogResult("Rotate Right (No Carry)", false);
+            else if (testMachine.Registers[Register.F] != 0b00000010) LogResult("Rotate Right (No Carry)", false, "Incorrect flags set. [" + Convert.ToString(testMachine.Registers[Register.F], 2) + "]");
+            else LogResult("Rotate Right (No Carry)", true);
+
+            testMachine.Registers[Register.F] = 2;
+            testMachine.Registers[Register.A] = 0b11110000;
+            new RotateOperation(testMachine, 0x07).Execute();
+            if (testMachine.Registers[Register.A] != 0b11100000) LogResult("Rotate Left", false);
+            else if (testMachine.Registers[Register.F] != 0b00000011) LogResult("Rotate Left", false, "Incorrect flags set. [" + Convert.ToString(testMachine.Registers[Register.F], 2) + "]");
+            else LogResult("Rotate Left", true);
+
+            testMachine.Registers[Register.F] = 2;
+            testMachine.Registers[Register.A] = 0b1111000;
+            new RotateOperation(testMachine, 0x07).Execute();
+            if (testMachine.Registers[Register.A] != 0b11110000) LogResult("Rotate Left (No Carry)", false);
+            else if (testMachine.Registers[Register.F] != 0b00000010) LogResult("Rotate Left (No Carry)", false, "Incorrect flags set. [" + Convert.ToString(testMachine.Registers[Register.F], 2) + "]");
+            else LogResult("Rotate Left (No Carry)", true);
+
+            testMachine.Registers[Register.F] = 3;
+            testMachine.Registers[Register.A] = 0b1111;
+            new RotateOperation(testMachine, 0x1F).Execute();
+            if (testMachine.Registers[Register.A] != 0b10000111) LogResult("Rotate Right through Carry", false);
+            else if (testMachine.Registers[Register.F] != 0b00000011) LogResult("Rotate Right through Carry", false, "Incorrect flags set. [" + Convert.ToString(testMachine.Registers[Register.F], 2) + "]");
+            else LogResult("Rotate Right through Carry", true);
+
+            testMachine.Registers[Register.F] = 3;
+            testMachine.Registers[Register.A] = 0b1110;
+            new RotateOperation(testMachine, 0x1F).Execute();
+            if (testMachine.Registers[Register.A] != 0b10000111) LogResult("Rotate Right through Carry (No Carry)", false);
+            else if (testMachine.Registers[Register.F] != 0b00000010) LogResult("Rotate Right through Carry (No Carry)", false, "Incorrect flags set. [" + Convert.ToString(testMachine.Registers[Register.F], 2) + "]");
+            else LogResult("Rotate Right through Carry (No Carry)", true);
+
+            testMachine.Registers[Register.F] = 3;
+            testMachine.Registers[Register.A] = 0b11110000;
+            new RotateOperation(testMachine, 0x17).Execute();
+            if (testMachine.Registers[Register.A] != 0b11100001) LogResult("Rotate Left through Carry", false);
+            else if (testMachine.Registers[Register.F] != 0b00000011) LogResult("Rotate Left through Carry", false, "Incorrect flags set. [" + Convert.ToString(testMachine.Registers[Register.F], 2) + "]");
+            else LogResult("Rotate Left through Carry", true);
+
+            testMachine.Registers[Register.F] = 3;
+            testMachine.Registers[Register.A] = 0b1111000;
+            new RotateOperation(testMachine, 0x17).Execute();
+            if (testMachine.Registers[Register.A] != 0b11110001) LogResult("Rotate Left through Carry (No Carry)", false);
+            else if (testMachine.Registers[Register.F] != 0b00000010) LogResult("Rotate Left through Carry (No Carry)", false, "Incorrect flags set. [" + Convert.ToString(testMachine.Registers[Register.F], 2) + "]");
+            else LogResult("Rotate Left through Carry (No Carry)", true);
+            #endregion
+
             LogTotal();
         }
 

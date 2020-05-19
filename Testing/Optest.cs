@@ -333,6 +333,32 @@ namespace Chroma_Invaders.Testing
             else LogResult("Complement Carry", true);
             #endregion
 
+            #region "Bitwise Operations"
+            testMachine.Registers[Register.F] = 2;
+            testMachine.Registers[Register.A] = 0b11111111;
+            testMachine.Registers[Register.B] = 0b00001111;
+            new AndOperation(testMachine, 0xA0).Execute();
+            if (testMachine.Registers[Register.A] != 0b1111) LogResult("Bitwise AND - Any", false);
+            else if (testMachine.Registers[Register.F] != 0b00000010) LogResult("Bitwise AND - Any", false, "Incorrect flags set. [" + Convert.ToString(testMachine.Registers[Register.F], 2) + "]");
+            else LogResult("Bitwise AND - Any", true);
+
+            testMachine.Registers[Register.F] = 2;
+            testMachine.Registers[Register.A] = 0b11111111;
+            testMachine.Registers[Register.B] = 0b10101010;
+            new XorOperation(testMachine, 0xA8).Execute();
+            if (testMachine.Registers[Register.A] != 0b01010101) LogResult("Bitwise XOR - Any", false);
+            else if (testMachine.Registers[Register.F] != 0b00000010) LogResult("Bitwise XOR - Any", false, "Incorrect flags set. [" + Convert.ToString(testMachine.Registers[Register.F], 2) + "]");
+            else LogResult("Bitwise XOR - Any", true);
+
+            testMachine.Registers[Register.F] = 2;
+            testMachine.Registers[Register.A] = 0b11110000;
+            testMachine.Registers[Register.B] = 0b00001110;
+            new OrOperation(testMachine, 0xB0).Execute();
+            if (testMachine.Registers[Register.A] != 0b11111110) LogResult("Bitwise OR - Any", false);
+            else if (testMachine.Registers[Register.F] != 0b10000110) LogResult("Bitwise OR - Any", false, "Incorrect flags set. [" + Convert.ToString(testMachine.Registers[Register.F], 2) + "]");
+            else LogResult("Bitwise OR - Any", true);
+            #endregion
+
             LogTotal();
         }
 

@@ -8,6 +8,7 @@
         public StackOperation(Machine parent, byte opcode) : base(parent) {
             target = BitsToRegisterPair((byte)((opcode & 0b110000) >> 4));
             push = (opcode & 0b100) > 0;
+            Cycles = push ? 11 : 10;
         }
 
         private OperationTarget16 BitsToRegisterPair(byte bits)

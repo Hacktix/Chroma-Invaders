@@ -321,6 +321,18 @@ namespace Chroma_Invaders.Testing
             else LogResult("Subtraction (with Borrow) - Zero", true);
             #endregion
 
+            #region "Carry Flag Operations"
+            testMachine.Registers[Register.F] = 2;
+            new SetCarryOperation(testMachine).Execute();
+            if (testMachine.Registers[Register.F] != 3) LogResult("Set Carry", false);
+            else LogResult("Set Carry", true);
+
+            testMachine.Registers[Register.F] = 7;
+            new ComplementCarryOperation(testMachine).Execute();
+            if (testMachine.Registers[Register.F] != 6) LogResult("Complement Carry", false);
+            else LogResult("Complement Carry", true);
+            #endregion
+
             LogTotal();
         }
 

@@ -440,6 +440,21 @@ namespace Chroma_Invaders.Testing
             else LogResult("Rotate Left through Carry (No Carry)", true);
             #endregion
 
+            #region "Stack Operations"
+            testMachine.SP = 100;
+            testMachine.Registers[Register.B] = 1;
+            testMachine.Registers[Register.C] = 2;
+            new StackOperation(testMachine, 0xC5).Execute();
+            if (testMachine.Memory[99] != 1 || testMachine.Memory[98] != 2) LogResult("PUSH to stack", false);
+            else LogResult("PUSH to stack", true);
+
+            testMachine.Registers[Register.B] = 3;
+            testMachine.Registers[Register.C] = 4;
+            new StackOperation(testMachine, 0xC1).Execute();
+            if (testMachine.Registers[Register.B] != 1 || testMachine.Registers[Register.C] != 2) LogResult("POP from stack", false);
+            else LogResult("POP from stack", true);
+            #endregion
+
             LogTotal();
         }
 

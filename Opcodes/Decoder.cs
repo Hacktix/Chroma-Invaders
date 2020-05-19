@@ -18,6 +18,7 @@
             else if ((code & 0b11111000) == 0b10101000) return new XorOperation(parent, code);
             else if ((code & 0b11111000) == 0b10110000) return new OrOperation(parent, code);
             else if ((code & 0b11111000) == 0b10111000) return new CompareOperation(parent, code);
+            else if ((code & 0b11100111) == 0b00000111) return new RotateOperation(parent, code);
             else                                        return new NoOperation(parent, code);
         }
     }

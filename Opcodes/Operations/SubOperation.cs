@@ -1,4 +1,6 @@
-﻿namespace Chroma_Invaders.Opcodes
+﻿using System;
+
+namespace Chroma_Invaders.Opcodes
 {
     public class SubOperation : Opcode
     {
@@ -35,7 +37,7 @@
             parent.Registers[Register.A] -= subv;
 
             // Set Flags
-            parent.SetFlag(Flag.Carry, iv - subv < 0);
+            parent.SetFlag(Flag.Carry, subBorrow ? (iv + (byte)(~subv)) < 256 : iv - subv < 0);
             parent.SetFlag(Flag.AuxiliaryCarry, ((iv & 0xF) - (subv & 0xF)) < 0);
             parent.SetFlag(Flag.Parity, ((byte)(iv - subv)) % 2 == 0);
             parent.SetFlag(Flag.Zero, ((byte)(iv - subv)) == 0);

@@ -253,6 +253,74 @@ namespace Chroma_Invaders.Testing
             else LogResult("Addition (with Carry) - Zero + Carry", true);
             #endregion
 
+            #region "Sub Operations"
+            testMachine.Registers[Register.F] = 2;
+            testMachine.Registers[Register.A] = 8;
+            testMachine.Registers[Register.B] = 4;
+            new SubOperation(testMachine, 0x90).Execute();
+            if (testMachine.Registers[Register.A] != 4) LogResult("Subtraction - Any", false);
+            else if (testMachine.Registers[Register.F] != 0b00000110) LogResult("Subtraction - Any", false, "Incorrect flags set. [" + Convert.ToString(testMachine.Registers[Register.F], 2) + "]");
+            else LogResult("Subtraction - Any", true);
+
+            testMachine.Registers[Register.F] = 2;
+            testMachine.Registers[Register.A] = 0b10000;
+            testMachine.Registers[Register.B] = 1;
+            new SubOperation(testMachine, 0x90).Execute();
+            if (testMachine.Registers[Register.A] != 0b1111) LogResult("Subtraction - Auxiliary Carry", false);
+            else if (testMachine.Registers[Register.F] != 0b00010010) LogResult("Subtraction - Auxiliary Carry", false, "Incorrect flags set. [" + Convert.ToString(testMachine.Registers[Register.F], 2) + "]");
+            else LogResult("Subtraction - Auxiliary Carry", true);
+
+            testMachine.Registers[Register.F] = 2;
+            testMachine.Registers[Register.A] = 0;
+            testMachine.Registers[Register.B] = 1;
+            new SubOperation(testMachine, 0x90).Execute();
+            if (testMachine.Registers[Register.A] != 255) LogResult("Subtraction - Sign + Carry", false);
+            else if (testMachine.Registers[Register.F] != 0b10010011) LogResult("Subtraction - Sign + Carry", false, "Incorrect flags set. [" + Convert.ToString(testMachine.Registers[Register.F], 2) + "]");
+            else LogResult("Subtraction - Sign + Carry", true);
+
+            testMachine.Registers[Register.F] = 2;
+            testMachine.Registers[Register.A] = 1;
+            testMachine.Registers[Register.B] = 1;
+            new SubOperation(testMachine, 0x90).Execute();
+            if (testMachine.Registers[Register.A] != 0) LogResult("Subtraction - Zero", false);
+            else if (testMachine.Registers[Register.F] != 0b01000110) LogResult("Subtraction - Zero", false, "Incorrect flags set. [" + Convert.ToString(testMachine.Registers[Register.F], 2) + "]");
+            else LogResult("Subtraction - Zero", true);
+            #endregion
+
+            #region "Sub Operations (with Borrow)"
+            testMachine.Registers[Register.F] = 3;
+            testMachine.Registers[Register.A] = 8;
+            testMachine.Registers[Register.B] = 1;
+            new SubOperation(testMachine, 0x98).Execute();
+            if (testMachine.Registers[Register.A] != 6) LogResult("Subtraction (with Borrow) - Any", false);
+            else if (testMachine.Registers[Register.F] != 0b00000110) LogResult("Subtraction (with Borrow) - Any", false, "Incorrect flags set. [" + Convert.ToString(testMachine.Registers[Register.F], 2) + "]");
+            else LogResult("Subtraction (with Borrow) - Any", true);
+
+            testMachine.Registers[Register.F] = 3;
+            testMachine.Registers[Register.A] = 0b10000;
+            testMachine.Registers[Register.B] = 0;
+            new SubOperation(testMachine, 0x98).Execute();
+            if (testMachine.Registers[Register.A] != 0b1111) LogResult("Subtraction (with Borrow) - Auxiliary Carry", false);
+            else if (testMachine.Registers[Register.F] != 0b00010010) LogResult("Subtraction (with Borrow) - Auxiliary Carry", false, "Incorrect flags set. [" + Convert.ToString(testMachine.Registers[Register.F], 2) + "]");
+            else LogResult("Subtraction (with Borrow) - Auxiliary Carry", true);
+
+            testMachine.Registers[Register.F] = 3;
+            testMachine.Registers[Register.A] = 0;
+            testMachine.Registers[Register.B] = 0;
+            new SubOperation(testMachine, 0x98).Execute();
+            if (testMachine.Registers[Register.A] != 255) LogResult("Subtraction (with Borrow) - Carry + Sign", false);
+            else if (testMachine.Registers[Register.F] != 0b10010011) LogResult("Subtraction (with Borrow) - Carry + Sign", false, "Incorrect flags set. [" + Convert.ToString(testMachine.Registers[Register.F], 2) + "]");
+            else LogResult("Subtraction (with Borrow) - Carry + Sign", true);
+
+            testMachine.Registers[Register.F] = 3;
+            testMachine.Registers[Register.A] = 8;
+            testMachine.Registers[Register.B] = 7;
+            new SubOperation(testMachine, 0x98).Execute();
+            if (testMachine.Registers[Register.A] != 0) LogResult("Subtraction (with Borrow) - Zero", false);
+            else if (testMachine.Registers[Register.F] != 0b01000111) LogResult("Subtraction (with Borrow) - Zero", false, "Incorrect flags set. [" + Convert.ToString(testMachine.Registers[Register.F], 2) + "]");
+            else LogResult("Subtraction (with Borrow) - Zero", true);
+            #endregion
+
             LogTotal();
         }
 

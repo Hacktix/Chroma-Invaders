@@ -601,6 +601,32 @@ namespace Chroma_Invaders.Testing
             else LogResult("Immediate Subtraction (with Borrow) - Zero", true);
             #endregion
 
+            #region "Immediate Bitwise Operations"
+            testMachine.Registers[Register.F] = 2;
+            testMachine.Registers[Register.A] = 0b11111111;
+            testMachine.Memory[1] = 0b00001111;
+            new ImmediateAndOperation(testMachine).Execute();
+            if (testMachine.Registers[Register.A] != 0b1111) LogResult("Immediate Bitwise AND - Any", false);
+            else if (testMachine.Registers[Register.F] != 0b00000010) LogResult("Immediate Bitwise AND - Any", false, "Incorrect flags set. [" + Convert.ToString(testMachine.Registers[Register.F], 2) + "]");
+            else LogResult("Immediate Bitwise AND - Any", true);
+
+            testMachine.Registers[Register.F] = 2;
+            testMachine.Registers[Register.A] = 0b11111111;
+            testMachine.Memory[1] = 0b10101010;
+            new ImmediateXorOperation(testMachine).Execute();
+            if (testMachine.Registers[Register.A] != 0b01010101) LogResult("Immediate Bitwise XOR - Any", false);
+            else if (testMachine.Registers[Register.F] != 0b00000010) LogResult("Immediate Bitwise XOR - Any", false, "Incorrect flags set. [" + Convert.ToString(testMachine.Registers[Register.F], 2) + "]");
+            else LogResult("Immediate Bitwise XOR - Any", true);
+
+            testMachine.Registers[Register.F] = 2;
+            testMachine.Registers[Register.A] = 0b11110000;
+            testMachine.Memory[1] = 0b00001110;
+            new ImmediateOrOperation(testMachine).Execute();
+            if (testMachine.Registers[Register.A] != 0b11111110) LogResult("Immediate Bitwise OR - Any", false);
+            else if (testMachine.Registers[Register.F] != 0b10000110) LogResult("Immediate Bitwise OR - Any", false, "Incorrect flags set. [" + Convert.ToString(testMachine.Registers[Register.F], 2) + "]");
+            else LogResult("Immediate Bitwise OR - Any", true);
+            #endregion
+
             LogTotal();
         }
 

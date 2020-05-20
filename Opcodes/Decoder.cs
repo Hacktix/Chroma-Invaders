@@ -20,6 +20,7 @@
             else if ((code & 0b11111000) == 0b10111000) return new CompareOperation(parent, code);
             else if ((code & 0b11100111) == 0b00000111) return new RotateOperation(parent, code);
             else if ((code & 0b11001011) == 0b11000001) return new StackOperation(parent, code);
+            else if ((code & 0b11001111) == 0b00001001) return new DoubleAddOperation(parent, code);
             else if ((code & 0b11000111) == 0b00000110) return new ImmediateMoveOperation(parent, code);
             else if ((code & 0b11110111) == 0b11000110) return new ImmediateAddOperation(parent, code);
             else if ((code & 0b11110111) == 0b11010110) return new ImmediateSubOperation(parent, code);

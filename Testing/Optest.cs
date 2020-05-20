@@ -683,6 +683,24 @@ namespace Chroma_Invaders.Testing
             else LogResult("Load HL", true);
             #endregion
 
+            #region "Double Add Operations"
+            testMachine.Registers[Register.F] = 2;
+            testMachine.WriteRegister16(OperationTarget16.H, 0);
+            testMachine.WriteRegister16(OperationTarget16.B, 0x1234);
+            new DoubleAddOperation(testMachine, 0x09).Execute();
+            if (testMachine.ReadRegister16(OperationTarget16.H) != 0x1234) LogResult("Double Addition - Any", false);
+            else if (testMachine.Registers[Register.F] != 0b00000010) LogResult("Double Addition - Any", false, "Incorrect flags set. [" + Convert.ToString(testMachine.Registers[Register.F], 2) + "]");
+            else LogResult("Double Addition - Any", true);
+
+            testMachine.Registers[Register.F] = 2;
+            testMachine.WriteRegister16(OperationTarget16.H, 0xFFFF);
+            testMachine.WriteRegister16(OperationTarget16.B, 1);
+            new DoubleAddOperation(testMachine, 0x09).Execute();
+            if (testMachine.ReadRegister16(OperationTarget16.H) != 0) LogResult("Double Addition - Carry", false);
+            else if (testMachine.Registers[Register.F] != 0b00000011) LogResult("Double Addition - Carry", false, "Incorrect flags set. [" + Convert.ToString(testMachine.Registers[Register.F], 2) + "]");
+            else LogResult("Double Addition - Carry", true);
+            #endregion
+
             LogTotal();
         }
 

@@ -719,6 +719,14 @@ namespace Chroma_Invaders.Testing
             new ExchangeRegistersOperation(testMachine).Execute();
             if (testMachine.ReadRegister16(OperationTarget16.H) != 0x4321 || testMachine.ReadRegister16(OperationTarget16.D) != 0x1234) LogResult("Exchange Registers (XCHG)", false);
             else LogResult("Exchange Registers (XCHG)", true);
+
+            testMachine.SP = 0;
+            testMachine.Memory[0] = 0x34;
+            testMachine.Memory[1] = 0x12;
+            testMachine.WriteRegister16(OperationTarget16.H, 0x4321);
+            new ExchangeStackOperation(testMachine).Execute();
+            if (testMachine.ReadRegister16(OperationTarget16.H) != 0x1234 || testMachine.Memory[0] != 0x21 || testMachine.Memory[1] != 0x43) LogResult("Exchange Stack (XTHL)", false);
+            else LogResult("Exchange Stack (XTHL)", true);
             #endregion
 
             LogTotal();

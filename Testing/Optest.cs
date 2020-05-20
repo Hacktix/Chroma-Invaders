@@ -727,6 +727,12 @@ namespace Chroma_Invaders.Testing
             new ExchangeStackOperation(testMachine).Execute();
             if (testMachine.ReadRegister16(OperationTarget16.H) != 0x1234 || testMachine.Memory[0] != 0x21 || testMachine.Memory[1] != 0x43) LogResult("Exchange Stack (XTHL)", false);
             else LogResult("Exchange Stack (XTHL)", true);
+
+            testMachine.SP = 0;
+            testMachine.WriteRegister16(OperationTarget16.H, 0x4321);
+            new LoadSPOperation(testMachine).Execute();
+            if (testMachine.SP != 0x4321) LogResult("Load Stack Pointer (SPHL)", false);
+            else LogResult("Load Stack Pointer (SPHL)", true);
             #endregion
 
             LogTotal();

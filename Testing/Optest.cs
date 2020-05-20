@@ -741,6 +741,178 @@ namespace Chroma_Invaders.Testing
             else LogResult("Load Program Counter (PCHL)", true);
             #endregion
 
+            #region "Jump Operations"
+            testMachine.PC = 0;
+            testMachine.Memory[1] = 0x34;
+            testMachine.Memory[2] = 0x12;
+            testMachine.Registers[Register.F] = 2;
+            Opcode jmp = new JumpOperation(testMachine, 0xC3);
+            jmp.Execute();
+            testMachine.PC += (ushort)jmp.Length;
+            if (testMachine.PC != 0x1234) LogResult("Unconditional Jump", false);
+            else LogResult("Unconditional Jump", true);
+
+            testMachine.PC = 0;
+            testMachine.Memory[1] = 0x34;
+            testMachine.Memory[2] = 0x12;
+            testMachine.Registers[Register.F] = 2;
+            jmp = new JumpOperation(testMachine, 0xDA);
+            jmp.Execute();
+            testMachine.PC += (ushort)jmp.Length;
+            if (testMachine.PC != 3) LogResult("Jump If Carry - Condition Not Met", false);
+            else LogResult("Jump If Carry - Condition Not Met", true);
+
+            testMachine.PC = 0;
+            testMachine.Memory[1] = 0x34;
+            testMachine.Memory[2] = 0x12;
+            testMachine.Registers[Register.F] = 3;
+            jmp = new JumpOperation(testMachine, 0xDA);
+            jmp.Execute();
+            testMachine.PC += (ushort)jmp.Length;
+            if (testMachine.PC != 0x1234) LogResult("Jump If Carry - Condition Met", false);
+            else LogResult("Jump If Carry - Condition Met", true);
+
+            testMachine.PC = 0;
+            testMachine.Memory[1] = 0x34;
+            testMachine.Memory[2] = 0x12;
+            testMachine.Registers[Register.F] = 3;
+            jmp = new JumpOperation(testMachine, 0xD2);
+            jmp.Execute();
+            testMachine.PC += (ushort)jmp.Length;
+            if (testMachine.PC != 3) LogResult("Jump If No Carry - Condition Not Met", false);
+            else LogResult("Jump If No Carry - Condition Not Met", true);
+
+            testMachine.PC = 0;
+            testMachine.Memory[1] = 0x34;
+            testMachine.Memory[2] = 0x12;
+            testMachine.Registers[Register.F] = 2;
+            jmp = new JumpOperation(testMachine, 0xD2);
+            jmp.Execute();
+            testMachine.PC += (ushort)jmp.Length;
+            if (testMachine.PC != 0x1234) LogResult("Jump If No Carry - Condition Met", false);
+            else LogResult("Jump If No Carry - Condition Met", true);
+
+            testMachine.PC = 0;
+            testMachine.Memory[1] = 0x34;
+            testMachine.Memory[2] = 0x12;
+            testMachine.Registers[Register.F] = 2;
+            jmp = new JumpOperation(testMachine, 0xCA);
+            jmp.Execute();
+            testMachine.PC += (ushort)jmp.Length;
+            if (testMachine.PC != 3) LogResult("Jump If Zero - Condition Not Met", false);
+            else LogResult("Jump If Zero - Condition Not Met", true);
+
+            testMachine.PC = 0;
+            testMachine.Memory[1] = 0x34;
+            testMachine.Memory[2] = 0x12;
+            testMachine.Registers[Register.F] = 0b01000010;
+            jmp = new JumpOperation(testMachine, 0xCA);
+            jmp.Execute();
+            testMachine.PC += (ushort)jmp.Length;
+            if (testMachine.PC != 0x1234) LogResult("Jump If Zero - Condition Met", false);
+            else LogResult("Jump If Zero - Condition Met", true);
+
+            testMachine.PC = 0;
+            testMachine.Memory[1] = 0x34;
+            testMachine.Memory[2] = 0x12;
+            testMachine.Registers[Register.F] = 0b01000010;
+            jmp = new JumpOperation(testMachine, 0xC2);
+            jmp.Execute();
+            testMachine.PC += (ushort)jmp.Length;
+            if (testMachine.PC != 3) LogResult("Jump If Not Zero - Condition Not Met", false);
+            else LogResult("Jump If Not Zero - Condition Not Met", true);
+
+            testMachine.PC = 0;
+            testMachine.Memory[1] = 0x34;
+            testMachine.Memory[2] = 0x12;
+            testMachine.Registers[Register.F] = 2;
+            jmp = new JumpOperation(testMachine, 0xC2);
+            jmp.Execute();
+            testMachine.PC += (ushort)jmp.Length;
+            if (testMachine.PC != 0x1234) LogResult("Jump If Not Zero - Condition Met", false);
+            else LogResult("Jump If Not Zero - Condition Met", true);
+
+            testMachine.PC = 0;
+            testMachine.Memory[1] = 0x34;
+            testMachine.Memory[2] = 0x12;
+            testMachine.Registers[Register.F] = 2;
+            jmp = new JumpOperation(testMachine, 0xFA);
+            jmp.Execute();
+            testMachine.PC += (ushort)jmp.Length;
+            if (testMachine.PC != 3) LogResult("Jump If Minus - Condition Not Met", false);
+            else LogResult("Jump If Minus - Condition Not Met", true);
+
+            testMachine.PC = 0;
+            testMachine.Memory[1] = 0x34;
+            testMachine.Memory[2] = 0x12;
+            testMachine.Registers[Register.F] = 0b10000010;
+            jmp = new JumpOperation(testMachine, 0xFA);
+            jmp.Execute();
+            testMachine.PC += (ushort)jmp.Length;
+            if (testMachine.PC != 0x1234) LogResult("Jump If Minus - Condition Met", false);
+            else LogResult("Jump If Minus - Condition Met", true);
+
+            testMachine.PC = 0;
+            testMachine.Memory[1] = 0x34;
+            testMachine.Memory[2] = 0x12;
+            testMachine.Registers[Register.F] = 0b10000010;
+            jmp = new JumpOperation(testMachine, 0xF2);
+            jmp.Execute();
+            testMachine.PC += (ushort)jmp.Length;
+            if (testMachine.PC != 3) LogResult("Jump If Positive - Condition Not Met", false);
+            else LogResult("Jump If Positive - Condition Not Met", true);
+
+            testMachine.PC = 0;
+            testMachine.Memory[1] = 0x34;
+            testMachine.Memory[2] = 0x12;
+            testMachine.Registers[Register.F] = 2;
+            jmp = new JumpOperation(testMachine, 0xF2);
+            jmp.Execute();
+            testMachine.PC += (ushort)jmp.Length;
+            if (testMachine.PC != 0x1234) LogResult("Jump If Positive - Condition Met", false);
+            else LogResult("Jump If Positive - Condition Met", true);
+
+            testMachine.PC = 0;
+            testMachine.Memory[1] = 0x34;
+            testMachine.Memory[2] = 0x12;
+            testMachine.Registers[Register.F] = 2;
+            jmp = new JumpOperation(testMachine, 0xEA);
+            jmp.Execute();
+            testMachine.PC += (ushort)jmp.Length;
+            if (testMachine.PC != 3) LogResult("Jump If Parity Even - Condition Not Met", false);
+            else LogResult("Jump If Parity Even - Condition Not Met", true);
+
+            testMachine.PC = 0;
+            testMachine.Memory[1] = 0x34;
+            testMachine.Memory[2] = 0x12;
+            testMachine.Registers[Register.F] = 0b00000110;
+            jmp = new JumpOperation(testMachine, 0xEA);
+            jmp.Execute();
+            testMachine.PC += (ushort)jmp.Length;
+            if (testMachine.PC != 0x1234) LogResult("Jump If Parity Even - Condition Met", false);
+            else LogResult("Jump If Parity Even - Condition Met", true);
+
+            testMachine.PC = 0;
+            testMachine.Memory[1] = 0x34;
+            testMachine.Memory[2] = 0x12;
+            testMachine.Registers[Register.F] = 0b00000110;
+            jmp = new JumpOperation(testMachine, 0xE2);
+            jmp.Execute();
+            testMachine.PC += (ushort)jmp.Length;
+            if (testMachine.PC != 3) LogResult("Jump If Parity Odd - Condition Not Met", false);
+            else LogResult("Jump If Parity Odd - Condition Not Met", true);
+
+            testMachine.PC = 0;
+            testMachine.Memory[1] = 0x34;
+            testMachine.Memory[2] = 0x12;
+            testMachine.Registers[Register.F] = 2;
+            jmp = new JumpOperation(testMachine, 0xE2);
+            jmp.Execute();
+            testMachine.PC += (ushort)jmp.Length;
+            if (testMachine.PC != 0x1234) LogResult("Jump If Parity Odd - Condition Met", false);
+            else LogResult("Jump If Parity Odd - Condition Met", true);
+            #endregion
+
             LogTotal();
         }
 

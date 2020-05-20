@@ -8,7 +8,7 @@
 
         public JumpOperation(Machine parent, byte opcode) : base(parent) {
             useCondition = opcode != 0b11000011;
-            if(useCondition)
+            if (useCondition) conditionFlag = BitsToConditionFlag((byte)((opcode & 0b111000) >> 3));
             Cycles = 10;
             Length = 3;
         }

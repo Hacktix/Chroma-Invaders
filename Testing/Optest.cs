@@ -650,6 +650,23 @@ namespace Chroma_Invaders.Testing
             else LogResult("Immediate Compare - Lower", true);
             #endregion
 
+            #region "Immediate Accumulator Load/Store"
+            testMachine.Registers[Register.A] = 2;
+            testMachine.Memory[1] = 0x10;
+            testMachine.Memory[2] = 0;
+            new ImmediateAccMoveOperation(testMachine, 0x32).Execute();
+            if (testMachine.Memory[0x10] != 2) LogResult("Store Accumulator Direct", false);
+            else LogResult("Store Accumulator Direct", true);
+
+            testMachine.Registers[Register.A] = 2;
+            testMachine.Memory[1] = 0x10;
+            testMachine.Memory[2] = 0;
+            testMachine.Memory[0x10] = 5;
+            new ImmediateAccMoveOperation(testMachine, 0x3A).Execute();
+            if (testMachine.Registers[Register.A] != 5) LogResult("Load Accumulator Direct", false);
+            else LogResult("Load Accumulator Direct", true);
+            #endregion
+
             LogTotal();
         }
 

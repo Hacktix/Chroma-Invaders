@@ -701,6 +701,18 @@ namespace Chroma_Invaders.Testing
             else LogResult("Double Addition - Carry", true);
             #endregion
 
+            #region "16-bit Increment/Decrement"
+            testMachine.WriteRegister16(OperationTarget16.B, 1);
+            new DoubleIncDecOperation(testMachine, 0x03).Execute();
+            if (testMachine.ReadRegister16(OperationTarget16.B) != 2) LogResult("16-bit Increment", false);
+            else LogResult("16-bit Increment", true);
+
+            testMachine.WriteRegister16(OperationTarget16.B, 1);
+            new DoubleIncDecOperation(testMachine, 0x0B).Execute();
+            if (testMachine.ReadRegister16(OperationTarget16.B) != 0) LogResult("16-bit Decrement", false);
+            else LogResult("16-bit Decrement", true);
+            #endregion
+
             LogTotal();
         }
 

@@ -455,6 +455,16 @@ namespace Chroma_Invaders.Testing
             else LogResult("POP from stack", true);
             #endregion
 
+            #region "Immediate Data Transfer"
+            testMachine.Registers[Register.B] = 1;
+            testMachine.Registers[Register.F] = 2;
+            testMachine.Memory[0] = 0x06;
+            testMachine.Memory[1] = 0xFF;
+            new ImmediateMoveOperation(testMachine, 0x06).Execute();
+            if (testMachine.Registers[Register.B] != 0xFF) LogResult("Immediate Move", false);
+            else LogResult("Immediate Move", true);
+            #endregion
+
             LogTotal();
         }
 

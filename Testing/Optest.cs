@@ -667,6 +667,24 @@ namespace Chroma_Invaders.Testing
             else LogResult("Load Accumulator Direct", true);
             #endregion
 
+            #region "HL Load/Store"
+            testMachine.Registers[Register.H] = 0x69;
+            testMachine.Registers[Register.L] = 0x77;
+            testMachine.Memory[1] = 0x10;
+            testMachine.Memory[2] = 0;
+            new HLMoveOperation(testMachine, 0x22).Execute();
+            if (testMachine.Memory[0x10] != 0x77 || testMachine.Memory[0x11] != 0x69) LogResult("Store HL", false);
+            else LogResult("Store HL", true);
+
+            testMachine.Memory[1] = 0x10;
+            testMachine.Memory[2] = 0;
+            testMachine.Memory[0x10] = 5;
+            testMachine.Memory[0x11] = 55;
+            new HLMoveOperation(testMachine, 0x2A).Execute();
+            if (testMachine.Registers[Register.L] != 5 || testMachine.Registers[Register.H] != 55) LogResult("Load HL", false);
+            else LogResult("Load HL", true);
+            #endregion
+
             LogTotal();
         }
 

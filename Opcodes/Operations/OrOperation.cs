@@ -1,6 +1,6 @@
 ﻿namespace Chroma_Invaders.Opcodes
 {
-    public class OrOperation : Opcode
+    public class OrOperation : Opcode // ORA
     {
         private OperationTarget8 source;
 

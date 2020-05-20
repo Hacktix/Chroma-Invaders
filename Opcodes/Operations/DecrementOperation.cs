@@ -1,6 +1,6 @@
 ﻿namespace Chroma_Invaders.Opcodes
 {
-    public class DecrementOperation : Opcode
+    public class DecrementOperation : Opcode // DCR
     {
         private OperationTarget8 target;
 

@@ -1,6 +1,6 @@
 ﻿namespace Chroma_Invaders.Opcodes
 {
-    public class HLMoveOperation : Opcode
+    public class HLMoveOperation : Opcode // SHLD, LHLD
     {
         private bool store;
 

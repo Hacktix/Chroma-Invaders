@@ -1,6 +1,6 @@
 ﻿namespace Chroma_Invaders.Opcodes
 {
-    public class ImmediateOrOperation : Opcode
+    public class ImmediateOrOperation : Opcode // ORI
     {
         public ImmediateOrOperation(Machine parent) : base(parent) {
             Cycles = 7;

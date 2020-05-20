@@ -1,6 +1,6 @@
 ﻿namespace Chroma_Invaders.Opcodes
 {
-    public class ComplementCarryOperation : Opcode
+    public class ComplementCarryOperation : Opcode // CMC
     {
         public ComplementCarryOperation(Machine parent) : base(parent) { }
 

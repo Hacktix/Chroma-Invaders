@@ -1,6 +1,6 @@
 ﻿namespace Chroma_Invaders.Opcodes
 {
-    public class MoveOperation : Opcode
+    public class MoveOperation : Opcode // MOV
     {
         private OperationTarget8 source;
         private OperationTarget8 target;

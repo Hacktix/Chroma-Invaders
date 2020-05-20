@@ -1,6 +1,6 @@
 ﻿namespace Chroma_Invaders.Opcodes
 {
-    public class AddOperation : Opcode
+    public class AddOperation : Opcode // ADD, ADC
     {
         private OperationTarget8 source;
         private bool addCarry;

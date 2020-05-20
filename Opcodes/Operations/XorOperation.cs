@@ -1,6 +1,6 @@
 ﻿namespace Chroma_Invaders.Opcodes
 {
-    public class XorOperation : Opcode
+    public class XorOperation : Opcode // XRA
     {
         private OperationTarget8 source;
 

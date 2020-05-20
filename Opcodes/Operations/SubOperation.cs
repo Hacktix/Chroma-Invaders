@@ -1,8 +1,6 @@
-﻿using System;
-
-namespace Chroma_Invaders.Opcodes
+﻿namespace Chroma_Invaders.Opcodes
 {
-    public class SubOperation : Opcode
+    public class SubOperation : Opcode // SUB, SBB
     {
         private OperationTarget8 source;
         private bool subBorrow;

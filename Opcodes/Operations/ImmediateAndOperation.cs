@@ -1,8 +1,7 @@
 ﻿namespace Chroma_Invaders.Opcodes
 {
-    public class ImmediateAndOperation : Opcode
+    public class ImmediateAndOperation : Opcode // ANI
     {
-
         public ImmediateAndOperation(Machine parent) : base(parent) {
             Cycles = 7;
             Length = 2;

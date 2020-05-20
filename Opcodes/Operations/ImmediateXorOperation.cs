@@ -1,9 +1,7 @@
 ﻿namespace Chroma_Invaders.Opcodes
 {
-    public class ImmediateXorOperation : Opcode
+    public class ImmediateXorOperation : Opcode // XRI
     {
-        private OperationTarget8 source;
-
         public ImmediateXorOperation(Machine parent) : base(parent) {
             Cycles = 7;
             Length = 2;

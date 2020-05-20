@@ -1,6 +1,6 @@
 ﻿namespace Chroma_Invaders.Opcodes
 {
-    public class ImmediateAddOperation : Opcode
+    public class ImmediateAddOperation : Opcode // ADI, ACI
     {
         private bool addCarry;
 

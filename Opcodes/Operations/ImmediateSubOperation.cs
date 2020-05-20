@@ -2,7 +2,7 @@
 
 namespace Chroma_Invaders.Opcodes
 {
-    public class ImmediateSubOperation : Opcode
+    public class ImmediateSubOperation : Opcode // SUI, SBI
     {
         private bool subBorrow;
 

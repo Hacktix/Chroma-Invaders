@@ -1,6 +1,6 @@
 ﻿namespace Chroma_Invaders.Opcodes
 {
-    public class AndOperation : Opcode
+    public class AndOperation : Opcode // ANA
     {
         private OperationTarget8 source;
 

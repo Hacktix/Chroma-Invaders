@@ -1,6 +1,6 @@
 ﻿namespace Chroma_Invaders.Opcodes
 {
-    public class StackOperation : Opcode
+    public class StackOperation : Opcode // PUSH, POP
     {
         private OperationTarget16 target;
         private bool push;

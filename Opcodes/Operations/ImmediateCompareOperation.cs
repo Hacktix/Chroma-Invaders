@@ -1,6 +1,6 @@
 ﻿namespace Chroma_Invaders.Opcodes
 {
-    public class ImmediateCompareOperation : Opcode
+    public class ImmediateCompareOperation : Opcode // CPI
     {
         public ImmediateCompareOperation(Machine parent) : base(parent) {
             Cycles = 7;

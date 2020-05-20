@@ -1,6 +1,6 @@
 ﻿namespace Chroma_Invaders.Opcodes
 {
-    public class CompareOperation : Opcode
+    public class CompareOperation : Opcode // CMP
     {
         private OperationTarget8 source;
 

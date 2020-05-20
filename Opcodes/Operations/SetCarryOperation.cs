@@ -1,6 +1,6 @@
 ﻿namespace Chroma_Invaders.Opcodes
 {
-    public class SetCarryOperation : Opcode
+    public class SetCarryOperation : Opcode // STC
     {
         public SetCarryOperation(Machine parent) : base(parent) { }
 

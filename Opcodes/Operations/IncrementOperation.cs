@@ -1,6 +1,6 @@
 ﻿namespace Chroma_Invaders.Opcodes
 {
-    public class IncrementOperation : Opcode
+    public class IncrementOperation : Opcode // INR
     {
         private OperationTarget8 target;
 

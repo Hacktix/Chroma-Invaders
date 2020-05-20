@@ -1,6 +1,6 @@
 ﻿namespace Chroma_Invaders.Opcodes
 {
-    public class ImmediateAccMoveOperation : Opcode
+    public class ImmediateAccMoveOperation : Opcode // MVI
     {
         private bool store;
 

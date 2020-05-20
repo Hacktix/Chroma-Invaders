@@ -1,6 +1,6 @@
 ﻿namespace Chroma_Invaders.Opcodes
 {
-    public class ImmediateMoveOperation : Opcode
+    public class ImmediateMoveOperation : Opcode // MVI
     {
         private OperationTarget8 target;
 

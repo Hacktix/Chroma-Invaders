@@ -1,6 +1,6 @@
 ﻿namespace Chroma_Invaders.Opcodes
 {
-    public class DecimalAdjustOperation : Opcode
+    public class DecimalAdjustOperation : Opcode // DAA
     {
         public DecimalAdjustOperation(Machine parent) : base(parent) { }
 

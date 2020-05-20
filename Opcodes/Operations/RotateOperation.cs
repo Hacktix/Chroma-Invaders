@@ -1,6 +1,6 @@
 ﻿namespace Chroma_Invaders.Opcodes
 {
-    public class RotateOperation : Opcode
+    public class RotateOperation : Opcode // RLC, RAL, RRC, RAR
     {
         private bool left;
         private bool useCarry;

@@ -713,6 +713,14 @@ namespace Chroma_Invaders.Testing
             else LogResult("16-bit Decrement", true);
             #endregion
 
+            #region "16-bit Exchange Operations"
+            testMachine.WriteRegister16(OperationTarget16.H, 0x1234);
+            testMachine.WriteRegister16(OperationTarget16.D, 0x4321);
+            new ExchangeRegistersOperation(testMachine).Execute();
+            if (testMachine.ReadRegister16(OperationTarget16.H) != 0x4321 || testMachine.ReadRegister16(OperationTarget16.D) != 0x1234) LogResult("Exchange Registers (XCHG)", false);
+            else LogResult("Exchange Registers (XCHG)", true);
+            #endregion
+
             LogTotal();
         }
 

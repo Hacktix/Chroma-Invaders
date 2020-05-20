@@ -23,6 +23,8 @@
             else if ((code & 0b11000111) == 0b00000110) return new ImmediateMoveOperation(parent, code);
             else if ((code & 0b11110111) == 0b11000110) return new ImmediateAddOperation(parent, code);
             else if ((code & 0b11110111) == 0b11010110) return new ImmediateSubOperation(parent, code);
+            else if ((code & 0b11111111) == 0b11100110) return new ImmediateAndOperation(parent);
+            else if ((code & 0b11111111) == 0b11101110) return new ImmediateXorOperation(parent);
             else                                        return new NoOperation(parent, code);
         }
     }

@@ -22,6 +22,7 @@
             else if ((code & 0b11001011) == 0b11000001) return new StackOperation(parent, code);
             else if ((code & 0b11000111) == 0b00000110) return new ImmediateMoveOperation(parent, code);
             else if ((code & 0b11110111) == 0b11000110) return new ImmediateAddOperation(parent, code);
+            else if ((code & 0b11110111) == 0b11010110) return new ImmediateSubOperation(parent, code);
             else                                        return new NoOperation(parent, code);
         }
     }

@@ -8,7 +8,7 @@
 
         public override void Execute()
         {
-            parent.SP = parent.ReadRegister16(OperationTarget16.H);
+            parent.PC = parent.ReadRegister16(OperationTarget16.H);
         }
     }
 }

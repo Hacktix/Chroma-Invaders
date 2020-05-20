@@ -733,6 +733,12 @@ namespace Chroma_Invaders.Testing
             new LoadSPOperation(testMachine).Execute();
             if (testMachine.SP != 0x4321) LogResult("Load Stack Pointer (SPHL)", false);
             else LogResult("Load Stack Pointer (SPHL)", true);
+
+            testMachine.PC = 0;
+            testMachine.WriteRegister16(OperationTarget16.H, 0x4321);
+            new LoadPCOperation(testMachine).Execute();
+            if (testMachine.PC != 0x4321) LogResult("Load Program Counter (PCHL)", false);
+            else LogResult("Load Program Counter (PCHL)", true);
             #endregion
 
             LogTotal();

@@ -465,6 +465,74 @@ namespace Chroma_Invaders.Testing
             else LogResult("Immediate Move", true);
             #endregion
 
+            #region "Add Operations"
+            testMachine.Registers[Register.F] = 2;
+            testMachine.Registers[Register.A] = 0;
+            testMachine.Memory[1] = 10;
+            new ImmediateAddOperation(testMachine, 0xC6).Execute();
+            if (testMachine.Registers[Register.A] != 10) LogResult("Immediate Addition - Any", false);
+            else if (testMachine.Registers[Register.F] != 0b00000110) LogResult("Immediate Addition - Any", false, "Incorrect flags set. [" + Convert.ToString(testMachine.Registers[Register.F], 2) + "]");
+            else LogResult("Immediate Addition - Any", true);
+
+            testMachine.Registers[Register.F] = 2;
+            testMachine.Registers[Register.A] = 0b1111;
+            testMachine.Memory[1] = 1;
+            new ImmediateAddOperation(testMachine, 0xC6).Execute();
+            if (testMachine.Registers[Register.A] != 16) LogResult("Immediate Addition - Auxiliary Carry", false);
+            else if (testMachine.Registers[Register.F] != 0b00010110) LogResult("Immediate Addition - Auxiliary Carry", false, "Incorrect flags set. [" + Convert.ToString(testMachine.Registers[Register.F], 2) + "]");
+            else LogResult("Immediate Addition - Auxiliary Carry", true);
+
+            testMachine.Registers[Register.F] = 2;
+            testMachine.Registers[Register.A] = 128;
+            testMachine.Memory[1] = 10;
+            new ImmediateAddOperation(testMachine, 0xC6).Execute();
+            if (testMachine.Registers[Register.A] != 138) LogResult("Immediate Addition - Sign", false);
+            else if (testMachine.Registers[Register.F] != 0b10000110) LogResult("Immediate Addition - Sign", false, "Incorrect flags set. [" + Convert.ToString(testMachine.Registers[Register.F], 2) + "]");
+            else LogResult("Immediate Addition - Sign", true);
+
+            testMachine.Registers[Register.F] = 2;
+            testMachine.Registers[Register.A] = 254;
+            testMachine.Memory[1] = 2;
+            new ImmediateAddOperation(testMachine, 0xC6).Execute();
+            if (testMachine.Registers[Register.A] != 0) LogResult("Immediate Addition - Zero + Carry", false);
+            else if (testMachine.Registers[Register.F] != 0b01010111) LogResult("Immediate Addition - Zero + Carry", false, "Incorrect flags set. [" + Convert.ToString(testMachine.Registers[Register.F], 2) + "]");
+            else LogResult("Immediate Addition - Zero + Carry", true);
+            #endregion
+
+            #region "Add Operations (with Carry)"
+            testMachine.Registers[Register.F] = 3;
+            testMachine.Registers[Register.A] = 0;
+            testMachine.Memory[1] = 9;
+            new ImmediateAddOperation(testMachine, 0xCE).Execute();
+            if (testMachine.Registers[Register.A] != 10) LogResult("Immediate Addition (with Carry) - Any", false);
+            else if (testMachine.Registers[Register.F] != 0b00000110) LogResult("Immediate Addition (with Carry) - Any", false, "Incorrect flags set. [" + Convert.ToString(testMachine.Registers[Register.F], 2) + "]");
+            else LogResult("Immediate Addition (with Carry) - Any", true);
+
+            testMachine.Registers[Register.F] = 3;
+            testMachine.Registers[Register.A] = 0b1111;
+            testMachine.Memory[1] = 0;
+            new ImmediateAddOperation(testMachine, 0xCE).Execute();
+            if (testMachine.Registers[Register.A] != 16) LogResult("Immediate Addition (with Carry) - Auxiliary Carry", false);
+            else if (testMachine.Registers[Register.F] != 0b00010110) LogResult("Immediate Addition (with Carry) - Auxiliary Carry", false, "Incorrect flags set. [" + Convert.ToString(testMachine.Registers[Register.F], 2) + "]");
+            else LogResult("Immediate Addition (with Carry) - Auxiliary Carry", true);
+
+            testMachine.Registers[Register.F] = 3;
+            testMachine.Registers[Register.A] = 128;
+            testMachine.Memory[1] = 9;
+            new ImmediateAddOperation(testMachine, 0xCE).Execute();
+            if (testMachine.Registers[Register.A] != 138) LogResult("Immediate Addition (with Carry) - Sign", false);
+            else if (testMachine.Registers[Register.F] != 0b10000110) LogResult("Immediate Addition (with Carry) - Sign", false, "Incorrect flags set. [" + Convert.ToString(testMachine.Registers[Register.F], 2) + "]");
+            else LogResult("Immediate Addition (with Carry) - Sign", true);
+
+            testMachine.Registers[Register.F] = 3;
+            testMachine.Registers[Register.A] = 254;
+            testMachine.Memory[1] = 1;
+            new ImmediateAddOperation(testMachine, 0xCE).Execute();
+            if (testMachine.Registers[Register.A] != 0) LogResult("Immediate Addition (with Carry) - Zero + Carry", false);
+            else if (testMachine.Registers[Register.F] != 0b01010111) LogResult("Immediate Addition (with Carry) - Zero + Carry", false, "Incorrect flags set. [" + Convert.ToString(testMachine.Registers[Register.F], 2) + "]");
+            else LogResult("Immediate Addition (with Carry) - Zero + Carry", true);
+            #endregion
+
             LogTotal();
         }
 

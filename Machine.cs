@@ -47,8 +47,8 @@ namespace Chroma_Invaders
                     continue;
                 }
                 Opcode opcode = Decoder.DecodeOpcode(this, Memory[PC]);
-                PC += (ushort)opcode.Length;
                 opcode.Execute();
+                PC += (ushort)opcode.Length;
 
                 CycleCooldown = opcode.Cycles - 1;
             }

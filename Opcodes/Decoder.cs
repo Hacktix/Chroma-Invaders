@@ -28,6 +28,7 @@
             else if ((code & 0b11111111) == 0b11110110) return new ImmediateOrOperation(parent);
             else if ((code & 0b11111111) == 0b11111110) return new ImmediateCompareOperation(parent);
             else if ((code & 0b11110111) == 0b00110010) return new ImmediateAccMoveOperation(parent, code);
+            else if ((code & 0b11110111) == 0b00100010) return new HLMoveOperation(parent, code);
             else                                        return new NoOperation(parent, code);
         }
     }

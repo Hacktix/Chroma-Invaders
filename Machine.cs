@@ -75,6 +75,12 @@ namespace Chroma_Invaders
                     Registers[Register.A] = (byte)((value & 0xFF00) >> 8);
                     Registers[Register.F] = (byte)(value & 0xFF);
                     break;
+                case OperationTarget16.SP:
+                    SP = value;
+                    break;
+                case OperationTarget16.PC:
+                    PC = value;
+                    break;
             }
         }
 
@@ -86,6 +92,8 @@ namespace Chroma_Invaders
                 case OperationTarget16.D: return (ushort)((Registers[Register.D] << 8) + Registers[Register.E]);
                 case OperationTarget16.H: return (ushort)((Registers[Register.H] << 8) + Registers[Register.L]);
                 case OperationTarget16.PSW: return (ushort)((Registers[Register.A] << 8) + Registers[Register.F]);
+                case OperationTarget16.SP: return SP;
+                case OperationTarget16.PC: return PC;
             }
             return 0;
         }

@@ -2,29 +2,12 @@
 {
     public class ImmediateAddOperation : Opcode
     {
-        private OperationTarget8 source;
         private bool addCarry;
 
         public ImmediateAddOperation(Machine parent, byte opcode) : base(parent) {
-            source = BitsToRegister((opcode & 0b111000) >> 3);
             addCarry = (opcode & 0b1000) > 0;
             Cycles = 7;
-        }
-
-        private OperationTarget8 BitsToRegister(int bits)
-        {
-            switch (bits)
-            {
-                case 0b000: return OperationTarget8.B;
-                case 0b001: return OperationTarget8.C;
-                case 0b010: return OperationTarget8.D;
-                case 0b011: return OperationTarget8.E;
-                case 0b100: return OperationTarget8.H;
-                case 0b101: return OperationTarget8.L;
-                case 0b110: return OperationTarget8.M;
-                case 0b111: return OperationTarget8.A;
-                default: return OperationTarget8.A;
-            }
+            Length = 2;
         }
 
         public override void Execute()

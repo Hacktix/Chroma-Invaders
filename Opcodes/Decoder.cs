@@ -37,6 +37,7 @@
             else if ((code & 0b11110111) == 0b00100010) return new HLMoveOperation(parent, code);
             else if ((code & 0b11000110) == 0b11000010) return new JumpOperation(parent, code);
             else if ((code & 0b11000110) == 0b11000100) return new CallOperation(parent, code);
+            else if ((code & 0b11000110) == 0b11000000) return new ReturnOperation(parent, code);
             else                                        return new NoOperation(parent, code);
         }
     }

@@ -21,7 +21,9 @@ namespace Chroma_Invaders
         public bool Halted = false;
 
         public ushort PC = 0;
-        public ushort SP = 0x2400;
+        public ushort SP = 0;
+
+        public bool NextOp = true;
 
         private int CycleCooldown = 0;
         private long LastVBLANK = 0;
@@ -42,6 +44,9 @@ namespace Chroma_Invaders
         {
             StartTime = DateTime.Now.Ticks;
             int cycleCounter = cycleLimit;
+
+            if (!NextOp) return;
+
             while(cycleCounter-- > 0)
             {
                 if(CycleCooldown > 0)
@@ -50,20 +55,52 @@ namespace Chroma_Invaders
                     continue;
                 }
 
+                /*
                 if(!InterruptsDisabled && (DateTime.Now.Ticks - LastVBLANK >= (1.0/60.0) * TimeSpan.TicksPerSecond))
                 {
                     LastVBLANK = DateTime.Now.Ticks;
                     GenerateInterrupt(2);
                     continue;
                 }
+                */
+
+                Console.WriteLine("====================================================");
+                Console.WriteLine("# EXECUTING 0x" + Memory[PC].ToString("X2"));
 
                 Opcode opcode = Decoder.DecodeOpcode(this, Memory[PC]);
+
+                if (opcode.Length > 1)
+                {
+                    for (int i = 1; i < opcode.Length; i++)
+                        Console.WriteLine("# OPERAND " + i + ": 0x" + Memory[PC + i].ToString("X2"));
+                }
+
                 opcode.Execute();
+
                 PC += (ushort)opcode.Length;
 
                 CycleCooldown = opcode.Cycles - 1;
+
+                NextOp = false;
+                DebugLog();
+                break;
             }
             EndTime = DateTime.Now.Ticks;
+        }
+
+        public void DebugLog()
+        {
+            Console.WriteLine("==================== DEBUG LOG =====================");
+            Console.WriteLine("A  : " + Registers[Register.A].ToString("X2"));
+            Console.WriteLine("F  : " + Convert.ToString(Registers[Register.A], 2));
+            Console.WriteLine("B  : " + Registers[Register.B].ToString("X2"));
+            Console.WriteLine("C  : " + Registers[Register.C].ToString("X2"));
+            Console.WriteLine("D  : " + Registers[Register.D].ToString("X2"));
+            Console.WriteLine("E  : " + Registers[Register.E].ToString("X2"));
+            Console.WriteLine("H  : " + Registers[Register.H].ToString("X2"));
+            Console.WriteLine("L  : " + Registers[Register.L].ToString("X2"));
+            Console.WriteLine("SP : " + SP.ToString("X4"));
+            Console.WriteLine("PC : " + PC.ToString("X4"));
         }
 
         public void GenerateInterrupt(int number)

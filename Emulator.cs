@@ -1,5 +1,6 @@
 ﻿using Chroma;
 using Chroma.Graphics;
+using Chroma.Input.EventArgs;
 using System;
 using System.Collections.Generic;
 using System.Numerics;
@@ -32,6 +33,11 @@ namespace Chroma_Invaders
             // Performance Calculation
             double percent = (int)((CYCLES_PER_UPDATE * 0.5 / (Machine.EndTime - Machine.StartTime)) * 10000) / 100.0;
             Window.Properties.Title = "Chroma Invaders (" + Window.FPS + " FPS) [" + percent + "%]";
+        }
+
+        protected override void KeyPressed(KeyEventArgs e)
+        {
+            Machine.NextOp = true;
         }
 
         protected override void Draw(RenderContext context)

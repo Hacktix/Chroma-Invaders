@@ -25,7 +25,7 @@ namespace Chroma_Invaders
 
         public bool NextOp = true;
         public bool HitBreakpoint = false;
-        public ushort BreakpointAddr = 0x9B2;
+        public ushort BreakpointAddr = 0xFFFF;
 
         private int CycleCooldown = 0;
         private long LastVBLANK = 0;

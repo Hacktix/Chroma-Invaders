@@ -11,6 +11,7 @@
             else if (code == 0x37)                      return new SetCarryOperation(parent);
             else if (code == 0x3F)                      return new ComplementCarryOperation(parent);
             else if (code == 0x27)                      return new DecimalAdjustOperation(parent);
+            else if ((code & 0b11110111) == 0b11110011) return new InterruptOperation(parent, code);
             else if ((code & 0b11111111) == 0b01110110) return new HaltOperation(parent);
             else if ((code & 0b11000000) == 0b01000000) return new MoveOperation(parent, code);
             else if ((code & 0b11100111) == 0b00000010) return new AccMoveOperation(parent, code);
@@ -42,7 +43,6 @@
             else if ((code & 0b11000110) == 0b11000100) return new CallOperation(parent, code);
             else if ((code & 0b11000110) == 0b11000000) return new ReturnOperation(parent, code);
             else if ((code & 0b11000111) == 0b11000111) return new RestartOperation(parent, code);
-            else if ((code & 0b11110111) == 0b11110011) return new InterruptOperation(parent, code);
             else                                        return new NoOperation(parent, code);
         }
     }

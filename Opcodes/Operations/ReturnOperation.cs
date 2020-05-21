@@ -38,7 +38,7 @@
                     return;
                 }
             }
-            parent.PC = (ushort)(parent.Memory[parent.SP] + (parent.Memory[parent.SP + 1] << 8) - 1);
+            parent.PC = (ushort)(parent.Memory[parent.SP] + (parent.Memory[parent.SP + 1] << 8) + 2);
             parent.SP += 2;
         }
     }

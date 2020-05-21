@@ -64,16 +64,18 @@ namespace Chroma_Invaders
                 }
                 */
 
-                Console.WriteLine("====================================================");
-                Console.WriteLine("# EXECUTING 0x" + Memory[PC].ToString("X2"));
+                //Console.WriteLine("====================================================");
+                //Console.WriteLine("# EXECUTING 0x" + Memory[PC].ToString("X2"));
 
                 Opcode opcode = Decoder.DecodeOpcode(this, Memory[PC]);
 
-                if (opcode.Length > 1)
+                
+                /*if (opcode.Length > 1)
                 {
                     for (int i = 1; i < opcode.Length; i++)
                         Console.WriteLine("# OPERAND " + i + ": 0x" + Memory[PC + i].ToString("X2"));
-                }
+                }*/
+                
 
                 opcode.Execute();
 
@@ -81,9 +83,9 @@ namespace Chroma_Invaders
 
                 CycleCooldown = opcode.Cycles - 1;
 
-                NextOp = false;
-                DebugLog();
-                break;
+                //NextOp = false;
+                //DebugLog();
+                //break;
             }
             EndTime = DateTime.Now.Ticks;
         }
@@ -113,6 +115,9 @@ namespace Chroma_Invaders
 
         public byte ReadFromInput(byte inputNo)
         {
+            if (Registers[Register.C] == 2)
+                Console.Write(Convert.ToChar(Registers[Register.E]));
+
             // TODO: Emulate input devices
             switch(inputNo)
             {

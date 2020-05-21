@@ -10,7 +10,7 @@
             else if (code == 0x37)                      return new SetCarryOperation(parent);
             else if (code == 0x3F)                      return new ComplementCarryOperation(parent);
             else if (code == 0x27)                      return new DecimalAdjustOperation(parent);
-            // TODO: Add HALT Operation
+            else if ((code & 0b11111111) == 0b01110110) return new HaltOperation(parent);
             else if ((code & 0b11000000) == 0b01000000) return new MoveOperation(parent, code);
             else if ((code & 0b11100111) == 0b00000010) return new AccMoveOperation(parent, code);
             else if ((code & 0b11110000) == 0b10000000) return new AddOperation(parent, code);

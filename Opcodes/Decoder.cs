@@ -42,6 +42,7 @@
             else if ((code & 0b11000110) == 0b11000000) return new ReturnOperation(parent, code);
             else if ((code & 0b11000111) == 0b11000111) return new RestartOperation(parent, code);
             else if ((code & 0b11110111) == 0b11110011) return new InterruptOperation(parent, code);
+            else if ((code & 0b11110111) == 0b11010011) return new InOutOperation(parent, code);
             else                                        return new NoOperation(parent, code);
         }
     }

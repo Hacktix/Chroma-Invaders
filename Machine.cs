@@ -55,6 +55,17 @@ namespace Chroma_Invaders
             EndTime = DateTime.Now.Ticks;
         }
 
+        public byte ReadFromInput(byte inputNo)
+        {
+            // TODO: Emulate input devices
+            return 0;
+        }
+
+        public void WriteToOutput(byte outputNo, byte outval)
+        {
+            // TODO: Emulate output devices
+        }
+
         public void WriteRegister16(OperationTarget16 regpair, ushort value)
         {
             switch(regpair)

@@ -115,9 +115,6 @@ namespace Chroma_Invaders
 
         public byte ReadFromInput(byte inputNo)
         {
-            if (Registers[Register.C] == 2)
-                Console.Write(Convert.ToChar(Registers[Register.E]));
-
             // TODO: Emulate input devices
             switch(inputNo)
             {

@@ -1,6 +1,7 @@
 ﻿using Chroma_Invaders.Opcodes;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace Chroma_Invaders
 {
@@ -17,19 +18,22 @@ namespace Chroma_Invaders
         public Dictionary<Register, byte> Registers = new Dictionary<Register, byte>()
         { { Register.A, 0 }, { Register.F, 2 }, { Register.B, 0 }, { Register.C, 0 }, { Register.D, 0 }, { Register.E, 0 }, { Register.H, 0 }, { Register.L, 0 }, };
 
-        public bool InterruptsDisabled = false;
+        public bool InterruptsDisabled = true;
         public bool Halted = false;
 
         public ushort PC = 0;
         public ushort SP = 0;
+
+        public bool VBlank = false;
 
         public bool NextOp = true;
         public bool HitBreakpoint = false;
         public ushort BreakpointAddr = 0xFFFF;
 
         private int CycleCooldown = 0;
-        private long LastVBLANK = 0;
         private ShiftHardware Shift = new ShiftHardware();
+
+        private double Timer = 0.0;
 
         public Machine() { }
 
@@ -39,7 +43,6 @@ namespace Chroma_Invaders
             for (int i = 0; i < roms.Length; i++)
                 for (int j = 0; j < roms[i].Length; j++, loadPointer++)
                     Memory[loadPointer] = roms[i][j];
-            LastVBLANK = DateTime.Now.Ticks;
         }
 
         public void ExecuteCycles(int cycleLimit)
@@ -51,20 +54,26 @@ namespace Chroma_Invaders
 
             while(cycleCounter-- > 0)
             {
-                if(CycleCooldown > 0)
+                Timer += 1.0 / 2000000.0;
+                if (Timer > (1.0 / 120.0))
+                {
+                    Timer -= (1.0 / 120.0);
+                    VBlank = true;
+                }
+
+                if (CycleCooldown > 0)
                 {
                     CycleCooldown--;
                     continue;
-                }
+                }                
 
-                /*
-                if(!InterruptsDisabled && (DateTime.Now.Ticks - LastVBLANK >= (1.0/60.0) * TimeSpan.TicksPerSecond))
+                if(!InterruptsDisabled && VBlank)
                 {
-                    LastVBLANK = DateTime.Now.Ticks;
+                    VBlank = false;
                     GenerateInterrupt(2);
                     continue;
                 }
-                */
+                
 
                 if (PC == BreakpointAddr) HitBreakpoint = true;
 

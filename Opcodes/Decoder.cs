@@ -27,6 +27,7 @@
             else if ((code & 0b11111111) == 0b11100011) return new ExchangeStackOperation(parent);
             else if ((code & 0b11111111) == 0b11111001) return new LoadSPOperation(parent);
             else if ((code & 0b11111111) == 0b11101001) return new LoadPCOperation(parent);
+            else if ((code & 0b11001111) == 0b00000001) return new ImmediateLoadRegisterPairOperation(parent, code);
             else if ((code & 0b11000111) == 0b00000110) return new ImmediateMoveOperation(parent, code);
             else if ((code & 0b11110111) == 0b11000110) return new ImmediateAddOperation(parent, code);
             else if ((code & 0b11110111) == 0b11010110) return new ImmediateSubOperation(parent, code);

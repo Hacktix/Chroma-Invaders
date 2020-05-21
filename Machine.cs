@@ -24,8 +24,8 @@ namespace Chroma_Invaders
         public ushort SP = 0x2400;
 
         private int CycleCooldown = 0;
-
         private long LastVBLANK = 0;
+        private ShiftHardware Shift = new ShiftHardware();
 
         public Machine() { }
 
@@ -77,14 +77,25 @@ namespace Chroma_Invaders
         public byte ReadFromInput(byte inputNo)
         {
             // TODO: Emulate input devices
-            Console.WriteLine("READING FROM " + inputNo);
+            switch(inputNo)
+            {
+                case 3: return Shift.ReadResult();
+            }
             return 0;
         }
 
         public void WriteToOutput(byte outputNo, byte outval)
         {
             // TODO: Emulate output devices
-            Console.WriteLine("WRITING TO " + outputNo);
+            switch(outputNo)
+            {
+                case 2:
+                    Shift.ShiftAmount = (byte)(outval & 0b111);
+                    break;
+                case 4:
+                    Shift.ShiftValue(outval);
+                    break;
+            }
         }
 
         public void WriteRegister16(OperationTarget16 regpair, ushort value)

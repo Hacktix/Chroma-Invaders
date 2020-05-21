@@ -1,11 +1,12 @@
 ﻿namespace Chroma_Invaders.Opcodes
 {
-    public class ImmediateAccMoveOperation : Opcode // MVI
+    public class ImmediateAccMoveOperation : Opcode // STA, LDA
     {
         private bool store;
 
         public ImmediateAccMoveOperation(Machine parent, byte opcode) : base(parent) {
             store = (opcode & 0b1000) == 0;
+            Length = 3;
         }
 
         public override void Execute()

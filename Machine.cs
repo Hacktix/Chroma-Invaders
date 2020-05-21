@@ -24,6 +24,8 @@ namespace Chroma_Invaders
         public ushort SP = 0;
 
         public bool NextOp = true;
+        public bool HitBreakpoint = false;
+        public ushort BreakpointAddr = 0xFFFF;
 
         private int CycleCooldown = 0;
         private long LastVBLANK = 0;
@@ -64,28 +66,35 @@ namespace Chroma_Invaders
                 }
                 */
 
-                //Console.WriteLine("====================================================");
-                //Console.WriteLine("# EXECUTING 0x" + Memory[PC].ToString("X2"));
+                if (PC == BreakpointAddr) HitBreakpoint = true;
+
+                if (HitBreakpoint)
+                {
+                    Console.WriteLine("====================================================");
+                    Console.WriteLine("# EXECUTING 0x" + Memory[PC].ToString("X2"));
+                }
 
                 Opcode opcode = Decoder.DecodeOpcode(this, Memory[PC]);
 
-                
-                /*if (opcode.Length > 1)
+                if (HitBreakpoint)
                 {
-                    for (int i = 1; i < opcode.Length; i++)
-                        Console.WriteLine("# OPERAND " + i + ": 0x" + Memory[PC + i].ToString("X2"));
-                }*/
-                
+                    if (opcode.Length > 1)
+                    {
+                        for (int i = 1; i < opcode.Length; i++)
+                            Console.WriteLine("# OPERAND " + i + ": 0x" + Memory[PC + i].ToString("X2"));
+                    }
+                }
 
                 opcode.Execute();
-
                 PC += (ushort)opcode.Length;
-
                 CycleCooldown = opcode.Cycles - 1;
 
-                //NextOp = false;
-                //DebugLog();
-                //break;
+                if (HitBreakpoint)
+                {
+                    NextOp = false;
+                    DebugLog();
+                    break;
+                }
             }
             EndTime = DateTime.Now.Ticks;
         }

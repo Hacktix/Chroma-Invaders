@@ -36,6 +36,7 @@
             else if ((code & 0b11110111) == 0b00110010) return new ImmediateAccMoveOperation(parent, code);
             else if ((code & 0b11110111) == 0b00100010) return new HLMoveOperation(parent, code);
             else if ((code & 0b11000110) == 0b11000010) return new JumpOperation(parent, code);
+            else if ((code & 0b11000110) == 0b11000100) return new JumpOperation(parent, code);
             else                                        return new NoOperation(parent, code);
         }
     }

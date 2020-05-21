@@ -1102,6 +1102,195 @@ namespace Chroma_Invaders.Testing
             else LogResult("Call If Parity Odd - Condition Met", true);
             #endregion
 
+            #region "Return Operations"
+            testMachine.PC = 0;
+            testMachine.SP = 0x100;
+            testMachine.Memory[testMachine.SP] = 0x34;
+            testMachine.Memory[testMachine.SP + 1] = 0x12;
+            testMachine.Registers[Register.F] = 2;
+            Opcode ret = new ReturnOperation(testMachine, 0xC9);
+            ret.Execute();
+            testMachine.PC += (ushort)ret.Length;
+            if (testMachine.PC != 0x1234 || testMachine.SP != 0x102) LogResult("Unconditional Return", false);
+            else LogResult("Unconditional Return", true);
+
+            testMachine.PC = 0;
+            testMachine.SP = 0x100;
+            testMachine.Memory[testMachine.SP] = 0x34;
+            testMachine.Memory[testMachine.SP + 1] = 0x12;
+            testMachine.Registers[Register.F] = 2;
+            ret = new ReturnOperation(testMachine, 0xD8);
+            ret.Execute();
+            testMachine.PC += (ushort)ret.Length;
+            if (testMachine.PC != 1 || testMachine.SP != 0x100) LogResult("Return If Carry - Condition Not Met", false);
+            else LogResult("Return If Carry - Condition Not Met", true);
+
+            testMachine.PC = 0;
+            testMachine.SP = 0x100;
+            testMachine.Memory[testMachine.SP] = 0x34;
+            testMachine.Memory[testMachine.SP + 1] = 0x12;
+            testMachine.Registers[Register.F] = 3;
+            ret = new ReturnOperation(testMachine, 0xD8);
+            ret.Execute();
+            testMachine.PC += (ushort)ret.Length;
+            if (testMachine.PC != 0x1234 || testMachine.SP != 0x102) LogResult("Return If Carry - Condition Met", false);
+            else LogResult("Return If Carry - Condition Met", true);
+
+            testMachine.PC = 0;
+            testMachine.SP = 0x100;
+            testMachine.Memory[testMachine.SP] = 0x34;
+            testMachine.Memory[testMachine.SP + 1] = 0x12;
+            testMachine.Registers[Register.F] = 3;
+            ret = new ReturnOperation(testMachine, 0xD0);
+            ret.Execute();
+            testMachine.PC += (ushort)ret.Length;
+            if (testMachine.PC != 1 || testMachine.SP != 0x100) LogResult("Return If No Carry - Condition Not Met", false);
+            else LogResult("Return If No Carry - Condition Not Met", true);
+
+            testMachine.PC = 0;
+            testMachine.SP = 0x100;
+            testMachine.Memory[testMachine.SP] = 0x34;
+            testMachine.Memory[testMachine.SP + 1] = 0x12;
+            testMachine.Registers[Register.F] = 2;
+            ret = new ReturnOperation(testMachine, 0xD0);
+            ret.Execute();
+            testMachine.PC += (ushort)ret.Length;
+            if (testMachine.PC != 0x1234 || testMachine.SP != 0x102) LogResult("Return If No Carry - Condition Met", false);
+            else LogResult("Return If No Carry - Condition Met", true);
+
+            testMachine.PC = 0;
+            testMachine.SP = 0x100;
+            testMachine.Memory[testMachine.SP] = 0x34;
+            testMachine.Memory[testMachine.SP + 1] = 0x12;
+            testMachine.Registers[Register.F] = 2;
+            ret = new ReturnOperation(testMachine, 0xC8);
+            ret.Execute();
+            testMachine.PC += (ushort)ret.Length;
+            if (testMachine.PC != 1 || testMachine.SP != 0x100) LogResult("Return If Zero - Condition Not Met", false);
+            else LogResult("Return If Zero - Condition Not Met", true);
+
+            testMachine.PC = 0;
+            testMachine.SP = 0x100;
+            testMachine.Memory[testMachine.SP] = 0x34;
+            testMachine.Memory[testMachine.SP + 1] = 0x12;
+            testMachine.Registers[Register.F] = 0b01000010;
+            ret = new ReturnOperation(testMachine, 0xC8);
+            ret.Execute();
+            testMachine.PC += (ushort)ret.Length;
+            if (testMachine.PC != 0x1234 || testMachine.SP != 0x102) LogResult("Return If Zero - Condition Met", false);
+            else LogResult("Return If Zero - Condition Met", true);
+
+            testMachine.PC = 0;
+            testMachine.SP = 0x100;
+            testMachine.Memory[testMachine.SP] = 0x34;
+            testMachine.Memory[testMachine.SP + 1] = 0x12;
+            testMachine.Registers[Register.F] = 0b01000010;
+            ret = new ReturnOperation(testMachine, 0xC0);
+            ret.Execute();
+            testMachine.PC += (ushort)ret.Length;
+            if (testMachine.PC != 1 || testMachine.SP != 0x100) LogResult("Return If No Zero - Condition Not Met", false);
+            else LogResult("Return If No Zero - Condition Not Met", true);
+
+            testMachine.PC = 0;
+            testMachine.SP = 0x100;
+            testMachine.Memory[testMachine.SP] = 0x34;
+            testMachine.Memory[testMachine.SP + 1] = 0x12;
+            testMachine.Registers[Register.F] = 2;
+            ret = new ReturnOperation(testMachine, 0xC0);
+            ret.Execute();
+            testMachine.PC += (ushort)ret.Length;
+            if (testMachine.PC != 0x1234 || testMachine.SP != 0x102) LogResult("Return If No Zero - Condition Met", false);
+            else LogResult("Return If No Zero - Condition Met", true);
+
+            testMachine.PC = 0;
+            testMachine.SP = 0x100;
+            testMachine.Memory[testMachine.SP] = 0x34;
+            testMachine.Memory[testMachine.SP + 1] = 0x12;
+            testMachine.Registers[Register.F] = 2;
+            ret = new ReturnOperation(testMachine, 0xF8);
+            ret.Execute();
+            testMachine.PC += (ushort)ret.Length;
+            if (testMachine.PC != 1 || testMachine.SP != 0x100) LogResult("Return If Minus - Condition Not Met", false);
+            else LogResult("Return If Minus - Condition Not Met", true);
+
+            testMachine.PC = 0;
+            testMachine.SP = 0x100;
+            testMachine.Memory[testMachine.SP] = 0x34;
+            testMachine.Memory[testMachine.SP + 1] = 0x12;
+            testMachine.Registers[Register.F] = 0b10000010;
+            ret = new ReturnOperation(testMachine, 0xF8);
+            ret.Execute();
+            testMachine.PC += (ushort)ret.Length;
+            if (testMachine.PC != 0x1234 || testMachine.SP != 0x102) LogResult("Return If Minus - Condition Met", false);
+            else LogResult("Return If Minus - Condition Met", true);
+
+            testMachine.PC = 0;
+            testMachine.SP = 0x100;
+            testMachine.Memory[testMachine.SP] = 0x34;
+            testMachine.Memory[testMachine.SP + 1] = 0x12;
+            testMachine.Registers[Register.F] = 0b10000010;
+            ret = new ReturnOperation(testMachine, 0xF0);
+            ret.Execute();
+            testMachine.PC += (ushort)ret.Length;
+            if (testMachine.PC != 1 || testMachine.SP != 0x100) LogResult("Return If Plus - Condition Not Met", false);
+            else LogResult("Return If Plus - Condition Not Met", true);
+
+            testMachine.PC = 0;
+            testMachine.SP = 0x100;
+            testMachine.Memory[testMachine.SP] = 0x34;
+            testMachine.Memory[testMachine.SP + 1] = 0x12;
+            testMachine.Registers[Register.F] = 2;
+            ret = new ReturnOperation(testMachine, 0xF0);
+            ret.Execute();
+            testMachine.PC += (ushort)ret.Length;
+            if (testMachine.PC != 0x1234 || testMachine.SP != 0x102) LogResult("Return If Plus - Condition Met", false);
+            else LogResult("Return If Plus - Condition Met", true);
+
+            testMachine.PC = 0;
+            testMachine.SP = 0x100;
+            testMachine.Memory[testMachine.SP] = 0x34;
+            testMachine.Memory[testMachine.SP + 1] = 0x12;
+            testMachine.Registers[Register.F] = 2;
+            ret = new ReturnOperation(testMachine, 0xE8);
+            ret.Execute();
+            testMachine.PC += (ushort)ret.Length;
+            if (testMachine.PC != 1 || testMachine.SP != 0x100) LogResult("Return If Parity Even - Condition Not Met", false);
+            else LogResult("Return If Parity Even - Condition Not Met", true);
+
+            testMachine.PC = 0;
+            testMachine.SP = 0x100;
+            testMachine.Memory[testMachine.SP] = 0x34;
+            testMachine.Memory[testMachine.SP + 1] = 0x12;
+            testMachine.Registers[Register.F] = 0b110;
+            ret = new ReturnOperation(testMachine, 0xE8);
+            ret.Execute();
+            testMachine.PC += (ushort)ret.Length;
+            if (testMachine.PC != 0x1234 || testMachine.SP != 0x102) LogResult("Return If Parity Even - Condition Met", false);
+            else LogResult("Return If Parity Even - Condition Met", true);
+
+            testMachine.PC = 0;
+            testMachine.SP = 0x100;
+            testMachine.Memory[testMachine.SP] = 0x34;
+            testMachine.Memory[testMachine.SP + 1] = 0x12;
+            testMachine.Registers[Register.F] = 0b110;
+            ret = new ReturnOperation(testMachine, 0xE0);
+            ret.Execute();
+            testMachine.PC += (ushort)ret.Length;
+            if (testMachine.PC != 1 || testMachine.SP != 0x100) LogResult("Return If Parity Odd - Condition Not Met", false);
+            else LogResult("Return If Parity Odd - Condition Not Met", true);
+
+            testMachine.PC = 0;
+            testMachine.SP = 0x100;
+            testMachine.Memory[testMachine.SP] = 0x34;
+            testMachine.Memory[testMachine.SP + 1] = 0x12;
+            testMachine.Registers[Register.F] = 2;
+            ret = new ReturnOperation(testMachine, 0xE0);
+            ret.Execute();
+            testMachine.PC += (ushort)ret.Length;
+            if (testMachine.PC != 0x1234 || testMachine.SP != 0x102) LogResult("Return If Parity Odd - Condition Met", false);
+            else LogResult("Return If Parity Odd - Condition Met", true);
+            #endregion
+
             LogTotal();
         }
 

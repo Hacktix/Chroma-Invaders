@@ -7,7 +7,7 @@
         bool conditionSet;
 
         public ReturnOperation(Machine parent, byte opcode) : base(parent) {
-            useCondition = opcode != 0b11001101;
+            useCondition = opcode != 0b11001001;
             if (useCondition) conditionFlag = BitsToConditionFlag((byte)((opcode & 0b111000) >> 3));
             Cycles = 11;
         }

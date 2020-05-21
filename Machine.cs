@@ -28,7 +28,7 @@ namespace Chroma_Invaders
 
         public bool NextOp = true;
         public bool HitBreakpoint = false;
-        public ushort BreakpointAddr = 0xFFFF;
+        public ushort BreakpointAddr = 0x182B;
 
         private int CycleCooldown = 0;
         private ShiftHardware Shift = new ShiftHardware();
@@ -80,7 +80,7 @@ namespace Chroma_Invaders
                 if (HitBreakpoint)
                 {
                     Console.WriteLine("====================================================");
-                    Console.WriteLine("# EXECUTING 0x" + Memory[PC].ToString("X2"));
+                    Console.WriteLine("# EXECUTING 0x" + Memory[PC].ToString("X2") + " FROM 0x" + PC.ToString("X4"));
                 }
 
                 Opcode opcode = Decoder.DecodeOpcode(this, Memory[PC]);
@@ -112,7 +112,7 @@ namespace Chroma_Invaders
         {
             Console.WriteLine("==================== DEBUG LOG =====================");
             Console.WriteLine("A  : " + Registers[Register.A].ToString("X2"));
-            Console.WriteLine("F  : " + Convert.ToString(Registers[Register.A], 2));
+            Console.WriteLine("F  : " + Convert.ToString(Registers[Register.F], 2));
             Console.WriteLine("B  : " + Registers[Register.B].ToString("X2"));
             Console.WriteLine("C  : " + Registers[Register.C].ToString("X2"));
             Console.WriteLine("D  : " + Registers[Register.D].ToString("X2"));
@@ -125,6 +125,13 @@ namespace Chroma_Invaders
 
         public void GenerateInterrupt(int number)
         {
+            if(HitBreakpoint)
+            {
+                Console.WriteLine("====================================================");
+                Console.WriteLine(" ### INTERRUPT " + number + " ###");
+                Console.WriteLine("====================================================");
+            }
+            InterruptsDisabled = true;
             SP -= 2;
             Memory[SP + 1] = (byte)((PC & 0xFF00) >> 8);
             Memory[SP] = (byte)(PC & 0xFF);

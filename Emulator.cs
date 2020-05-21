@@ -1,6 +1,8 @@
 ﻿using Chroma;
+using Chroma.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Numerics;
 using System.Text;
 
 namespace Chroma_Invaders
@@ -30,6 +32,23 @@ namespace Chroma_Invaders
             // Performance Calculation
             double percent = (int)((CYCLES_PER_UPDATE * 0.5 / (Machine.EndTime - Machine.StartTime)) * 10000) / 100.0;
             Window.Properties.Title = "Chroma Invaders (" + Window.FPS + " FPS) [" + percent + "%]";
+        }
+
+        protected override void Draw(RenderContext context)
+        {
+            for(int col = 0; col < SCREEN_WIDTH; col++)
+            {
+                for(int row = 0; row < SCREEN_HEIGHT / 8; row++)
+                {
+                    for(byte bitmap = 128, bit = 0; bitmap > 0; bitmap >>= 1, bit++)
+                    {
+                        int x = col * SCALE_FACTOR;
+                        int y = (SCREEN_HEIGHT - (8 * row + bit)) * SCALE_FACTOR - SCALE_FACTOR;
+                        if ((Machine.Memory[0x2400 + col * 0x20 + row] & bitmap) != 0)
+                            context.Rectangle(ShapeMode.Fill, new Vector2(x, y), SCALE_FACTOR, SCALE_FACTOR, Color.White);
+                    }
+                }
+            }
         }
     }
 }

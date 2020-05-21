@@ -6,6 +6,7 @@
 
         public HLMoveOperation(Machine parent, byte opcode) : base(parent) {
             store = (opcode & 0b1000) == 0;
+            Length = 3;
         }
 
         public override void Execute()

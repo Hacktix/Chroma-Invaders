@@ -913,7 +913,7 @@ namespace Chroma_Invaders.Testing
             else LogResult("Jump If Parity Odd - Condition Met", true);
             #endregion
 
-            #region "Jump Operations"
+            #region "Call Operations"
             testMachine.PC = 0x0150;
             testMachine.SP = 0x102;
             testMachine.Memory[testMachine.PC + 1] = 0x34;
@@ -921,7 +921,7 @@ namespace Chroma_Invaders.Testing
             testMachine.Registers[Register.F] = 2;
             Opcode call = new CallOperation(testMachine, 0xCD);
             call.Execute();
-            testMachine.PC += (ushort)jmp.Length;
+            testMachine.PC += (ushort)call.Length;
             if (testMachine.PC != 0x1234 || testMachine.Memory[0x100] != 0x50 || testMachine.Memory[0x101] != 0x01) LogResult("Unconditional Call", false);
             else LogResult("Unconditional Call", true);
 
@@ -932,7 +932,7 @@ namespace Chroma_Invaders.Testing
             testMachine.Registers[Register.F] = 2;
             call = new CallOperation(testMachine, 0xDC);
             call.Execute();
-            testMachine.PC += (ushort)jmp.Length;
+            testMachine.PC += (ushort)call.Length;
             if (testMachine.PC != 0x153) LogResult("Call If Carry - Condition Not Met", false);
             else LogResult("Call If Carry - Condition Not Met", true);
 
@@ -943,7 +943,7 @@ namespace Chroma_Invaders.Testing
             testMachine.Registers[Register.F] = 3;
             call = new CallOperation(testMachine, 0xDC);
             call.Execute();
-            testMachine.PC += (ushort)jmp.Length;
+            testMachine.PC += (ushort)call.Length;
             if (testMachine.PC != 0x1234 || testMachine.Memory[0x100] != 0x50 || testMachine.Memory[0x101] != 0x01) LogResult("Call If Carry - Condition Met", false);
             else LogResult("Call If Carry - Condition Met", true);
 
@@ -954,7 +954,7 @@ namespace Chroma_Invaders.Testing
             testMachine.Registers[Register.F] = 3;
             call = new CallOperation(testMachine, 0xD4);
             call.Execute();
-            testMachine.PC += (ushort)jmp.Length;
+            testMachine.PC += (ushort)call.Length;
             if (testMachine.PC != 0x153) LogResult("Call If No Carry - Condition Not Met", false);
             else LogResult("Call If No Carry - Condition Not Met", true);
 
@@ -965,7 +965,7 @@ namespace Chroma_Invaders.Testing
             testMachine.Registers[Register.F] = 2;
             call = new CallOperation(testMachine, 0xD4);
             call.Execute();
-            testMachine.PC += (ushort)jmp.Length;
+            testMachine.PC += (ushort)call.Length;
             if (testMachine.PC != 0x1234 || testMachine.Memory[0x100] != 0x50 || testMachine.Memory[0x101] != 0x01) LogResult("Call If No Carry - Condition Met", false);
             else LogResult("Call If No Carry - Condition Met", true);
 
@@ -976,7 +976,7 @@ namespace Chroma_Invaders.Testing
             testMachine.Registers[Register.F] = 2;
             call = new CallOperation(testMachine, 0xCC);
             call.Execute();
-            testMachine.PC += (ushort)jmp.Length;
+            testMachine.PC += (ushort)call.Length;
             if (testMachine.PC != 0x153) LogResult("Call If Zero - Condition Not Met", false);
             else LogResult("Call If Zero - Condition Not Met", true);
 
@@ -987,7 +987,7 @@ namespace Chroma_Invaders.Testing
             testMachine.Registers[Register.F] = 0b01000010;
             call = new CallOperation(testMachine, 0xCC);
             call.Execute();
-            testMachine.PC += (ushort)jmp.Length;
+            testMachine.PC += (ushort)call.Length;
             if (testMachine.PC != 0x1234 || testMachine.Memory[0x100] != 0x50 || testMachine.Memory[0x101] != 0x01) LogResult("Call If Zero - Condition Met", false);
             else LogResult("Call If Zero - Condition Met", true);
 
@@ -998,7 +998,7 @@ namespace Chroma_Invaders.Testing
             testMachine.Registers[Register.F] = 0b01000010;
             call = new CallOperation(testMachine, 0xC4);
             call.Execute();
-            testMachine.PC += (ushort)jmp.Length;
+            testMachine.PC += (ushort)call.Length;
             if (testMachine.PC != 0x153) LogResult("Call If No Zero - Condition Not Met", false);
             else LogResult("Call If No Zero - Condition Not Met", true);
 
@@ -1009,7 +1009,7 @@ namespace Chroma_Invaders.Testing
             testMachine.Registers[Register.F] = 2;
             call = new CallOperation(testMachine, 0xC4);
             call.Execute();
-            testMachine.PC += (ushort)jmp.Length;
+            testMachine.PC += (ushort)call.Length;
             if (testMachine.PC != 0x1234 || testMachine.Memory[0x100] != 0x50 || testMachine.Memory[0x101] != 0x01) LogResult("Call If No Zero - Condition Met", false);
             else LogResult("Call If No Zero - Condition Met", true);
 
@@ -1020,7 +1020,7 @@ namespace Chroma_Invaders.Testing
             testMachine.Registers[Register.F] = 2;
             call = new CallOperation(testMachine, 0xFC);
             call.Execute();
-            testMachine.PC += (ushort)jmp.Length;
+            testMachine.PC += (ushort)call.Length;
             if (testMachine.PC != 0x153) LogResult("Call If Minus - Condition Not Met", false);
             else LogResult("Call If Minus - Condition Not Met", true);
 
@@ -1031,7 +1031,7 @@ namespace Chroma_Invaders.Testing
             testMachine.Registers[Register.F] = 0b10000010;
             call = new CallOperation(testMachine, 0xFC);
             call.Execute();
-            testMachine.PC += (ushort)jmp.Length;
+            testMachine.PC += (ushort)call.Length;
             if (testMachine.PC != 0x1234 || testMachine.Memory[0x100] != 0x50 || testMachine.Memory[0x101] != 0x01) LogResult("Call If Minus - Condition Met", false);
             else LogResult("Call If Minus - Condition Met", true);
 
@@ -1042,7 +1042,7 @@ namespace Chroma_Invaders.Testing
             testMachine.Registers[Register.F] = 0b10000010;
             call = new CallOperation(testMachine, 0xF4);
             call.Execute();
-            testMachine.PC += (ushort)jmp.Length;
+            testMachine.PC += (ushort)call.Length;
             if (testMachine.PC != 0x153) LogResult("Call If Positive - Condition Not Met", false);
             else LogResult("Call If Positive - Condition Not Met", true);
 
@@ -1053,7 +1053,7 @@ namespace Chroma_Invaders.Testing
             testMachine.Registers[Register.F] = 2;
             call = new CallOperation(testMachine, 0xF4);
             call.Execute();
-            testMachine.PC += (ushort)jmp.Length;
+            testMachine.PC += (ushort)call.Length;
             if (testMachine.PC != 0x1234 || testMachine.Memory[0x100] != 0x50 || testMachine.Memory[0x101] != 0x01) LogResult("Call If Positive - Condition Met", false);
             else LogResult("Call If Positive - Condition Met", true);
 
@@ -1064,7 +1064,7 @@ namespace Chroma_Invaders.Testing
             testMachine.Registers[Register.F] = 2;
             call = new CallOperation(testMachine, 0xEC);
             call.Execute();
-            testMachine.PC += (ushort)jmp.Length;
+            testMachine.PC += (ushort)call.Length;
             if (testMachine.PC != 0x153) LogResult("Call If Parity Even - Condition Not Met", false);
             else LogResult("Call If Parity Even - Condition Not Met", true);
 
@@ -1075,7 +1075,7 @@ namespace Chroma_Invaders.Testing
             testMachine.Registers[Register.F] = 0b110;
             call = new CallOperation(testMachine, 0xEC);
             call.Execute();
-            testMachine.PC += (ushort)jmp.Length;
+            testMachine.PC += (ushort)call.Length;
             if (testMachine.PC != 0x1234 || testMachine.Memory[0x100] != 0x50 || testMachine.Memory[0x101] != 0x01) LogResult("Call If Parity Even - Condition Met", false);
             else LogResult("Call If Parity Even - Condition Met", true);
 
@@ -1086,7 +1086,7 @@ namespace Chroma_Invaders.Testing
             testMachine.Registers[Register.F] = 0b110;
             call = new CallOperation(testMachine, 0xE4);
             call.Execute();
-            testMachine.PC += (ushort)jmp.Length;
+            testMachine.PC += (ushort)call.Length;
             if (testMachine.PC != 0x153) LogResult("Call If Parity Odd - Condition Not Met", false);
             else LogResult("Call If Parity Odd - Condition Not Met", true);
 
@@ -1097,7 +1097,7 @@ namespace Chroma_Invaders.Testing
             testMachine.Registers[Register.F] = 2;
             call = new CallOperation(testMachine, 0xE4);
             call.Execute();
-            testMachine.PC += (ushort)jmp.Length;
+            testMachine.PC += (ushort)call.Length;
             if (testMachine.PC != 0x1234 || testMachine.Memory[0x100] != 0x50 || testMachine.Memory[0x101] != 0x01) LogResult("Call If Parity Odd - Condition Met", false);
             else LogResult("Call If Parity Odd - Condition Met", true);
             #endregion

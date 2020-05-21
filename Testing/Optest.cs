@@ -1291,6 +1291,17 @@ namespace Chroma_Invaders.Testing
             else LogResult("Return If Parity Odd - Condition Met", true);
             #endregion
 
+            #region "Restart Operation"
+            testMachine.PC = 0x0150;
+            testMachine.SP = 0x102;
+            testMachine.Registers[Register.F] = 2;
+            Opcode rst = new RestartOperation(testMachine, 0xC7);
+            rst.Execute();
+            testMachine.PC += (ushort)rst.Length;
+            if (testMachine.PC != 0 || testMachine.Memory[0x100] != 0x50 || testMachine.Memory[0x101] != 0x01) LogResult("Reset", false);
+            else LogResult("Reset", true);
+            #endregion
+
             LogTotal();
         }
 

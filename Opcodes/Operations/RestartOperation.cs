@@ -14,7 +14,7 @@
             parent.SP -= 2;
             parent.Memory[parent.SP + 1] = (byte)((parent.PC & 0xFF00) >> 8);
             parent.Memory[parent.SP] = (byte)(parent.PC & 0xFF);
-            parent.PC = memaddr;
+            parent.PC = (ushort)(memaddr - 1);
         }
     }
 }

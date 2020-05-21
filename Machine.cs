@@ -12,7 +12,7 @@ namespace Chroma_Invaders
         public long StartTime = 0;
         public long EndTime = 0;
 
-        public byte[] Memory = new byte[0x4000];
+        public Memory Memory = new Memory();
 
         public Dictionary<Register, byte> Registers = new Dictionary<Register, byte>()
         { { Register.A, 0 }, { Register.F, 2 }, { Register.B, 0 }, { Register.C, 0 }, { Register.D, 0 }, { Register.E, 0 }, { Register.H, 0 }, { Register.L, 0 }, };
@@ -21,9 +21,11 @@ namespace Chroma_Invaders
         public bool Halted = false;
 
         public ushort PC = 0;
-        public ushort SP = 0;
+        public ushort SP = 0x2400;
 
         private int CycleCooldown = 0;
+
+        private long LastVBLANK = 0;
 
         public Machine() { }
 
@@ -33,6 +35,7 @@ namespace Chroma_Invaders
             for (int i = 0; i < roms.Length; i++)
                 for (int j = 0; j < roms[i].Length; j++, loadPointer++)
                     Memory[loadPointer] = roms[i][j];
+            LastVBLANK = DateTime.Now.Ticks;
         }
 
         public void ExecuteCycles(int cycleLimit)
@@ -46,6 +49,14 @@ namespace Chroma_Invaders
                     CycleCooldown--;
                     continue;
                 }
+
+                if(!InterruptsDisabled && (DateTime.Now.Ticks - LastVBLANK >= (1.0/60.0) * TimeSpan.TicksPerSecond))
+                {
+                    LastVBLANK = DateTime.Now.Ticks;
+                    GenerateInterrupt(2);
+                    continue;
+                }
+
                 Opcode opcode = Decoder.DecodeOpcode(this, Memory[PC]);
                 opcode.Execute();
                 PC += (ushort)opcode.Length;
@@ -55,15 +66,25 @@ namespace Chroma_Invaders
             EndTime = DateTime.Now.Ticks;
         }
 
+        public void GenerateInterrupt(int number)
+        {
+            SP -= 2;
+            Memory[SP + 1] = (byte)((PC & 0xFF00) >> 8);
+            Memory[SP] = (byte)(PC & 0xFF);
+            PC = (ushort)(8 * number);
+        }
+
         public byte ReadFromInput(byte inputNo)
         {
             // TODO: Emulate input devices
+            Console.WriteLine("READING FROM " + inputNo);
             return 0;
         }
 
         public void WriteToOutput(byte outputNo, byte outval)
         {
             // TODO: Emulate output devices
+            Console.WriteLine("WRITING TO " + outputNo);
         }
 
         public void WriteRegister16(OperationTarget16 regpair, ushort value)

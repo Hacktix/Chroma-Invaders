@@ -44,9 +44,9 @@ namespace Chroma_Invaders
         {
             for(int col = 0; col < SCREEN_WIDTH; col++)
             {
-                for(int row = 0; row < SCREEN_HEIGHT / 8; row++)
+                for(int row = SCREEN_HEIGHT / 8; row >= 0; row--)
                 {
-                    for(byte bitmap = 128, bit = 0; bitmap > 0; bitmap >>= 1, bit++)
+                    for(byte bitmap = 1, bit = 0; bitmap > 0; bitmap <<= 1, bit++)
                     {
                         int x = col * SCALE_FACTOR;
                         int y = (SCREEN_HEIGHT - (8 * row + bit)) * SCALE_FACTOR - SCALE_FACTOR;

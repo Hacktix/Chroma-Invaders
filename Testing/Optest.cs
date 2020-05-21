@@ -1302,6 +1302,13 @@ namespace Chroma_Invaders.Testing
             else LogResult("Reset", true);
             #endregion
 
+            #region "CMA Operation"
+            testMachine.Registers[Register.A] = 1;
+            new ComplementAccumulatorOperation(testMachine).Execute();
+            if (testMachine.Registers[Register.A] != 254) LogResult("Complement Accumulator", false);
+            else LogResult("Complement Accumulator", true);
+            #endregion
+
             LogTotal();
         }
 

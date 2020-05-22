@@ -1,4 +1,6 @@
-﻿namespace Chroma_Invaders.Opcodes
+﻿using System;
+
+namespace Chroma_Invaders.Opcodes
 {
     public class RotateOperation : Opcode // RLC, RAL, RRC, RAR
     {
@@ -7,7 +9,7 @@
 
         public RotateOperation(Machine parent, byte opcode) : base(parent) {
             left = (opcode & 0b1000) == 0;
-            useCarry = (opcode & 0b10000) > 0;
+            useCarry = (opcode & 0xF0) > 0;
             Cycles = 4;
         }
 
@@ -17,7 +19,7 @@
             {
                 if(useCarry)
                 {
-                    byte carryAdd = (byte)(parent.Registers[Register.F] & 1);
+                    byte carryAdd = (byte)((parent.Registers[Register.F] & 1) << 7);
                     parent.SetFlag(Flag.Carry, (parent.Registers[Register.A] & 128) > 0);
                     parent.Registers[Register.A] = (byte)((parent.Registers[Register.A] << 1) + carryAdd);
                 } else {
@@ -34,7 +36,7 @@
                 }
                 else
                 {
-                    byte rotateAdd = (byte)(parent.Registers[Register.A] & 1);
+                    byte rotateAdd = (byte)((parent.Registers[Register.A] & 1) << 7);
                     parent.SetFlag(Flag.Carry, (parent.Registers[Register.A] & 1) > 0);
                     parent.Registers[Register.A] = (byte)((parent.Registers[Register.A] >> 1) + rotateAdd);
                 }

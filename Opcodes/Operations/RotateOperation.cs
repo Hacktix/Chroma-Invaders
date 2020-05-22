@@ -13,11 +13,32 @@
 
         public override void Execute()
         {
-            byte iv = parent.Registers[Register.A];
-            if (left) parent.Registers[Register.A] <<= 1;
-            else parent.Registers[Register.A] >>= 1;
-            if (useCarry) parent.Registers[Register.A] += (byte)((parent.Registers[Register.F] & 1) << (left ? 0 : 7));
-            parent.SetFlag(Flag.Carry, left ? (iv & 128) > 0 : (iv & 1) > 0);
+            if(left)
+            {
+                if(useCarry)
+                {
+                    byte carryAdd = (byte)(parent.Registers[Register.F] & 1);
+                    parent.SetFlag(Flag.Carry, (parent.Registers[Register.A] & 128) > 0);
+                    parent.Registers[Register.A] = (byte)((parent.Registers[Register.A] << 1) + carryAdd);
+                } else {
+                    byte rotateAdd = (byte)((parent.Registers[Register.A] & 128) >> 7);
+                    parent.SetFlag(Flag.Carry, (parent.Registers[Register.A] & 128) > 0);
+                    parent.Registers[Register.A] = (byte)((parent.Registers[Register.A] << 1) + rotateAdd);
+                }
+            } else {
+                if (useCarry)
+                {
+                    byte carryAdd = (byte)((parent.Registers[Register.F] & 1) << 7);
+                    parent.SetFlag(Flag.Carry, (parent.Registers[Register.A] & 1) > 0);
+                    parent.Registers[Register.A] = (byte)((parent.Registers[Register.A] >> 1) + carryAdd);
+                }
+                else
+                {
+                    byte rotateAdd = (byte)(parent.Registers[Register.A] & 1);
+                    parent.SetFlag(Flag.Carry, (parent.Registers[Register.A] & 1) > 0);
+                    parent.Registers[Register.A] = (byte)((parent.Registers[Register.A] >> 1) + rotateAdd);
+                }
+            }
         }
     }
 }

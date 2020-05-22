@@ -1,6 +1,7 @@
 ﻿using Chroma_Invaders.Opcodes;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading;
 
 namespace Chroma_Invaders
@@ -21,7 +22,7 @@ namespace Chroma_Invaders
         public bool InterruptsDisabled = true;
         public bool Halted = false;
 
-        public ushort PC = 0x100;
+        public ushort PC = 0x0;
         public ushort SP = 0;
 
         public bool VBlank = false;
@@ -33,19 +34,24 @@ namespace Chroma_Invaders
         private int CycleCooldown = 0;
         private ShiftHardware Shift = new ShiftHardware();
 
+        public long CycleCount = 0;
+
         private double Timer = 0.0;
 
         public Machine() { }
 
         public Machine(byte[][] roms)
         {
-            ushort loadPointer = 0x100;
+            if (File.Exists("log.txt")) File.Delete("log.txt");
+            ushort loadPointer = 0x0;
             for (int i = 0; i < roms.Length; i++)
                 for (int j = 0; j < roms[i].Length; j++, loadPointer++)
                     Memory[loadPointer] = roms[i][j];
+            /*Memory[0x00] = 0xD3;
+            Memory[0x01] = 0x00;
             Memory[0x05] = 0xDB;
             Memory[0x06] = 0x00;
-            Memory[0x07] = 0xC9;
+            Memory[0x07] = 0xC9;*/
         }
 
         public void ExecuteCycles(int cycleLimit)
@@ -58,17 +64,20 @@ namespace Chroma_Invaders
             while(cycleCounter-- > 0)
             {
                 Timer += 1.0 / 2000000.0;
-                if (Timer > (1.0 / 120.0))
+                if (Timer > (1.0 / 480.0))
                 {
-                    Timer -= (1.0 / 120.0);
+                    Timer -= (1.0 / 480.0);
                     VBlank = true;
                 }
 
                 if (CycleCooldown > 0)
                 {
                     CycleCooldown--;
+                    CycleCount++;
                     continue;
-                }                
+                }
+
+                // DebugLog();
 
                 if(!InterruptsDisabled && VBlank)
                 {
@@ -76,7 +85,7 @@ namespace Chroma_Invaders
                     GenerateInterrupt(2);
                     continue;
                 }
-                
+
 
                 if (PC == BreakpointAddr) HitBreakpoint = true;
 
@@ -100,11 +109,11 @@ namespace Chroma_Invaders
                 opcode.Execute();
                 PC += (ushort)opcode.Length;
                 CycleCooldown = opcode.Cycles - 1;
+                CycleCount++;
 
                 if (HitBreakpoint)
                 {
                     NextOp = false;
-                    DebugLog();
                     break;
                 }
             }
@@ -113,6 +122,19 @@ namespace Chroma_Invaders
 
         public void DebugLog()
         {
+            /*
+            File.AppendAllText("log.txt", "PC: " + PC.ToString("X4") +
+                ", AF: " + ReadRegister16(OperationTarget16.PSW).ToString("X4") +
+                ", BC: " + ReadRegister16(OperationTarget16.B).ToString("X4") +
+                ", DE: " + ReadRegister16(OperationTarget16.D).ToString("X4") +
+                ", HL: " + ReadRegister16(OperationTarget16.H).ToString("X4") +
+                ", SP: " + SP.ToString("X4") +
+                ", CYC: " + CycleCount + "\t(" +
+                Memory[PC].ToString("X2") + " " +
+                Memory[PC + 1].ToString("X2") + " " +
+                Memory[PC + 2].ToString("X2") + " " +
+                Memory[PC + 3].ToString("X2") + ")\n");
+            /*
             Console.WriteLine("==================== DEBUG LOG =====================");
             Console.WriteLine("A  : " + Registers[Register.A].ToString("X2"));
             Console.WriteLine("F  : " + Convert.ToString(Registers[Register.F], 2));
@@ -124,6 +146,7 @@ namespace Chroma_Invaders
             Console.WriteLine("L  : " + Registers[Register.L].ToString("X2"));
             Console.WriteLine("SP : " + SP.ToString("X4"));
             Console.WriteLine("PC : " + PC.ToString("X4"));
+            */
         }
 
         public void GenerateInterrupt(int number)
@@ -135,15 +158,12 @@ namespace Chroma_Invaders
                 Console.WriteLine("====================================================");
             }
             InterruptsDisabled = true;
-            SP -= 2;
-            Memory[SP + 1] = (byte)((PC & 0xFF00) >> 8);
-            Memory[SP] = (byte)(PC & 0xFF);
-            PC = (ushort)(8 * number);
+            new RestartOperation(this, 0xD7).Execute();
         }
 
         public byte ReadFromInput(byte inputNo)
         {
-            if (Registers[Register.C] == 2) Console.Write(Convert.ToChar(Registers[Register.E]));
+            // if (Registers[Register.C] == 2) Console.Write(Convert.ToChar(Registers[Register.E]));
 
             // TODO: Emulate input devices
             switch(inputNo)
@@ -155,6 +175,8 @@ namespace Chroma_Invaders
 
         public void WriteToOutput(byte outputNo, byte outval)
         {
+            // Environment.Exit(0);
+
             // TODO: Emulate output devices
             switch(outputNo)
             {

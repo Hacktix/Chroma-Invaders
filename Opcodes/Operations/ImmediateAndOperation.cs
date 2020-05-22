@@ -11,6 +11,7 @@ namespace Chroma_Invaders.Opcodes
 
         public override void Execute()
         {
+            parent.SetFlag(Flag.AuxiliaryCarry, ((parent.Registers[Register.A] | parent.Memory[parent.PC + 1]) & 8) != 0);
             parent.Registers[Register.A] &= parent.Memory[parent.PC + 1];
 
             // Set Flags

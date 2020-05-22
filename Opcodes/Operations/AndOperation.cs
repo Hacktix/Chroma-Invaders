@@ -27,6 +27,7 @@
 
         public override void Execute()
         {
+            parent.SetFlag(Flag.AuxiliaryCarry, ((parent.Registers[Register.A] | (source == OperationTarget8.M ? parent.Memory[(parent.Registers[Register.H] << 8) | (parent.Registers[Register.L])] : parent.Registers[(Register)source])) & 8) != 0);
             parent.Registers[Register.A] &= source == OperationTarget8.M ? parent.Memory[(parent.Registers[Register.H] << 8) | (parent.Registers[Register.L])] : parent.Registers[(Register)source];
 
             // Set Flags

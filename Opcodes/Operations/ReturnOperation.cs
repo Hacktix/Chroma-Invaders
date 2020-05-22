@@ -1,4 +1,6 @@
-﻿namespace Chroma_Invaders.Opcodes
+﻿using System;
+
+namespace Chroma_Invaders.Opcodes
 {
     public class ReturnOperation : Opcode // RET, RC, RNC, RZ, RNZ, RM, RP, RPE, RPO
     {
@@ -38,7 +40,7 @@
                     return;
                 }
             }
-            parent.PC = (ushort)(parent.Memory[parent.SP] + (parent.Memory[parent.SP + 1] << 8) + 2);
+            parent.PC = (ushort)(parent.Memory[parent.SP] + (parent.Memory[parent.SP + 1] << 8) - 1);
             parent.SP += 2;
         }
     }

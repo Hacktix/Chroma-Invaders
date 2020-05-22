@@ -6,17 +6,17 @@ namespace Chroma_Invaders
 {
     public class Memory
     {
-        private byte[] memory = new byte[0x4000];
+        private byte[] memory = new byte[0xFFFF];
         public byte this[int i]
         {
             get
             {
-                i = i >= 0x4000 ? 0x2000 + (i % 0x400) : i;
+                i = i >= memory.Length ? 0x2000 + (i % 0x400) : i;
                 return memory[i];
             }
             set
             {
-                i = i >= 0x4000 ? 0x2000 + (i % 0x400) : i;
+                i = i >= memory.Length ? 0x2000 + (i % 0x400) : i;
                 memory[i] = value;
             }
         }

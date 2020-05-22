@@ -5,8 +5,8 @@ namespace Chroma_Invaders
 {
     class Program
     {
-        // private static readonly string[] ROM_NAMES = new string[] { "roms/invaders.h", "roms/invaders.g", "roms/invaders.f", "roms/invaders.e" };
-        private static readonly string[] ROM_NAMES = new string[] { "roms/TST8080.COM" };
+        private static readonly string[] ROM_NAMES = new string[] { "roms/invaders.h", "roms/invaders.g", "roms/invaders.f", "roms/invaders.e" };
+        // private static readonly string[] ROM_NAMES = new string[] { "roms/TST8080.COM" };
 
         static void Main(string[] args)
         {

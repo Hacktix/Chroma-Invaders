@@ -40,8 +40,9 @@
                 }
             }
             parent.SP -= 2;
-            parent.Memory[parent.SP + 1] = (byte)((parent.PC & 0xFF00) >> 8);
-            parent.Memory[parent.SP] = (byte)(parent.PC & 0xFF);
+            ushort stackValue = (ushort)(parent.PC + 3);
+            parent.Memory[parent.SP + 1] = (byte)((stackValue & 0xFF00) >> 8);
+            parent.Memory[parent.SP] = (byte)(stackValue & 0xFF);
             parent.PC = (ushort)(parent.Memory[parent.PC + 1] + (parent.Memory[parent.PC + 2] << 8) - 3);
         }
     }

@@ -19,6 +19,8 @@ namespace Chroma_Invaders
         public Dictionary<Register, byte> Registers = new Dictionary<Register, byte>()
         { { Register.A, 0 }, { Register.F, 2 }, { Register.B, 0 }, { Register.C, 0 }, { Register.D, 0 }, { Register.E, 0 }, { Register.H, 0 }, { Register.L, 0 }, };
 
+        private Dictionary<ushort, Opcode> InstructionCache = new Dictionary<ushort, Opcode>();
+
         public bool InterruptsDisabled = true;
         public bool Halted = false;
 
@@ -105,7 +107,14 @@ namespace Chroma_Invaders
                     Console.WriteLine("# EXECUTING 0x" + Memory[PC].ToString("X2") + " FROM 0x" + PC.ToString("X4"));
                 }
 
-                Opcode opcode = Decoder.DecodeOpcode(this, Memory[PC]);
+                Opcode opcode;
+                if (!InstructionCache.ContainsKey(PC))
+                {
+                    opcode = Decoder.DecodeOpcode(this, Memory[PC]);
+                    InstructionCache.Add(PC, opcode);
+                }
+                else opcode = InstructionCache[PC];
+                    
 
                 if (HitBreakpoint)
                 {

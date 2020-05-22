@@ -20,9 +20,17 @@
             // Set Flags
             parent.SetFlag(Flag.Carry, iv + addv > 0xFF);
             parent.SetFlag(Flag.AuxiliaryCarry, ((iv & 0xF) + (addv & 0xF)) > 0xF);
-            parent.SetFlag(Flag.Parity, ((byte)(iv + addv)) % 2 == 0);
+            parent.SetFlag(Flag.Parity, Parity((byte)(iv + addv)));
             parent.SetFlag(Flag.Zero, ((byte)(iv + addv)) == 0);
             parent.SetFlag(Flag.Sign, (((byte)(iv + addv)) & 128) > 0);
+        }
+
+        private bool Parity(byte value)
+        {
+            int cnt = 0;
+            for (byte bitmap = 1; bitmap != 0; bitmap <<= 1)
+                cnt += (value & bitmap) > 0 ? 1 : 0;
+            return (cnt % 2) == 0;
         }
     }
 }

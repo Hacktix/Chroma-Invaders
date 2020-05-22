@@ -21,14 +21,14 @@ namespace Chroma_Invaders
         public bool InterruptsDisabled = true;
         public bool Halted = false;
 
-        public ushort PC = 0;
+        public ushort PC = 0x100;
         public ushort SP = 0;
 
         public bool VBlank = false;
 
         public bool NextOp = true;
         public bool HitBreakpoint = false;
-        public ushort BreakpointAddr = 0x182B;
+        public ushort BreakpointAddr = 0xFFFF;
 
         private int CycleCooldown = 0;
         private ShiftHardware Shift = new ShiftHardware();
@@ -39,10 +39,13 @@ namespace Chroma_Invaders
 
         public Machine(byte[][] roms)
         {
-            ushort loadPointer = 0;
+            ushort loadPointer = 0x100;
             for (int i = 0; i < roms.Length; i++)
                 for (int j = 0; j < roms[i].Length; j++, loadPointer++)
                     Memory[loadPointer] = roms[i][j];
+            Memory[0x05] = 0xDB;
+            Memory[0x06] = 0x00;
+            Memory[0x07] = 0xC9;
         }
 
         public void ExecuteCycles(int cycleLimit)
@@ -140,12 +143,14 @@ namespace Chroma_Invaders
 
         public byte ReadFromInput(byte inputNo)
         {
+            if (Registers[Register.C] == 2) Console.Write(Convert.ToChar(Registers[Register.E]));
+
             // TODO: Emulate input devices
             switch(inputNo)
             {
                 case 3: return Shift.ReadResult();
             }
-            return 0;
+            return Registers[Register.A];
         }
 
         public void WriteToOutput(byte outputNo, byte outval)

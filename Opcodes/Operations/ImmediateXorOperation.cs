@@ -14,9 +14,17 @@
             // Set Flags
             parent.SetFlag(Flag.Carry, false);
             parent.SetFlag(Flag.AuxiliaryCarry, false);
-            parent.SetFlag(Flag.Parity, parent.Registers[Register.A] % 2 == 0);
+            parent.SetFlag(Flag.Parity, Parity(parent.Registers[Register.A]));
             parent.SetFlag(Flag.Zero, parent.Registers[Register.A] == 0);
             parent.SetFlag(Flag.Sign, (parent.Registers[Register.A] & 128) > 0);
+        }
+
+        private bool Parity(byte value)
+        {
+            int cnt = 0;
+            for (byte bitmap = 1; bitmap != 0; bitmap <<= 1)
+                cnt += (value & bitmap) > 0 ? 1 : 0;
+            return (cnt % 2) == 0;
         }
     }
 }

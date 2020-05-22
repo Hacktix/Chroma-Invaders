@@ -22,9 +22,17 @@ namespace Chroma_Invaders.Opcodes
             // Set Flags
             parent.SetFlag(Flag.Carry, subBorrow ? (iv + (byte)(~subv)) < 256 : iv - subv < 0);
             parent.SetFlag(Flag.AuxiliaryCarry, ((iv & 0xF) - (subv & 0xF)) < 0);
-            parent.SetFlag(Flag.Parity, ((byte)(iv - subv)) % 2 == 0);
+            parent.SetFlag(Flag.Parity, Parity((byte)(iv - subv)));
             parent.SetFlag(Flag.Zero, ((byte)(iv - subv)) == 0);
             parent.SetFlag(Flag.Sign, (((byte)(iv - subv)) & 128) > 0);
+        }
+
+        private bool Parity(byte value)
+        {
+            int cnt = 0;
+            for (byte bitmap = 1; bitmap != 0; bitmap <<= 1)
+                cnt += (value & bitmap) > 0 ? 1 : 0;
+            return (cnt % 2) == 0;
         }
     }
 }

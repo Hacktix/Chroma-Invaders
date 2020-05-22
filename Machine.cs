@@ -31,6 +31,8 @@ namespace Chroma_Invaders
         public bool HitBreakpoint = false;
         public ushort BreakpointAddr = 0xFFFF;
 
+        public byte InputPort1 = 0b00001000;
+
         private int CycleCooldown = 0;
         private ShiftHardware Shift = new ShiftHardware();
 
@@ -168,6 +170,8 @@ namespace Chroma_Invaders
             // TODO: Emulate input devices
             switch(inputNo)
             {
+                case 1: return InputPort1;
+                case 2: return 0;
                 case 3: return Shift.ReadResult();
             }
             return Registers[Register.A];

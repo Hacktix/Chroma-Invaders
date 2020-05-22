@@ -37,7 +37,46 @@ namespace Chroma_Invaders
 
         protected override void KeyPressed(KeyEventArgs e)
         {
-            Machine.NextOp = true;
+            switch(e.KeyCode)
+            {
+                case Chroma.Input.KeyCode.Return:
+                    Machine.InputPort1 |= 0b100;
+                    break;
+                case Chroma.Input.KeyCode.RightShift:
+                    Machine.InputPort1 |= 0b1;
+                    break;
+                case Chroma.Input.KeyCode.Space:
+                    Machine.InputPort1 |= 0b10000;
+                    break;
+                case Chroma.Input.KeyCode.Left:
+                    Machine.InputPort1 |= 0b100000;
+                    break;
+                case Chroma.Input.KeyCode.Right:
+                    Machine.InputPort1 |= 0b1000000;
+                    break;
+            }
+        }
+
+        protected override void KeyReleased(KeyEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Chroma.Input.KeyCode.Return:
+                    Machine.InputPort1 &= 0b11111011;
+                    break;
+                case Chroma.Input.KeyCode.RightShift:
+                    Machine.InputPort1 &= 0b11111110;
+                    break;
+                case Chroma.Input.KeyCode.Space:
+                    Machine.InputPort1 &= 0b11101111;
+                    break;
+                case Chroma.Input.KeyCode.Left:
+                    Machine.InputPort1 &= 0b11011111;
+                    break;
+                case Chroma.Input.KeyCode.Right:
+                    Machine.InputPort1 &= 0b10111111;
+                    break;
+            }
         }
 
         protected override void Draw(RenderContext context)

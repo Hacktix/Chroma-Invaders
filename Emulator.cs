@@ -14,7 +14,7 @@ namespace Chroma_Invaders
         public static readonly int SCREEN_HEIGHT = 256;
         public static readonly int SCALE_FACTOR = 3;
 
-        public static readonly int CYCLES_PER_UPDATE = 4000;
+        public static readonly int CYCLES_PER_UPDATE = 5000;
         public static readonly int UPDATE_FREQUENCY = 1000 / (2000000 / CYCLES_PER_UPDATE);
 
         private Machine Machine;
@@ -44,7 +44,7 @@ namespace Chroma_Invaders
                     Machine.InputPort1 |= 0b100;
                     break;
                 case Chroma.Input.KeyCode.RightShift:
-                    Machine.InputPort1 |= 0b1;
+                    Machine.InputPort1 &= 0b11111110;
                     break;
                 case Chroma.Input.KeyCode.Space:
                     Machine.InputPort1 |= 0b10000;
@@ -69,7 +69,7 @@ namespace Chroma_Invaders
                     Machine.InputPort1 &= 0b11111011;
                     break;
                 case Chroma.Input.KeyCode.RightShift:
-                    Machine.InputPort1 &= 0b11111110;
+                    Machine.InputPort1 |= 0b1;
                     break;
                 case Chroma.Input.KeyCode.Space:
                     Machine.InputPort1 &= 0b11101111;

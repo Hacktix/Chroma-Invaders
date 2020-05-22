@@ -31,7 +31,7 @@ namespace Chroma_Invaders
         public bool HitBreakpoint = false;
         public ushort BreakpointAddr = 0xFFFF;
 
-        public byte InputPort1 = 0b00001000;
+        public byte InputPort1 = 0b00001001;
 
         private byte LastInterrupt = 0xCF;
 
@@ -73,11 +73,11 @@ namespace Chroma_Invaders
 
             while(cycleCounter-- > 0)
             {
-                Timer += 1.0 / 2000000.0;
-                if (Timer > (1.0 / 980.0))
+                Timer += 1.0 / 200000.0;
+                if (Timer > (1.0 / 60.0))
                 {
-                    Timer -= (1.0 / 980.0);
-                    VBlank = true;
+                    Timer -= (1.0 / 60.0);
+                    if(!InterruptsDisabled) VBlank = true;
                 }
 
                 if (CycleCooldown > 0)

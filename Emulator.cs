@@ -37,6 +37,7 @@ namespace Chroma_Invaders
 
         protected override void KeyPressed(KeyEventArgs e)
         {
+            if (Machine.HitBreakpoint) Machine.NextOp = true;
             switch(e.KeyCode)
             {
                 case Chroma.Input.KeyCode.Return:
@@ -53,6 +54,9 @@ namespace Chroma_Invaders
                     break;
                 case Chroma.Input.KeyCode.Right:
                     Machine.InputPort1 |= 0b1000000;
+                    break;
+                case Chroma.Input.KeyCode.F8:
+                    Machine.HitBreakpoint = false;
                     break;
             }
         }

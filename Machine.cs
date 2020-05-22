@@ -33,6 +33,8 @@ namespace Chroma_Invaders
 
         public byte InputPort1 = 0b00001000;
 
+        private byte LastInterrupt = 0xCF;
+
         private int CycleCooldown = 0;
         private ShiftHardware Shift = new ShiftHardware();
 
@@ -40,11 +42,17 @@ namespace Chroma_Invaders
 
         private double Timer = 0.0;
 
+        private FileStream LogFile;
+        private StreamWriter LogWriter;
+
         public Machine() { }
 
         public Machine(byte[][] roms)
         {
-            if (File.Exists("log.txt")) File.Delete("log.txt");
+            //if (File.Exists("log.txt")) File.Delete("log.txt");
+            //LogFile = File.OpenWrite("log.txt");
+            //LogWriter = new StreamWriter(LogFile);
+            //LogWriter.AutoFlush = true;
             ushort loadPointer = 0x0;
             for (int i = 0; i < roms.Length; i++)
                 for (int j = 0; j < roms[i].Length; j++, loadPointer++)
@@ -66,9 +74,9 @@ namespace Chroma_Invaders
             while(cycleCounter-- > 0)
             {
                 Timer += 1.0 / 2000000.0;
-                if (Timer > (1.0 / 480.0))
+                if (Timer > (1.0 / 980.0))
                 {
-                    Timer -= (1.0 / 480.0);
+                    Timer -= (1.0 / 980.0);
                     VBlank = true;
                 }
 
@@ -115,6 +123,7 @@ namespace Chroma_Invaders
 
                 if (HitBreakpoint)
                 {
+                    DebugLog();
                     NextOp = false;
                     break;
                 }
@@ -124,8 +133,7 @@ namespace Chroma_Invaders
 
         public void DebugLog()
         {
-            /*
-            File.AppendAllText("log.txt", "PC: " + PC.ToString("X4") +
+            /*LogWriter.Write("PC: " + PC.ToString("X4") +
                 ", AF: " + ReadRegister16(OperationTarget16.PSW).ToString("X4") +
                 ", BC: " + ReadRegister16(OperationTarget16.B).ToString("X4") +
                 ", DE: " + ReadRegister16(OperationTarget16.D).ToString("X4") +
@@ -136,7 +144,7 @@ namespace Chroma_Invaders
                 Memory[PC + 1].ToString("X2") + " " +
                 Memory[PC + 2].ToString("X2") + " " +
                 Memory[PC + 3].ToString("X2") + ")\n");
-            /*
+            */
             Console.WriteLine("==================== DEBUG LOG =====================");
             Console.WriteLine("A  : " + Registers[Register.A].ToString("X2"));
             Console.WriteLine("F  : " + Convert.ToString(Registers[Register.F], 2));
@@ -148,7 +156,6 @@ namespace Chroma_Invaders
             Console.WriteLine("L  : " + Registers[Register.L].ToString("X2"));
             Console.WriteLine("SP : " + SP.ToString("X4"));
             Console.WriteLine("PC : " + PC.ToString("X4"));
-            */
         }
 
         public void GenerateInterrupt(int number)
@@ -160,7 +167,8 @@ namespace Chroma_Invaders
                 Console.WriteLine("====================================================");
             }
             InterruptsDisabled = true;
-            new RestartOperation(this, 0xD7).Execute();
+            LastInterrupt = (byte)(LastInterrupt == 0xCF ? 0xD7 : 0xCF);
+            new RestartOperation(this, LastInterrupt).Execute();
         }
 
         public byte ReadFromInput(byte inputNo)

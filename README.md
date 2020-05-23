@@ -2,10 +2,19 @@
 
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/Hacktix/Chroma-Invaders)
 ![GitHub last commit](https://img.shields.io/github/last-commit/Hacktix/Chroma-Invaders)
-![GitHub Release Date](https://img.shields.io/github/release-date/Hacktix/Chroma-Invaders)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/Hacktix/Chroma-Invaders?label=latest%20release)
+![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/Hacktix/Chroma-Invaders?include_prereleases&label=latest%20release%20%28%2B%20pre-releases%29)
 
 # What is this, exactly?
 Chroma Invaders is an emulator of the classic Space Invaders arcade machine, based on the Chroma Framework. While there are multiple versions of the arcade machine, this is intended the original, using a black-and-white screen and an Intel 8080 processor running at 2MHz.
+
+# Controls
+| **Computer**            | **Space Invaders** |
+|-------------------------|--------------------|
+| Right Shift             | Insert Coin        |
+| Enter                   | Start Game         |
+| Arrow Keys (Left/Right) | Move Left/Right    |
+| Space                   | Shoot              |
 
 # Technical Details
 This project is being developed (more or less) side-by-side with another Space Invaders emulator called [THICCADE - Space Invaders](https://github.com/Hacktix/THICCADE-Space-Invaders), which is written in C++ and attempts to implement JIT-Recompilation. (Yes, I am aware that this isn't necessary for emulating an Intel 8080)

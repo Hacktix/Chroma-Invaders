@@ -6,7 +6,7 @@ namespace Chroma_Invaders
 {
     public class Memory
     {
-        private byte[] memory = new byte[0xFFFF];
+        private byte[] memory = new byte[0x4000];
         public byte this[int i]
         {
             get

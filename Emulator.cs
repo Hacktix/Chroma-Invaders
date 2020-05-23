@@ -79,6 +79,9 @@ namespace Chroma_Invaders
                 case Chroma.Input.KeyCode.C:
                     UseColor = !UseColor;
                     break;
+                case Chroma.Input.KeyCode.F1:
+                    UseShader = !UseShader;
+                    break;
             }
         }
 

@@ -1,5 +1,6 @@
 ﻿using Chroma;
 using Chroma.Graphics;
+using Chroma.Graphics.Accelerated;
 using Chroma.Input.EventArgs;
 using System;
 using System.Collections.Generic;
@@ -23,11 +24,16 @@ namespace Chroma_Invaders
         private bool UseColor = true;
         private List<double> PerformanceBuffer = new List<double>();
 
+        private bool UseShader = false;
+        private PixelShader ArcadeShader;
+        private RenderTarget Frame;
+
         public Emulator(byte[][] roms)
         {
             Machine = new Machine(roms);
-
             Window.GoWindowed((ushort)(SCREEN_WIDTH * SCALE_FACTOR), (ushort)(SCREEN_HEIGHT * SCALE_FACTOR));
+            ArcadeShader = new PixelShader("shader.frag");
+            Frame = new RenderTarget((ushort)(SCREEN_WIDTH * SCALE_FACTOR), (ushort)(SCREEN_HEIGHT * SCALE_FACTOR));
         }
 
         protected override void FixedUpdate(float fixedDelta)
@@ -73,6 +79,9 @@ namespace Chroma_Invaders
                 case Chroma.Input.KeyCode.C:
                     UseColor = !UseColor;
                     break;
+                case Chroma.Input.KeyCode.F1:
+                    UseShader = !UseShader;
+                    break;
             }
         }
 
@@ -100,28 +109,42 @@ namespace Chroma_Invaders
 
         protected override void Draw(RenderContext context)
         {
-            for(int col = 0; col < SCREEN_WIDTH; col++)
+            context.RenderTo(Frame, () =>
             {
-                for(int row = SCREEN_HEIGHT / 8; row >= 0; row--)
+                context.Clear(Color.Black);
+                for (int col = 0; col < SCREEN_WIDTH; col++)
                 {
-                    for(byte bitmap = 1, bit = 0; bitmap > 0; bitmap <<= 1, bit++)
+                    for (int row = SCREEN_HEIGHT / 8; row >= 0; row--)
                     {
-                        int x = col * SCALE_FACTOR;
-                        int y = (SCREEN_HEIGHT - (8 * row + bit)) * SCALE_FACTOR - SCALE_FACTOR;
-                        if ((Machine.Memory[0x2400 + col * 0x20 + row] & bitmap) != 0)
+                        for (byte bitmap = 1, bit = 0; bitmap > 0; bitmap <<= 1, bit++)
                         {
-                            Color pxColor = Color.White;
-                            if(UseColor)
+                            int x = col * SCALE_FACTOR;
+                            int y = (SCREEN_HEIGHT - (8 * row + bit)) * SCALE_FACTOR - SCALE_FACTOR;
+                            if ((Machine.Memory[0x2400 + col * 0x20 + row] & bitmap) != 0)
                             {
-                                if (y / SCALE_FACTOR > 32 && y / SCALE_FACTOR < 49) pxColor = Color.Red;
-                                else if (y / SCALE_FACTOR >= 192 && y / SCALE_FACTOR <= 239) pxColor = Color.LimeGreen;
-                                else if (y / SCALE_FACTOR > 239 && (x / SCALE_FACTOR >= 26 && x / SCALE_FACTOR <= 54)) pxColor = Color.LimeGreen;
+                                Color pxColor = Color.White;
+                                if (UseColor)
+                                {
+                                    if (y / SCALE_FACTOR > 32 && y / SCALE_FACTOR < 49) pxColor = Color.Red;
+                                    else if (y / SCALE_FACTOR >= 192 && y / SCALE_FACTOR <= 239) pxColor = Color.LimeGreen;
+                                    else if (y / SCALE_FACTOR > 239 && (x / SCALE_FACTOR >= 26 && x / SCALE_FACTOR <= 54)) pxColor = Color.LimeGreen;
+                                }
+                                context.Rectangle(ShapeMode.Fill, new Vector2(x, y), SCALE_FACTOR, SCALE_FACTOR, pxColor);
                             }
-                            context.Rectangle(ShapeMode.Fill, new Vector2(x, y), SCALE_FACTOR, SCALE_FACTOR, pxColor);
                         }
                     }
                 }
+            });
+
+            if(UseShader)
+            {
+                ArcadeShader.Activate();
+                ArcadeShader.SetUniform("CRT_CURVE_AMNTx", .2f);
+                ArcadeShader.SetUniform("CRT_CURVE_AMNTy", .2f);
             }
+
+            context.DrawTexture(Frame, Vector2.Zero, Vector2.One, Vector2.Zero, 0f);
+            context.DeactivateShader();
         }
     }
 }

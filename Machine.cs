@@ -37,6 +37,10 @@ namespace Chroma_Invaders
 
         private ShiftHardware Shift = new ShiftHardware();
 
+        public bool HitBreakpoint = false;
+        public bool ContinueExecution = true;
+        private ushort BreakpointAddress = 0xFFFF;
+
         public Machine() { }
 
         public Machine(byte[][] roms)
@@ -55,7 +59,7 @@ namespace Chroma_Invaders
             PerformanceTimer.Restart();
             int cycleCounter = cycleLimit;
 
-            while(cycleCounter-- > 0)
+            while(cycleCounter-- > 0 && ContinueExecution)
             {
                 CycleTimer.Start();
 
@@ -87,6 +91,14 @@ namespace Chroma_Invaders
                     continue;
                 }
 
+                if (PC == BreakpointAddress) HitBreakpoint = true;
+
+                if(HitBreakpoint)
+                {
+                    Console.WriteLine("====================================================");
+                    Console.WriteLine("Executing " + Memory[PC].ToString("X2") + " at " + PC.ToString("X4"));
+                }
+
                 Opcode opcode;
                 if (!InstructionCache.ContainsKey(PC))
                 {
@@ -94,6 +106,12 @@ namespace Chroma_Invaders
                     InstructionCache.Add(PC, opcode);
                 }
                 else opcode = InstructionCache[PC];
+
+                if (HitBreakpoint)
+                {
+                    DebugLog();
+                    ContinueExecution = false;
+                }
 
                 opcode.Execute();
                 PC += (ushort)opcode.Length;
@@ -106,7 +124,7 @@ namespace Chroma_Invaders
 
         private void WaitForCycleFinish(Stopwatch timer)
         {
-            while(timer.ElapsedTicks < (1.0/2000000.0) * TimeSpan.TicksPerSecond) { /* Wait... */ }
+            while(timer.ElapsedTicks < (1.0/20000000.0) * TimeSpan.TicksPerSecond) { /* Wait... */ }
             timer.Reset();
         }
 

@@ -1,6 +1,7 @@
 ﻿using Chroma_Invaders.Opcodes;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Chroma_Invaders
 {
@@ -9,8 +10,9 @@ namespace Chroma_Invaders
 
     public class Machine
     {
-        public long StartTime = 0;
         public long EndTime = 0;
+        private Stopwatch PerformanceTimer;
+        private Stopwatch CycleTimer;
 
         public Memory Memory = new Memory();
 
@@ -30,7 +32,7 @@ namespace Chroma_Invaders
         public byte InputPort1 = 0b00001001;
 
         private int CycleCooldown = 0;
-        private double Timer = 0.0;
+        private long Cycles = 0;
         private byte LastInterrupt = 0xCF;
 
         private ShiftHardware Shift = new ShiftHardware();
@@ -43,31 +45,37 @@ namespace Chroma_Invaders
             for (int i = 0; i < roms.Length; i++)
                 for (int j = 0; j < roms[i].Length; j++, loadPointer++)
                     Memory[loadPointer] = roms[i][j];
+
+            PerformanceTimer = new Stopwatch();
+            CycleTimer = new Stopwatch();
         }
 
         public void ExecuteCycles(int cycleLimit)
         {
-            StartTime = DateTime.Now.Ticks;
+            PerformanceTimer.Restart();
             int cycleCounter = cycleLimit;
 
             while(cycleCounter-- > 0)
             {
-                Timer += 1.0 / 200000.0;
-                if (Timer > (1.0 / 60.0))
+                CycleTimer.Start();
+
+                if (Cycles++ >= 8333)
                 {
-                    Timer -= (1.0 / 60.0);
+                    Cycles -= 8333;
                     if(!InterruptsDisabled) VBlank = true;
                 }
 
                 if (CycleCooldown > 0)
                 {
                     CycleCooldown--;
+                    WaitForCycleFinish(CycleTimer);
                     continue;
                 }
 
                 if(Halted)
                 {
                     CycleCooldown += 4;
+                    WaitForCycleFinish(CycleTimer);
                     continue;
                 }
 
@@ -75,6 +83,7 @@ namespace Chroma_Invaders
                 {
                     VBlank = false;
                     GenerateInterrupt(2);
+                    WaitForCycleFinish(CycleTimer);
                     continue;
                 }
 
@@ -89,8 +98,16 @@ namespace Chroma_Invaders
                 opcode.Execute();
                 PC += (ushort)opcode.Length;
                 CycleCooldown = opcode.Cycles - 1;
+
+                WaitForCycleFinish(CycleTimer);
             }
-            EndTime = DateTime.Now.Ticks;
+            EndTime = PerformanceTimer.ElapsedTicks;
+        }
+
+        private void WaitForCycleFinish(Stopwatch timer)
+        {
+            while(timer.ElapsedTicks < (1.0/4000000.0) * TimeSpan.TicksPerSecond) { /* Wait... */ }
+            timer.Reset();
         }
 
         public void DebugLog()
@@ -113,7 +130,9 @@ namespace Chroma_Invaders
             Halted = false;
             InterruptsDisabled = true;
             LastInterrupt = (byte)(LastInterrupt == 0xCF ? 0xD7 : 0xCF);
-            new RestartOperation(this, LastInterrupt).Execute();
+            Opcode rst = new RestartOperation(this, LastInterrupt);
+            rst.Execute();
+            CycleCooldown = rst.Cycles - 1;
         }
 
         public byte ReadFromInput(byte inputNo)

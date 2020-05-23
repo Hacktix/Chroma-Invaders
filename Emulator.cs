@@ -1,6 +1,7 @@
 ﻿using Chroma;
 using Chroma.Graphics;
 using Chroma.Input.EventArgs;
+using System;
 using System.Numerics;
 
 namespace Chroma_Invaders
@@ -11,7 +12,7 @@ namespace Chroma_Invaders
         public static readonly int SCREEN_HEIGHT = 256;
         public static readonly int SCALE_FACTOR = 3;
 
-        public static readonly int CYCLES_PER_UPDATE = 5000;
+        public static readonly int CYCLES_PER_UPDATE = 60000;
         public static readonly int UPDATE_FREQUENCY = 1000 / (2000000 / CYCLES_PER_UPDATE);
 
         private Machine Machine;
@@ -30,7 +31,9 @@ namespace Chroma_Invaders
             Machine.ExecuteCycles(CYCLES_PER_UPDATE);
 
             // Performance Calculation
-            double percent = (int)((CYCLES_PER_UPDATE * 0.5 / (Machine.EndTime - Machine.StartTime)) * 10000) / 100.0;
+
+            double percent = (CYCLES_PER_UPDATE * (1.0 / 2000000.0) * TimeSpan.TicksPerSecond) / Machine.EndTime;
+            percent = ((int)(percent * 10000)) / 100.0;
             Window.Properties.Title = "Chroma Invaders (" + Window.FPS + " FPS) [" + percent + "%]";
         }
 

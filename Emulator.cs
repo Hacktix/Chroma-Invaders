@@ -1,10 +1,7 @@
 ﻿using Chroma;
 using Chroma.Graphics;
 using Chroma.Input.EventArgs;
-using System;
-using System.Collections.Generic;
 using System.Numerics;
-using System.Text;
 
 namespace Chroma_Invaders
 {

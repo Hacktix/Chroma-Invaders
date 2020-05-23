@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Chroma_Invaders.Opcodes
+﻿namespace Chroma_Invaders.Opcodes
 {
     public class ReturnOperation : Opcode // RET, RC, RNC, RZ, RNZ, RM, RP, RPE, RPO
     {

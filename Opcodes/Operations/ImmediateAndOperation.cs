@@ -1,6 +1,4 @@
-﻿using System.Runtime.InteropServices.ComTypes;
-
-namespace Chroma_Invaders.Opcodes
+﻿namespace Chroma_Invaders.Opcodes
 {
     public class ImmediateAndOperation : Opcode // ANI
     {

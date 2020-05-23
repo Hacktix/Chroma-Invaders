@@ -1,8 +1,6 @@
 ﻿using Chroma_Invaders.Opcodes;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Threading;
 
 namespace Chroma_Invaders
 {

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Chroma_Invaders.Opcodes
+﻿namespace Chroma_Invaders.Opcodes
 {
     public class RotateOperation : Opcode // RLC, RAL, RRC, RAR
     {

@@ -1,4 +1,4 @@
-![Chroma Invaders](https://i.imgur.com/it2qTu5.png)
+﻿![Chroma Invaders](https://i.imgur.com/it2qTu5.png)
 
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/Hacktix/Chroma-Invaders)
 ![GitHub last commit](https://img.shields.io/github/last-commit/Hacktix/Chroma-Invaders)
@@ -16,9 +16,9 @@ Chroma Invaders is the second emulator project based on the Chroma Framework, ri
 Yes, the project includes the original Space Invaders ROMs. These can be found in many, many repositories all over GitHub and other sites, too.
 
 # Roadmap
-* CPU Emulation << We are Here
-* Input Handling << This has kinda been done already, but we're still at #1
-* Colorized Screen
+* CPU Emulation ✓
+* Input Handling ✓
+* Colorized Screen << We are Here
 * Sound
 * Two-Player Mode
 * Controller Support

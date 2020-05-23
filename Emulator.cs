@@ -26,15 +26,16 @@ namespace Chroma_Invaders
         private bool UseColor = true;
         private List<double> PerformanceBuffer = new List<double>();
 
-        private bool UseShader = true;
+        private bool UseShader = false;
         private PixelShader ArcadeShader;
-        private RenderTarget Frame = new RenderTarget((ushort)SCREEN_WIDTH, (ushort)SCREEN_HEIGHT);
+        private RenderTarget Frame;
 
         public Emulator(byte[][] roms)
         {
             Machine = new Machine(roms);
             Window.GoWindowed((ushort)(SCREEN_WIDTH * SCALE_FACTOR), (ushort)(SCREEN_HEIGHT * SCALE_FACTOR));
             ArcadeShader = new PixelShader("shader.frag");
+            Frame = new RenderTarget((ushort)(SCREEN_WIDTH * SCALE_FACTOR), (ushort)(SCREEN_HEIGHT * SCALE_FACTOR));
         }
 
         protected override void FixedUpdate(float fixedDelta)
@@ -137,8 +138,8 @@ namespace Chroma_Invaders
             if(UseShader)
             {
                 ArcadeShader.Activate();
-                ArcadeShader.SetUniform("CRT_CURVE_AMNTx", .1f);
-                ArcadeShader.SetUniform("CRT_CURVE_AMNTy", .1f);
+                ArcadeShader.SetUniform("CRT_CURVE_AMNTx", .2f);
+                ArcadeShader.SetUniform("CRT_CURVE_AMNTy", .2f);
             }
 
             context.DrawTexture(Frame, Vector2.Zero, Vector2.One, Vector2.Zero, 0f);

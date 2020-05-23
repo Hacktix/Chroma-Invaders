@@ -32,7 +32,7 @@ void main() {
     // Get texel, and add in scanline if need be
     vec4 cta = texture2D(texture, tc);
 
-    cta.rgb += sin(tc.y * SCAN_LINE_MULT) * 0.02;
+    cta.rgb += sin(tc.y * SCAN_LINE_MULT) * 0.03;
 
     // Cutoff
     if(tc.y > 1.0 || tc.x < 0.0 || tc.x > 1.0 || tc.y < 0.0)

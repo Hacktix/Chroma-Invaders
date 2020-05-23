@@ -2,6 +2,7 @@
 using Chroma.Graphics;
 using Chroma.Input.EventArgs;
 using System;
+using System.Collections.Generic;
 using System.Numerics;
 
 namespace Chroma_Invaders
@@ -15,9 +16,12 @@ namespace Chroma_Invaders
         public static readonly int CYCLES_PER_UPDATE = 60000;
         public static readonly int UPDATE_FREQUENCY = 1000 / (2000000 / CYCLES_PER_UPDATE);
 
+        private static readonly int PERFORMANCE_BUFFER_LENGTH = 100;
+
         private Machine Machine;
 
         private bool UseColor = true;
+        private List<double> PerformanceBuffer = new List<double>();
 
         public Emulator(byte[][] roms)
         {
@@ -31,8 +35,18 @@ namespace Chroma_Invaders
             Machine.ExecuteCycles(CYCLES_PER_UPDATE);
 
             // Performance Calculation
-
             double percent = (CYCLES_PER_UPDATE * (1.0 / 2000000.0) * TimeSpan.TicksPerSecond) / Machine.EndTime;
+            PerformanceBuffer.Add(percent);
+            if (PerformanceBuffer.Count > PERFORMANCE_BUFFER_LENGTH) PerformanceBuffer.RemoveAt(0);
+
+            UpdateWindowTitle();
+        }
+
+        private void UpdateWindowTitle()
+        {
+            double percent = 0;
+            foreach (double value in PerformanceBuffer) percent += value;
+            percent /= PerformanceBuffer.Count;
             percent = ((int)(percent * 10000)) / 100.0;
             Window.Properties.Title = "Chroma Invaders (" + Window.FPS + " FPS) [" + percent + "%]";
         }

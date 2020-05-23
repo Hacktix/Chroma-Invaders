@@ -35,5 +35,8 @@ Yes, the project includes the original Space Invaders ROMs. These can be found i
 * Controller Support
 
 # Screenshots
+### Now including authentic CRT-Mode!
+![CRT Mode](https://i.imgur.com/2cHX2Zy.png)
+### Entirely toggle-able.
 ![Splash Screen](https://i.imgur.com/Lwdq9LF.png)
 ![Gameplay](https://i.imgur.com/53n3Ffv.png)

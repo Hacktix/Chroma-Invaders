@@ -4,9 +4,7 @@ using Chroma.Graphics.Accelerated;
 using Chroma.Input.EventArgs;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Numerics;
-using System.Reflection;
 
 namespace Chroma_Invaders
 {

@@ -144,7 +144,7 @@ namespace Chroma_Invaders
             }
 
             context.DrawTexture(Frame, Vector2.Zero, Vector2.One, Vector2.Zero, 0f);
-            context.DeactivateShader();
+            Shader.Deactivate();
         }
     }
 }

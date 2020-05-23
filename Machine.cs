@@ -106,7 +106,7 @@ namespace Chroma_Invaders
 
         private void WaitForCycleFinish(Stopwatch timer)
         {
-            while(timer.ElapsedTicks < (1.0/4000000.0) * TimeSpan.TicksPerSecond) { /* Wait... */ }
+            while(timer.ElapsedTicks < (1.0/2000000.0) * TimeSpan.TicksPerSecond) { /* Wait... */ }
             timer.Reset();
         }
 

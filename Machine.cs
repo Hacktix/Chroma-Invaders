@@ -107,8 +107,8 @@ namespace Chroma_Invaders
 
                 if(HitBreakpoint && WriteDebugLog)
                 {
-                    LogWriter.Write("====================================================");
-                    LogWriter.Write("Executing " + Memory[PC].ToString("X2") + " at " + PC.ToString("X4"));
+                    LogWriter.Write("====================================================\n");
+                    LogWriter.Write("Executing " + Memory[PC].ToString("X2") + " at " + PC.ToString("X4") + "\n");
                 }
 
                 Opcode opcode;
@@ -144,17 +144,17 @@ namespace Chroma_Invaders
 
         public void AddLogLine()
         {
-            LogWriter.Write("==================== DEBUG LOG =====================");
-            LogWriter.Write("A  : " + Registers[Register.A].ToString("X2"));
-            LogWriter.Write("F  : " + Convert.ToString(Registers[Register.F], 2));
-            LogWriter.Write("B  : " + Registers[Register.B].ToString("X2"));
-            LogWriter.Write("C  : " + Registers[Register.C].ToString("X2"));
-            LogWriter.Write("D  : " + Registers[Register.D].ToString("X2"));
-            LogWriter.Write("E  : " + Registers[Register.E].ToString("X2"));
-            LogWriter.Write("H  : " + Registers[Register.H].ToString("X2"));
-            LogWriter.Write("L  : " + Registers[Register.L].ToString("X2"));
-            LogWriter.Write("SP : " + SP.ToString("X4"));
-            LogWriter.Write("PC : " + PC.ToString("X4"));
+            LogWriter.Write("==================== DEBUG LOG =====================\n");
+            LogWriter.Write("A  : " + Registers[Register.A].ToString("X2") + "\n");
+            LogWriter.Write("F  : " + Convert.ToString(Registers[Register.F], 2) + "\n");
+            LogWriter.Write("B  : " + Registers[Register.B].ToString("X2") + "\n");
+            LogWriter.Write("C  : " + Registers[Register.C].ToString("X2") + "\n");
+            LogWriter.Write("D  : " + Registers[Register.D].ToString("X2") + "\n");
+            LogWriter.Write("E  : " + Registers[Register.E].ToString("X2") + "\n");
+            LogWriter.Write("H  : " + Registers[Register.H].ToString("X2") + "\n");
+            LogWriter.Write("L  : " + Registers[Register.L].ToString("X2") + "\n");
+            LogWriter.Write("SP : " + SP.ToString("X4") + "\n");
+            LogWriter.Write("PC : " + PC.ToString("X4") + "\n");
             LogWriter.Flush();
         }
 

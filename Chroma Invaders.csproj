@@ -10,7 +10,6 @@
 
   <ItemGroup>
     <PackageReference Include="Chroma" Version="0.5.0-alpha" />
-    <PackageReference Include="ChromaSynth" Version="1.0.0" />
   </ItemGroup>
 
   <ItemGroup>

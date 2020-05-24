@@ -36,6 +36,7 @@ namespace Chroma_Invaders
         private byte LastInterrupt = 0xCF;
 
         private ShiftHardware Shift = new ShiftHardware();
+        private AudioHardware Audio = new AudioHardware();
 
         public Machine() { }
 
@@ -155,6 +156,10 @@ namespace Chroma_Invaders
             {
                 case 2:
                     Shift.ShiftAmount = (byte)(outval & 0b111);
+                    break;
+                case 3:
+                case 5:
+                    Audio.HandleInput(outval, outputNo);
                     break;
                 case 4:
                     Shift.ShiftValue(outval);

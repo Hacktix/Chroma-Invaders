@@ -40,6 +40,7 @@ namespace Chroma_Invaders
 
         protected override void LoadContent()
         {
+
             Sounds.Add(Content.Load<Sound>("explosion.wav"));
             Sounds.Add(Content.Load<Sound>("fastinvader1.wav"));
             Sounds.Add(Content.Load<Sound>("fastinvader2.wav"));

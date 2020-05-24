@@ -1,4 +1,5 @@
 ﻿using Chroma;
+using Chroma.Audio;
 using Chroma.Graphics;
 using Chroma.Graphics.Accelerated;
 using Chroma.Input.EventArgs;
@@ -20,6 +21,7 @@ namespace Chroma_Invaders
         private static readonly int PERFORMANCE_BUFFER_LENGTH = 100;
 
         private Machine Machine;
+        public static List<Sound> Sounds = new List<Sound>();
 
         private bool UseColor = true;
         private List<double> PerformanceBuffer = new List<double>();
@@ -34,6 +36,19 @@ namespace Chroma_Invaders
             Window.GoWindowed((ushort)(SCREEN_WIDTH * SCALE_FACTOR), (ushort)(SCREEN_HEIGHT * SCALE_FACTOR));
             ArcadeShader = new PixelShader("shader.frag");
             Frame = new RenderTarget((ushort)(SCREEN_WIDTH * SCALE_FACTOR), (ushort)(SCREEN_HEIGHT * SCALE_FACTOR));
+        }
+
+        protected override void LoadContent()
+        {
+            Sounds.Add(Content.Load<Sound>("explosion.wav"));
+            Sounds.Add(Content.Load<Sound>("fastinvader1.wav"));
+            Sounds.Add(Content.Load<Sound>("fastinvader2.wav"));
+            Sounds.Add(Content.Load<Sound>("fastinvader3.wav"));
+            Sounds.Add(Content.Load<Sound>("fastinvader4.wav"));
+            Sounds.Add(Content.Load<Sound>("invaderkilled.wav"));
+            Sounds.Add(Content.Load<Sound>("shoot.wav"));
+            Sounds.Add(Content.Load<Sound>("ufo_highpitch.wav"));
+            Sounds[7].LoopCount = int.MaxValue;
         }
 
         protected override void FixedUpdate(float fixedDelta)

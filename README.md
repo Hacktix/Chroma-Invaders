@@ -30,8 +30,8 @@ Yes, the project includes the original Space Invaders ROMs. These can be found i
 * CPU Emulation ✓
 * Input Handling ✓
 * Colorized Screen ✓
-* Sound << We are Here
-* Two-Player Mode
+* Sound ✓
+* Two-Player Mode << We are Here
 * Controller Support
 
 # Screenshots

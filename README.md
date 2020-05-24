@@ -9,14 +9,17 @@
 Chroma Invaders is an emulator of the classic Space Invaders arcade machine, based on the Chroma Framework. While there are multiple versions of the arcade machine, this is intended the original, using a black-and-white screen and an Intel 8080 processor running at 2MHz.
 
 # Controls
-| **Computer**            | **Space Invaders** |
-|-------------------------|--------------------|
-| Right Shift             | Insert Coin        |
-| Enter                   | Start Game         |
-| Arrow Keys (Left/Right) | Move Left/Right    |
-| Space                   | Shoot              |
-| C                       | Toggle Color       |
-| F1                      | Toggle CRT         |
+| **Computer**            | **Space Invaders**   |
+|-------------------------|----------------------|
+| Right Shift             | Insert Coin          |
+| Enter                   | Start Game           |
+| Right CTRL              | Start Game (2P)      |
+| Arrow Keys (Left/Right) | Move Left/Right (P1) |
+| Space                   | Shoot (P1)           |
+| A / S                   | Move Left/Right (P2) |
+| W                       | Shoot (P2)           |
+| C                       | Toggle Color         |
+| F1                      | Toggle CRT           |
 
 # Technical Details
 This project is being developed (more or less) side-by-side with another Space Invaders emulator called [THICCADE - Space Invaders](https://github.com/Hacktix/THICCADE-Space-Invaders), which is written in C++ and attempts to implement JIT-Recompilation. (Yes, I am aware that this isn't necessary for emulating an Intel 8080)

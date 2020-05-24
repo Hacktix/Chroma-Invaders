@@ -82,9 +82,6 @@ namespace Chroma_Invaders
                 case Chroma.Input.KeyCode.F1:
                     UseShader = !UseShader;
                     break;
-                case Chroma.Input.KeyCode.F8:
-                    Machine.ContinueExecution = true;
-                    break;
             }
         }
 

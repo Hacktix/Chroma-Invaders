@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 
 namespace Chroma_Invaders
 {
@@ -38,13 +37,6 @@ namespace Chroma_Invaders
 
         private ShiftHardware Shift = new ShiftHardware();
 
-        public bool HitBreakpoint = false;
-        public bool ContinueExecution = true;
-        private ushort BreakpointAddress = 0x0B33;
-
-        private bool WriteDebugLog = true;
-        private StreamWriter LogWriter;
-
         public Machine() { }
 
         public Machine(byte[][] roms)
@@ -53,11 +45,10 @@ namespace Chroma_Invaders
             for (int i = 0; i < roms.Length; i++)
                 for (int j = 0; j < roms[i].Length; j++, loadPointer++)
                     Memory[loadPointer] = roms[i][j];
+            Memory.FinishLoading();
 
             PerformanceTimer = new Stopwatch();
             CycleTimer = new Stopwatch();
-
-            if (WriteDebugLog) LogWriter = new StreamWriter(File.OpenWrite("log.txt"));
         }
 
         public void ExecuteCycles(int cycleLimit)
@@ -65,7 +56,7 @@ namespace Chroma_Invaders
             PerformanceTimer.Restart();
             int cycleCounter = cycleLimit;
 
-            while(cycleCounter-- > 0 && ContinueExecution)
+            while(cycleCounter-- > 0)
             {
                 CycleTimer.Start();
 
@@ -97,20 +88,6 @@ namespace Chroma_Invaders
                     continue;
                 }
 
-                if (PC == BreakpointAddress) HitBreakpoint = true;
-
-                if(HitBreakpoint && !WriteDebugLog)
-                {
-                    Console.WriteLine("====================================================");
-                    Console.WriteLine("Executing " + Memory[PC].ToString("X2") + " at " + PC.ToString("X4"));
-                }
-
-                if(HitBreakpoint && WriteDebugLog)
-                {
-                    LogWriter.Write("====================================================\n");
-                    LogWriter.Write("Executing " + Memory[PC].ToString("X2") + " at " + PC.ToString("X4") + "\n");
-                }
-
                 Opcode opcode;
                 if (!InstructionCache.ContainsKey(PC))
                 {
@@ -119,17 +96,9 @@ namespace Chroma_Invaders
                 }
                 else opcode = InstructionCache[PC];
 
-                if (HitBreakpoint && !WriteDebugLog)
-                {
-                    DebugLog();
-                    ContinueExecution = false;
-                }
-
                 opcode.Execute();
                 PC += (ushort)opcode.Length;
                 CycleCooldown = opcode.Cycles - 1;
-
-                if (WriteDebugLog && HitBreakpoint) AddLogLine();
 
                 WaitForCycleFinish(CycleTimer);
             }
@@ -138,24 +107,8 @@ namespace Chroma_Invaders
 
         private void WaitForCycleFinish(Stopwatch timer)
         {
-            while(timer.ElapsedTicks < (1.0/20000000.0) * TimeSpan.TicksPerSecond) { /* Wait... */ }
+            while(timer.ElapsedTicks < (1.0/2000000.0) * TimeSpan.TicksPerSecond) { /* Wait... */ }
             timer.Reset();
-        }
-
-        public void AddLogLine()
-        {
-            LogWriter.Write("==================== DEBUG LOG =====================\n");
-            LogWriter.Write("A  : " + Registers[Register.A].ToString("X2") + "\n");
-            LogWriter.Write("F  : " + Convert.ToString(Registers[Register.F], 2) + "\n");
-            LogWriter.Write("B  : " + Registers[Register.B].ToString("X2") + "\n");
-            LogWriter.Write("C  : " + Registers[Register.C].ToString("X2") + "\n");
-            LogWriter.Write("D  : " + Registers[Register.D].ToString("X2") + "\n");
-            LogWriter.Write("E  : " + Registers[Register.E].ToString("X2") + "\n");
-            LogWriter.Write("H  : " + Registers[Register.H].ToString("X2") + "\n");
-            LogWriter.Write("L  : " + Registers[Register.L].ToString("X2") + "\n");
-            LogWriter.Write("SP : " + SP.ToString("X4") + "\n");
-            LogWriter.Write("PC : " + PC.ToString("X4") + "\n");
-            LogWriter.Flush();
         }
 
         public void DebugLog()

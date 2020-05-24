@@ -24,7 +24,7 @@ Chroma Invaders is an emulator of the classic Space Invaders arcade machine, bas
 # Technical Details
 This project is being developed (more or less) side-by-side with another Space Invaders emulator called [THICCADE - Space Invaders](https://github.com/Hacktix/THICCADE-Space-Invaders), which is written in C++ and attempts to implement JIT-Recompilation. (Yes, I am aware that this isn't necessary for emulating an Intel 8080)
 
-Chroma Invaders is the second emulator project based on the Chroma Framework, right after my first [CHROMA-8](https://github.com/Hacktix/CHROMA-8). It uses built-in Chroma features for video output, while audio will be handled by my [ChromaSynth](https://github.com/Hacktix/ChromaSynth) library, which allows for audio synthesis at runtime.
+Chroma Invaders is the second emulator project based on the Chroma Framework, right after my first [CHROMA-8](https://github.com/Hacktix/CHROMA-8). It uses built-in Chroma features for both video and audio output.
 
 # The ROMs
 Yes, the project includes the original Space Invaders ROMs. These can be found in many, many repositories all over GitHub and other sites, too.

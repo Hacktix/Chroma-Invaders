@@ -30,6 +30,7 @@ namespace Chroma_Invaders
         public bool VBlank = false;
 
         public byte InputPort1 = 0b00001001;
+        public byte InputPort2 = 0;
 
         private int CycleCooldown = 0;
         private long Cycles = 0;
@@ -143,7 +144,7 @@ namespace Chroma_Invaders
             switch(inputNo)
             {
                 case 1: return InputPort1;
-                case 2: return 0;
+                case 2: return InputPort2;
                 case 3: return Shift.ReadResult();
             }
             return Registers[Register.A];

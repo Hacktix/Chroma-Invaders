@@ -92,6 +92,18 @@ namespace Chroma_Invaders
                 case Chroma.Input.KeyCode.Right:
                     Machine.InputPort1 |= 0b1000000;
                     break;
+                case Chroma.Input.KeyCode.LeftControl:
+                    Machine.InputPort1 |= 0b10;
+                    break;
+                case Chroma.Input.KeyCode.A:
+                    Machine.InputPort2 |= 0b100000;
+                    break;
+                case Chroma.Input.KeyCode.D:
+                    Machine.InputPort2 |= 0b1000000;
+                    break;
+                case Chroma.Input.KeyCode.W:
+                    Machine.InputPort2 |= 0b10000;
+                    break;
                 case Chroma.Input.KeyCode.C:
                     UseColor = !UseColor;
                     break;
@@ -119,6 +131,18 @@ namespace Chroma_Invaders
                     break;
                 case Chroma.Input.KeyCode.Right:
                     Machine.InputPort1 &= 0b10111111;
+                    break;
+                case Chroma.Input.KeyCode.LeftControl:
+                    Machine.InputPort1 &= 0b11111101;
+                    break;
+                case Chroma.Input.KeyCode.A:
+                    Machine.InputPort2 &= 0b11011111;
+                    break;
+                case Chroma.Input.KeyCode.D:
+                    Machine.InputPort2 &= 0b10111111;
+                    break;
+                case Chroma.Input.KeyCode.W:
+                    Machine.InputPort2 &= 0b11101111;
                     break;
             }
         }

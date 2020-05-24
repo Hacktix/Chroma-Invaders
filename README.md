@@ -16,7 +16,7 @@ Chroma Invaders is an emulator of the classic Space Invaders arcade machine, bas
 | Right CTRL              | Start Game (2P)      |
 | Arrow Keys (Left/Right) | Move Left/Right (P1) |
 | Space                   | Shoot (P1)           |
-| A / S                   | Move Left/Right (P2) |
+| A / D                   | Move Left/Right (P2) |
 | W                       | Shoot (P2)           |
 | C                       | Toggle Color         |
 | F1                      | Toggle CRT           |

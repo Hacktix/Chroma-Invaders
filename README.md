@@ -37,6 +37,15 @@ Yes, the project includes the original Space Invaders ROMs. These can be found i
 * Two-Player Mode ✓
 * Controller Support << We are Here
 
+All the features above are a requirement before the first non-pre-release version 1.0 releases. Afterwards, the following updates are planned:
+
+* Game Settings Configuration
+* "For-Fun" Features:
+  - TILT Message
+  - CPU Watchdog
+* Netplay (Online Multiplayer)
+* Improved Audio System
+
 # Screenshots
 ### Now including authentic CRT-Mode!
 ![CRT Mode](https://i.imgur.com/2cHX2Zy.png)

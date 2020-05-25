@@ -50,6 +50,7 @@ namespace Chroma_Invaders
             Sounds.Add(Content.Load<Sound>("shoot.wav"));
             Sounds.Add(Content.Load<Sound>("ufo_highpitch.wav"));
             Sounds[7].LoopCount = int.MaxValue;
+            Sounds.Add(Content.Load<Sound>("ufo_explode.wav"));
         }
 
         protected override void FixedUpdate(float fixedDelta)

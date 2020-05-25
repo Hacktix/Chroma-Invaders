@@ -75,6 +75,12 @@ namespace Chroma_Invaders
                 Unset(ref AudioPort5, 3);
                 Emulator.Sounds[4].PlayOneShot();
             }
+
+            if (IsSet(AudioPort5, 4) && Emulator.Sounds[8].Status != Chroma.Audio.PlaybackStatus.Playing)
+            {
+                Unset(ref AudioPort5, 4);
+                Emulator.Sounds[8].PlayOneShot();
+            }
         }
 
         private bool IsSet(byte input, byte bit) {

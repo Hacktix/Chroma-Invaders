@@ -2,6 +2,7 @@
 using Chroma.Audio;
 using Chroma.Graphics;
 using Chroma.Graphics.Accelerated;
+using Chroma.Input;
 using Chroma.Input.EventArgs;
 using System;
 using System.Collections.Generic;
@@ -29,6 +30,8 @@ namespace Chroma_Invaders
         private bool UseShader = false;
         private PixelShader ArcadeShader;
         private RenderTarget Frame;
+
+        private int ControllerCount = 0;
 
         public Emulator(byte[][] roms)
         {
@@ -64,6 +67,89 @@ namespace Chroma_Invaders
             UpdateWindowTitle();
         }
 
+        protected override void ControllerConnected(ControllerEventArgs e) { ControllerCount++; }
+        protected override void ControllerDisconnected(ControllerEventArgs e) { ControllerCount--; }
+
+        protected override void ControllerAxisMoved(ControllerAxisEventArgs e)
+        {
+            if(e.Axis == ControllerAxis.LeftStickX)
+            {
+                if((ControllerCount > 1 && e.Controller.PlayerIndex == 0) || ControllerCount == 1)
+                {
+                    if (e.Value < -10000) Machine.InputPort1 |= 0b100000;
+                    else Machine.InputPort1 &= 0b11011111;
+
+                    if (e.Value > 10000) Machine.InputPort1 |= 0b1000000;
+                    else Machine.InputPort1 &= 0b10111111;
+                }
+
+                if ((ControllerCount > 1 && e.Controller.PlayerIndex == 1) || ControllerCount == 1)
+                {
+                    if (e.Value < -10000) Machine.InputPort2 |= 0b100000;
+                    else Machine.InputPort2 &= 0b11011111;
+
+                    if (e.Value > 10000) Machine.InputPort2 |= 0b1000000;
+                    else Machine.InputPort2 &= 0b10111111;
+                }
+            }
+        }
+
+        protected override void ControllerButtonPressed(ControllerButtonEventArgs e)
+        {
+            if(e.Controller.PlayerIndex == 0)
+            {
+                switch (e.Button)
+                {
+                    case ControllerButton.RightStick:
+                        Machine.InputPort1 &= 0b11111110;
+                        break;
+                    case ControllerButton.Menu:
+                        Machine.InputPort1 |= 0b100;
+                        break;
+                    case ControllerButton.View:
+                        Machine.InputPort1 |= 0b10;
+                        break;
+                }
+            }
+
+            if(e.Button == ControllerButton.A)
+            {
+                if((e.Controller.PlayerIndex == 0 && ControllerCount > 1) || ControllerCount == 1) Machine.InputPort1 |= 0b10000;
+                if ((e.Controller.PlayerIndex == 1 && ControllerCount > 1) || ControllerCount == 1) Machine.InputPort2 |= 0b10000;
+            }
+        }
+
+        protected override void ControllerButtonReleased(ControllerButtonEventArgs e)
+        {
+            if(e.Controller.PlayerIndex == 0)
+            {
+                switch (e.Button)
+                {
+                    case ControllerButton.RightStick:
+                        Machine.InputPort1 |= 0b1;
+                        break;
+                    case ControllerButton.Menu:
+                        Machine.InputPort1 &= 0b11111011;
+                        break;
+                    case ControllerButton.View:
+                        Machine.InputPort1 &= 0b11111101;
+                        break;
+                    case ControllerButton.LeftBumper:
+                        UseColor = !UseColor;
+                        break;
+                    case ControllerButton.RightBumper:
+                        UseShader = !UseShader;
+                        break;
+                }
+            }
+
+            if (e.Button == ControllerButton.A)
+            {
+                if ((e.Controller.PlayerIndex == 0 && ControllerCount > 1) || ControllerCount == 1) Machine.InputPort1 &= 0b11101111;
+                if ((e.Controller.PlayerIndex == 1 && ControllerCount > 1) || ControllerCount == 1) Machine.InputPort2 &= 0b11101111;
+            }
+        }
+
         private void UpdateWindowTitle()
         {
             double percent = 0;
@@ -77,37 +163,37 @@ namespace Chroma_Invaders
         {
             switch(e.KeyCode)
             {
-                case Chroma.Input.KeyCode.Return:
+                case KeyCode.Return:
                     Machine.InputPort1 |= 0b100;
                     break;
-                case Chroma.Input.KeyCode.RightShift:
+                case KeyCode.RightShift:
                     Machine.InputPort1 &= 0b11111110;
                     break;
-                case Chroma.Input.KeyCode.Space:
+                case KeyCode.Space:
                     Machine.InputPort1 |= 0b10000;
                     break;
-                case Chroma.Input.KeyCode.Left:
+                case KeyCode.Left:
                     Machine.InputPort1 |= 0b100000;
                     break;
-                case Chroma.Input.KeyCode.Right:
+                case KeyCode.Right:
                     Machine.InputPort1 |= 0b1000000;
                     break;
-                case Chroma.Input.KeyCode.LeftControl:
+                case KeyCode.LeftControl:
                     Machine.InputPort1 |= 0b10;
                     break;
-                case Chroma.Input.KeyCode.A:
+                case KeyCode.A:
                     Machine.InputPort2 |= 0b100000;
                     break;
-                case Chroma.Input.KeyCode.D:
+                case KeyCode.D:
                     Machine.InputPort2 |= 0b1000000;
                     break;
-                case Chroma.Input.KeyCode.W:
+                case KeyCode.W:
                     Machine.InputPort2 |= 0b10000;
                     break;
-                case Chroma.Input.KeyCode.C:
+                case KeyCode.C:
                     UseColor = !UseColor;
                     break;
-                case Chroma.Input.KeyCode.F1:
+                case KeyCode.F1:
                     UseShader = !UseShader;
                     break;
             }
@@ -117,31 +203,31 @@ namespace Chroma_Invaders
         {
             switch (e.KeyCode)
             {
-                case Chroma.Input.KeyCode.Return:
+                case KeyCode.Return:
                     Machine.InputPort1 &= 0b11111011;
                     break;
-                case Chroma.Input.KeyCode.RightShift:
+                case KeyCode.RightShift:
                     Machine.InputPort1 |= 0b1;
                     break;
-                case Chroma.Input.KeyCode.Space:
+                case KeyCode.Space:
                     Machine.InputPort1 &= 0b11101111;
                     break;
-                case Chroma.Input.KeyCode.Left:
+                case KeyCode.Left:
                     Machine.InputPort1 &= 0b11011111;
                     break;
-                case Chroma.Input.KeyCode.Right:
+                case KeyCode.Right:
                     Machine.InputPort1 &= 0b10111111;
                     break;
-                case Chroma.Input.KeyCode.LeftControl:
+                case KeyCode.LeftControl:
                     Machine.InputPort1 &= 0b11111101;
                     break;
-                case Chroma.Input.KeyCode.A:
+                case KeyCode.A:
                     Machine.InputPort2 &= 0b11011111;
                     break;
-                case Chroma.Input.KeyCode.D:
+                case KeyCode.D:
                     Machine.InputPort2 &= 0b10111111;
                     break;
-                case Chroma.Input.KeyCode.W:
+                case KeyCode.W:
                     Machine.InputPort2 &= 0b11101111;
                     break;
             }

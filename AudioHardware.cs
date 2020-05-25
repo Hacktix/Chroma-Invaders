@@ -42,6 +42,7 @@ namespace Chroma_Invaders
             // Player Hit Sound
             if (IsSet(AudioPort3, 2) && Emulator.Sounds[0].Status != Chroma.Audio.PlaybackStatus.Playing)
             {
+                Emulator.HandleControllerVibrate(Emulator.Machine.Memory[0x2067] == 0x21 ? 1 : 2, 500);
                 Unset(ref AudioPort3, 2);
                 Emulator.Sounds[0].Play();
             }

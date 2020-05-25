@@ -21,7 +21,7 @@ namespace Chroma_Invaders
 
         private static readonly int PERFORMANCE_BUFFER_LENGTH = 100;
 
-        private Machine Machine;
+        public static Machine Machine;
         public static List<Sound> Sounds = new List<Sound>();
 
         private bool UseColor = true;
@@ -62,6 +62,12 @@ namespace Chroma_Invaders
             if (PerformanceBuffer.Count > PERFORMANCE_BUFFER_LENGTH) PerformanceBuffer.RemoveAt(0);
 
             UpdateWindowTitle();
+        }
+
+        public static void HandleControllerVibrate(int player, uint duration)
+        {
+            int playerIndex = Controller.DeviceCount > 1 ? player != 1 ? 1 : 0 : 0;
+            Controller.Vibrate(playerIndex, ushort.MaxValue, ushort.MaxValue, duration);
         }
 
         protected override void ControllerAxisMoved(ControllerAxisEventArgs e)
@@ -108,8 +114,14 @@ namespace Chroma_Invaders
 
             if(e.Button == ControllerButton.A)
             {
-                if((e.Controller.PlayerIndex == 0 && Controller.DeviceCount > 1) || Controller.DeviceCount == 1) Machine.InputPort1 |= 0b10000;
-                if ((e.Controller.PlayerIndex == 1 && Controller.DeviceCount > 1) || Controller.DeviceCount == 1) Machine.InputPort2 |= 0b10000;
+                if ((e.Controller.PlayerIndex == 0 && Controller.DeviceCount > 1) || Controller.DeviceCount == 1)
+                {
+                    Machine.InputPort1 |= 0b10000;
+                }
+                if ((e.Controller.PlayerIndex == 1 && Controller.DeviceCount > 1) || Controller.DeviceCount == 1)
+                {
+                    Machine.InputPort2 |= 0b10000;
+                }
             }
         }
 

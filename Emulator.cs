@@ -31,8 +31,6 @@ namespace Chroma_Invaders
         private PixelShader ArcadeShader;
         private RenderTarget Frame;
 
-        private int ControllerCount = 0;
-
         public Emulator(byte[][] roms)
         {
             Machine = new Machine(roms);
@@ -43,7 +41,6 @@ namespace Chroma_Invaders
 
         protected override void LoadContent()
         {
-
             Sounds.Add(Content.Load<Sound>("explosion.wav"));
             Sounds.Add(Content.Load<Sound>("fastinvader1.wav"));
             Sounds.Add(Content.Load<Sound>("fastinvader2.wav"));
@@ -67,14 +64,11 @@ namespace Chroma_Invaders
             UpdateWindowTitle();
         }
 
-        protected override void ControllerConnected(ControllerEventArgs e) { ControllerCount++; }
-        protected override void ControllerDisconnected(ControllerEventArgs e) { ControllerCount--; }
-
         protected override void ControllerAxisMoved(ControllerAxisEventArgs e)
         {
             if(e.Axis == ControllerAxis.LeftStickX)
             {
-                if((ControllerCount > 1 && e.Controller.PlayerIndex == 0) || ControllerCount == 1)
+                if((Controller.DeviceCount > 1 && e.Controller.PlayerIndex == 0) || Controller.DeviceCount == 1)
                 {
                     if (e.Value < -10000) Machine.InputPort1 |= 0b100000;
                     else Machine.InputPort1 &= 0b11011111;
@@ -83,7 +77,7 @@ namespace Chroma_Invaders
                     else Machine.InputPort1 &= 0b10111111;
                 }
 
-                if ((ControllerCount > 1 && e.Controller.PlayerIndex == 1) || ControllerCount == 1)
+                if ((Controller.DeviceCount > 1 && e.Controller.PlayerIndex == 1) || Controller.DeviceCount == 1)
                 {
                     if (e.Value < -10000) Machine.InputPort2 |= 0b100000;
                     else Machine.InputPort2 &= 0b11011111;
@@ -114,8 +108,8 @@ namespace Chroma_Invaders
 
             if(e.Button == ControllerButton.A)
             {
-                if((e.Controller.PlayerIndex == 0 && ControllerCount > 1) || ControllerCount == 1) Machine.InputPort1 |= 0b10000;
-                if ((e.Controller.PlayerIndex == 1 && ControllerCount > 1) || ControllerCount == 1) Machine.InputPort2 |= 0b10000;
+                if((e.Controller.PlayerIndex == 0 && Controller.DeviceCount > 1) || Controller.DeviceCount == 1) Machine.InputPort1 |= 0b10000;
+                if ((e.Controller.PlayerIndex == 1 && Controller.DeviceCount > 1) || Controller.DeviceCount == 1) Machine.InputPort2 |= 0b10000;
             }
         }
 
@@ -145,8 +139,8 @@ namespace Chroma_Invaders
 
             if (e.Button == ControllerButton.A)
             {
-                if ((e.Controller.PlayerIndex == 0 && ControllerCount > 1) || ControllerCount == 1) Machine.InputPort1 &= 0b11101111;
-                if ((e.Controller.PlayerIndex == 1 && ControllerCount > 1) || ControllerCount == 1) Machine.InputPort2 &= 0b11101111;
+                if ((e.Controller.PlayerIndex == 0 && Controller.DeviceCount > 1) || Controller.DeviceCount == 1) Machine.InputPort1 &= 0b11101111;
+                if ((e.Controller.PlayerIndex == 1 && Controller.DeviceCount > 1) || Controller.DeviceCount == 1) Machine.InputPort2 &= 0b11101111;
             }
         }
 

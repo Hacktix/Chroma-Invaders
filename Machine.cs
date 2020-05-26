@@ -1,7 +1,10 @@
 ﻿using Chroma_Invaders.Opcodes;
+using IniParser;
+using IniParser.Model;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 
 namespace Chroma_Invaders
 {
@@ -51,6 +54,29 @@ namespace Chroma_Invaders
 
             PerformanceTimer = new Stopwatch();
             CycleTimer = new Stopwatch();
+
+            LoadConfig();
+        }
+
+        private void LoadConfig()
+        {
+            try
+            {
+                IniData conf = new FileIniDataParser().ReadFile("GameConfig.ini");
+                switch (int.Parse(conf["GameConfig"]["ShipCount"]))
+                {
+                    case 4:
+                        InputPort2 |= 0b01;
+                        break;
+                    case 5:
+                        InputPort2 |= 0b10;
+                        break;
+                    case 6:
+                        InputPort2 |= 0b11;
+                        break;
+                }
+                if (int.Parse(conf["GameConfig"]["ExtraShipScore"]) == 1000) InputPort2 |= 0b1000;
+            } catch(Exception e) { Console.WriteLine("[EMULATOR] Warning: Error while reading config file. Settings may not be set as expected."); }            
         }
 
         public void ExecuteCycles(int cycleLimit)

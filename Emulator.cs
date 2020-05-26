@@ -279,7 +279,7 @@ namespace Chroma_Invaders
                                 {
                                     if (y / SCALE_FACTOR > 32 && y / SCALE_FACTOR < 49) pxColor = Color.Red;
                                     else if (y / SCALE_FACTOR >= 192 && y / SCALE_FACTOR <= 239) pxColor = Color.LimeGreen;
-                                    else if (y / SCALE_FACTOR > 239 && (x / SCALE_FACTOR >= 26 && x / SCALE_FACTOR <= 54)) pxColor = Color.LimeGreen;
+                                    else if (y / SCALE_FACTOR > 239 && (x / SCALE_FACTOR >= 26 && x / SCALE_FACTOR <= 136)) pxColor = Color.LimeGreen;
                                 }
                                 context.Rectangle(ShapeMode.Fill, new Vector2(x, y), SCALE_FACTOR, SCALE_FACTOR, pxColor);
                             }

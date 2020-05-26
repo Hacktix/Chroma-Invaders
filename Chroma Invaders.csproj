@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <PackageReference Include="Chroma" Version="0.7.0-alpha" />
+    <PackageReference Include="ini-parser" Version="2.5.2" />
   </ItemGroup>
 
   <ItemGroup>
@@ -31,6 +32,10 @@
     </None>
 
     <None Update="Content/**">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+
+    <None Update="GameConfig.ini">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

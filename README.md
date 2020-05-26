@@ -44,9 +44,9 @@ Yes, the project includes the original Space Invaders ROMs. These can be found i
 
 All the features above are a requirement before the first non-pre-release version 1.0 releases. Afterwards, the following updates are planned:
 
-* Game Settings Configuration << We are Here
+* Game Settings Configuration
 * "For-Fun" Features:
-  - TILT Message
+  - TILT Message ✓
   - CPU Watchdog
 * Netplay (Online Multiplayer)
 * Improved Audio System

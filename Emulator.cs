@@ -7,6 +7,7 @@ using Chroma.Input.EventArgs;
 using System;
 using System.Collections.Generic;
 using System.Numerics;
+using System.Threading;
 
 namespace Chroma_Invaders
 {
@@ -31,12 +32,27 @@ namespace Chroma_Invaders
         private PixelShader ArcadeShader;
         private RenderTarget Frame;
 
+        private int TiltPressCount = 0;
+        private Thread TiltCheckerThread;
+
         public Emulator(byte[][] roms)
         {
             Machine = new Machine(roms);
             Window.GoWindowed((ushort)(SCREEN_WIDTH * SCALE_FACTOR), (ushort)(SCREEN_HEIGHT * SCALE_FACTOR));
             ArcadeShader = new PixelShader("shader.frag");
             Frame = new RenderTarget((ushort)(SCREEN_WIDTH * SCALE_FACTOR), (ushort)(SCREEN_HEIGHT * SCALE_FACTOR));
+
+            TiltCheckerThread = new Thread(() =>
+            {
+                while(true)
+                {
+                    Thread.Sleep(1000);
+                    if (TiltPressCount > 10) Machine.InputPort2 |= 0b100;
+                    else Machine.InputPort2 &= 0b11111011;
+                    TiltPressCount = 0;
+                }
+            });
+            TiltCheckerThread.Start();
         }
 
         protected override void LoadContent()
@@ -202,6 +218,9 @@ namespace Chroma_Invaders
                     break;
                 case KeyCode.F1:
                     UseShader = !UseShader;
+                    break;
+                default:
+                    TiltPressCount++;
                     break;
             }
         }
